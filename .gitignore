@@ -62,3 +62,4 @@ typings/
 
 # Local development
 .DS_Store
+*.swp
