@@ -25,6 +25,7 @@ app.get('/users', views.users)
 async function setStatuses () {
   console.log('Pretending to set Slack statuses')
   await sleep(process.env.SET_STATUSES_SLEEP_INTERVAL)
+    .catch((err) => console.error(err))
   setStatuses()
 }
 setStatuses()

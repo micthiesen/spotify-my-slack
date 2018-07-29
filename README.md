@@ -5,6 +5,7 @@
 1. Copy `.env.example` to `.env` and fill in the placeholders
 1. Install [nvm](https://github.com/creationix/nvm) then run `$ nvm install && npm install`
 1. Run migrations: `$ ./node_modules/.bin/sequelize db:migrate`
+1. Install the [Heroku Toolbelt](https://devcenter.heroku.com/articles/heroku-cli#download-and-install)
 1. `$ npm run watch` to start the server
 
 ### Sequelize ORM
