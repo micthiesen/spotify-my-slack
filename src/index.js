@@ -1,3 +1,4 @@
+require('newrelic')
 const assert = require('assert')
 const express = require('express')
 const path = require('path')
@@ -22,8 +23,8 @@ app.get('/users', views.users)
 
 /* work loop */
 async function setStatuses () {
-  await sleep(process.env.SET_STATUSES_SLEEP_INTERVAL)
   console.log('Pretending to set Slack statuses')
+  await sleep(process.env.SET_STATUSES_SLEEP_INTERVAL)
   setStatuses()
 }
 setStatuses()
