@@ -2,7 +2,6 @@ if (process.env.NEW_RELIC_ENABLED === 'true') { require('newrelic') }
 const assert = require('assert')
 const express = require('express')
 const path = require('path')
-const sleep = require('util').promisify(setTimeout)
 const views = require('./views')
 const PORT = process.env.PORT || 5000
 
@@ -24,9 +23,7 @@ app.get('/users', views.users)
 /* work loop */
 async function setStatuses () {
   console.log('Pretending to set Slack statuses')
-  await sleep(process.env.SET_STATUSES_SLEEP_INTERVAL)
-    .catch((err) => console.error(err))
-  setStatuses()
+  setTimeout(setStatuses, process.env.SET_STATUSES_SLEEP_INTERVAL)
 }
 setStatuses()
 
