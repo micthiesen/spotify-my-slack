@@ -5,19 +5,16 @@
 </head>
 
 <body>
+  <% include ../partials/nav.ejs %>
 
-<% include ../partials/nav.ejs %>
-
-<div class="container">
-<h2>Database Results</h2>
-
-<ul>
-    <% results.forEach(function(r) { %>
+  <div>
+    <h2>Database Results</h2>
+    <ul>
+      <% results.forEach(function(r) { %>
         <li><%= r.id %> - <%= r.name %></li>
-    <% }); %>
-</ul>
-
-</div>
+      <% }); %>
+    </ul>
+  </div>
 
 </body>
 </html>

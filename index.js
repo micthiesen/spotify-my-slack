@@ -8,7 +8,8 @@ const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 
 /* express app setup */
 const app = express();
-app.use(express.static(path.join(__dirname, 'public')));
+app.use('/static', express.static(path.join(__dirname, 'public')));
+app.use('/static', express.static(path.join(__dirname, 'node_modules')));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
