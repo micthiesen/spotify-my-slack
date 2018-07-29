@@ -15,3 +15,7 @@
   margin-bottom: 80px;
   padding: 40px 28px;
 }
+
+.sss-footer a {
+  text-decoration: none;
+}
