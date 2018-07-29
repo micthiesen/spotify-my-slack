@@ -1,4 +1,4 @@
-# Slack Spotify Status [![Build Status](https://travis-ci.com/micthiesen/slack-spotify-status.svg?branch=master)](https://travis-ci.com/micthiesen/slack-spotify-status) [![Dependencies](https://david-dm.org/micthiesen/slack-spotify-status.svg)](https://david-dm.org/micthiesen/slack-spotify-status)
+# Spotify my Slack [![Build Status](https://travis-ci.com/micthiesen/spotify-my-slack.svg?branch=master)](https://travis-ci.com/micthiesen/spotify-my-slack) [![Dependencies](https://david-dm.org/micthiesen/spotify-my-slack.svg)](https://david-dm.org/micthiesen/spotify-my-slack)
 
 ## Local Development
 1. Have a local Postgres server running

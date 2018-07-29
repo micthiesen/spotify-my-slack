@@ -1,5 +1,5 @@
 {
-  "name": "slack-spotify-status",
+  "name": "spotify-my-slack",
   "version": "0.0.1",
   "description": "Show what's playing on Spotify as your Slack status",
   "engines": {
