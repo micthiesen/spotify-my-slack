@@ -7,5 +7,5 @@
 1. `$ npm run watch` to start the server
 
 ### Sequelize ORM
-1. Sequelize CLI is available as `$ ./node_modules/.bin/sequelize`
-1. Options are provided to the command from `.sequelizerc`
+1. Sequelize CLI is available at `$ ./node_modules/.bin/sequelize`
+1. Options are automatically provided to the command from `.sequelizerc`
