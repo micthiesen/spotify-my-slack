@@ -1,10 +1,7 @@
 const express = require('express')
 const path = require('path')
+const models = require('./models')
 const PORT = process.env.PORT || 5000
-
-/* database setup */
-const { Pool } = require('pg')
-const pool = new Pool({ connectionString: process.env.DATABASE_URL })
 
 /* express app setup */
 const app = express()
@@ -16,16 +13,15 @@ app.set('view engine', 'ejs')
 
 /* view setup */
 app.get('/', (req, res) => res.render('pages/index'))
-app.get('/db', async (req, res) => {
-  try {
-    const client = await pool.connect()
-    const results = await client.query('SELECT * FROM test_table')
-    res.render('pages/db', { results: results.rows })
-    client.release()
-  } catch (err) {
-    console.error(err)
-    res.send('Error ' + err)
-  }
+app.get('/users', async (req, res) => {
+  models.User.findAll()
+    .then(users => {
+      res.render('pages/users', { users: users })
+    })
+    .catch(err => {
+      console.error(err)
+      res.send('Error ' + err)
+    })
 })
 
 /* wait for requests */

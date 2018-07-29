@@ -1,0 +1,8 @@
+<% include ../layouts/main-being.ejs %>
+
+<h3>Users</h3>
+<% users.forEach(function(user) { %>
+  <li><%= user.firstName %> <%= r.lastName %></li>
+<% }); %>
+
+<% include ../layouts/main-end.ejs %>
