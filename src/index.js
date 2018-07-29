@@ -1,7 +1,12 @@
+const assert = require('assert')
 const express = require('express')
 const path = require('path')
+const sleep = require('util').promisify(setTimeout)
 const views = require('./views')
 const PORT = process.env.PORT || 5000
+
+assert.ok(process.env.DATABASE_URL)
+assert.ok(process.env.SET_STATUSES_SLEEP_INTERVAL)
 
 /* express app setup */
 const app = express()
@@ -14,6 +19,14 @@ app.set('view engine', 'ejs')
 /* router setup */
 app.get('/', views.root)
 app.get('/users', views.users)
+
+/* work loop */
+async function setStatuses () {
+  await sleep(process.env.SET_STATUSES_SLEEP_INTERVAL)
+  console.log('Pretending to set Slack statuses')
+  setStatuses()
+}
+setStatuses()
 
 /* wait for requests */
 app.listen(PORT, () => console.log(`Listening on ${PORT}`))
