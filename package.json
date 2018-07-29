@@ -8,7 +8,7 @@
   "main": "src/index.js",
   "scripts": {
     "start": "heroku local",
-    "test": "jshint src/",
+    "test": "eslint src/",
     "watch": "nodemon --exec \"heroku local\" --signal SIGTERM"
   },
   "dependencies": {
@@ -19,7 +19,12 @@
     "request": "^2.87.0"
   },
   "devDependencies": {
-    "jshint": "^2.9.5",
+    "eslint": "^5.2.0",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-node": "^7.0.1",
+    "eslint-plugin-promise": "^3.8.0",
+    "eslint-plugin-standard": "^3.1.0",
     "nodemon": "^1.18.3"
   },
   "repository": {
