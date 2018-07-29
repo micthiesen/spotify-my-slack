@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const request = require('request');
 const PORT = process.env.PORT || 5000;
 
 /* database setup */
@@ -8,8 +9,8 @@ const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 
 /* express app setup */
 const app = express();
-app.use('/static', express.static(path.join(__dirname, 'public')));
-app.use('/static', express.static(path.join(__dirname, 'node_modules')));
+app.use('/static', express.static(path.join(__dirname, 'static')));
+app.use('/static', express.static(path.join(__dirname, '../node_modules')));
 app.use('/vue', express.static(path.join(__dirname, 'vue')));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');

@@ -1,14 +1,13 @@
 {
-  "name": "node-js-getting-started",
-  "version": "0.3.0",
+  "name": "slack-spotify-status",
+  "version": "0.0.1",
   "description": "Show what's playing on Spotify as your Slack status",
   "engines": {
     "node": "10.7.0"
   },
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "start": "nf start",
-    "test": "node test.js",
     "watch": "nodemon --exec \"nf start\" --signal SIGTERM"
   },
   "dependencies": {
@@ -20,12 +19,11 @@
   "devDependencies": {
     "foreman": "^3.0.1",
     "nodemon": "^1.18.3",
-    "request": "^2.81.0",
-    "tape": "^4.7.0"
+    "request": "^2.87.0"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/heroku/node-js-getting-started"
+    "url": "https://github.com/micthiesen/slack-spotify-status"
   },
   "keywords": [
     "node",
