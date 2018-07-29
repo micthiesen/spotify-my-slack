@@ -1,8 +1,8 @@
-<% include ../layouts/main-being.ejs %>
+<% include layouts/main-being.ejs %>
 
 <h3>Users</h3>
 <% users.forEach(function(user) { %>
   <li><%= user.firstName %> <%= user.lastName %> <%= user.email %></li>
 <% }); %>
 
-<% include ../layouts/main-end.ejs %>
+<% include layouts/main-end.ejs %>

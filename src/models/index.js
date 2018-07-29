@@ -1,10 +1,10 @@
-var fs = require('fs')
-var path = require('path')
-var Sequelize = require('sequelize')
-var basename = path.basename(__filename)
-var db = {}
+const Sequelize = require('sequelize')
+const fs = require('fs')
+const path = require('path')
+const basename = path.basename(__filename)
+const db = {}
 
-var sequelize = new Sequelize(process.env.DATABASE_URL)
+const sequelize = new Sequelize(process.env.DATABASE_URL)
 
 fs
   .readdirSync(__dirname)
