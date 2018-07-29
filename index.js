@@ -10,6 +10,7 @@ const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 const app = express();
 app.use('/static', express.static(path.join(__dirname, 'public')));
 app.use('/static', express.static(path.join(__dirname, 'node_modules')));
+app.use('/vue', express.static(path.join(__dirname, 'vue')));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
