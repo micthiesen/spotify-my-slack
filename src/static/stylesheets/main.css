@@ -1,6 +1,11 @@
 .sss-header-row {
   padding-left: 40px;
 }
+
+.sss-subtitle {
+  padding-left: 16px;
+}
+
 .sss-main {
   width: 100%;
   margin-top: -35vh;
