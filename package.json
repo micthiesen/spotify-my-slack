@@ -9,7 +9,8 @@
   "scripts": {
     "start": "heroku local",
     "test": "eslint src/",
-    "watch": "nodemon --exec \"heroku local\" --signal SIGTERM"
+    "watch": "nodemon --exec \"heroku local\" --signal SIGTERM",
+    "postinstall": "sequelize db:migrate && sequelize db:seed:all"
   },
   "dependencies": {
     "ejs": "^2.5.6",
