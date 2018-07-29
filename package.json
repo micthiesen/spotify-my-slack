@@ -36,9 +36,11 @@
     "url": "https://github.com/micthiesen/spotify-my-slack"
   },
   "keywords": [
-    "node",
+    "express",
     "heroku",
-    "express"
+    "node",
+    "slack",
+    "spotify"
   ],
   "license": "GPL-3.0-only"
 }
