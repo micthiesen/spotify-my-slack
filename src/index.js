@@ -1,4 +1,4 @@
-require('newrelic')
+if (process.env.NEW_RELIC_ENABLED === 'true') { require('newrelic') }
 const assert = require('assert')
 const express = require('express')
 const path = require('path')
