@@ -9,6 +9,7 @@ module.exports = function (req, res) {
 
   spotifyApi.authorizationCodeGrant(req.query.code)
     .then((data) => {
+      req.session.spotifyExpiresIn = data.body['expires_in']
       req.session.spotifyAccessToken = data.body['access_token']
       req.session.spotifyRefreshToken = data.body['refresh_token']
       res.redirect('/')

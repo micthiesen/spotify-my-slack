@@ -1,0 +1,9 @@
+#!/usr/bin/env node
+
+const https = require('https')
+
+https.get(process.env.PINGME_URI, (res) => {
+  res.on('end', () => {
+    console.log('Done pinging')
+  })
+}).on('error', console.error)
