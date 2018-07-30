@@ -13,16 +13,15 @@ module.exports = async function (req, res) {
     const authData = await spotifyClient.authorizationCodeGrant(req.query.code)
     spotifyClient.setAccessToken(authData.body['access_token'])
     const meData = await spotifyClient.getMe()
-  } catch(err) {
+
+    req.session.spotifyId = meData.body['id']
+    req.session.spotifyExpiresIn = authData.body['expires_in']
+    req.session.spotifyAccessToken = authData.body['access_token']
+    req.session.spotifyRefreshToken = authData.body['refresh_token']
+    userManager.trySavingUser(req.session)
+  } catch (err) {
     console.warn(err)
-    res.redirect('/')
-    return
   }
 
-  req.session.spotifyId = meData.body['id']
-  req.session.spotifyExpiresIn = authData.body['expires_in']
-  req.session.spotifyAccessToken = authData.body['access_token']
-  req.session.spotifyRefreshToken = authData.body['refresh_token']
-  userManager.trySavingUser(req.session)
   res.redirect('/')
 }
