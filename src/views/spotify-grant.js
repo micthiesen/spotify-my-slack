@@ -1,4 +1,4 @@
-const spotifyApi = require('../spotify-api')
+const spotifyApi = require('../utils/spotify-api')
 const AUTHORIZATION_SCOPES = ['user-read-currently-playing']
 
 module.exports = function (req, res) {

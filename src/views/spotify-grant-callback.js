@@ -1,8 +1,8 @@
-const spotifyApi = require('../spotify-api')
+const spotifyApi = require('../utils/spotify-api')
 
 module.exports = function (req, res) {
   if (!req.query.code) {
-    console.error('Couldn\'t get grant code from Spotify')
+    console.warn('Couldn\'t get grant code from Spotify')
     res.redirect('/')
     return
   }
@@ -15,7 +15,7 @@ module.exports = function (req, res) {
       res.redirect('/')
     })
     .catch((err) => {
-      console.error(err)
+      console.warn(err)
       res.redirect('/')
     })
 }

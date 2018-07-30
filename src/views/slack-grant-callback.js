@@ -1,8 +1,10 @@
-const web = require('../slack-api')
+const { WebClient } = require('@slack/client')
+
+const web = new WebClient()
 
 module.exports = function (req, res) {
   if (!req.query.code) {
-    console.error('Couldn\'t get grant code from Slack')
+    console.warn('Couldn\'t get grant code from Slack')
     res.redirect('/')
     return
   }
@@ -18,7 +20,7 @@ module.exports = function (req, res) {
       res.redirect('/')
     })
     .catch((err) => {
-      console.error(err)
+      console.warn(err)
       res.redirect('/')
     })
 }
