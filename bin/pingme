@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-const https = require('https')
+const http = require('http')
 
-https.get(process.env.PINGME_URI, (res) => {
+http.get(process.env.PINGME_URI, (res) => {
   res.on('end', () => {
     console.log('Done pinging')
   })
