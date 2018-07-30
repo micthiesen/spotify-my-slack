@@ -16,6 +16,7 @@ module.exports = function (req, res) {
     redirect_uri: process.env.SLACK_REDIRECT_URI
   })
     .then((slackRes) => {
+      console.log(slackRes)
       req.session.slackAccessToken = slackRes.access_token
       res.redirect('/')
     })
