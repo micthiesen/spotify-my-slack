@@ -1,7 +1,7 @@
 const session = require('express-session')
 const RedisStore = require('connect-redis')(session)
 
-module.exports.build = function () {
+module.exports = function () {
   const sessionOpts = {
     resave: false,
     saveUninitialized: false,

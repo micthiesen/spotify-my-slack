@@ -4,6 +4,7 @@ const express = require('express')
 const path = require('path')
 const views = require('./views')
 const sessionBuilder = require('./utils/session-builder')
+const statusUpdater = require('./utils/status-updater')
 const PORT = process.env.PORT || 5000
 
 assert.ok(process.env.DATABASE_URL)
@@ -12,7 +13,7 @@ assert.ok(process.env.SSS_SECRET_KEY)
 
 /* express app setup */
 const app = express()
-app.use(sessionBuilder.build())
+app.use(sessionBuilder())
 app.use('/static', express.static(path.join(__dirname, 'static')))
 app.use('/static', express.static(path.join(__dirname, '../node_modules')))
 app.use('/vue', express.static(path.join(__dirname, 'vue')))
@@ -29,11 +30,11 @@ app.get('/spotify-grant-callback', views.spotifyGrantCallback)
 app.get('/users', views.users)
 
 /* work loop */
-async function setStatuses () {
-  console.log('Pretending to set Slack statuses')
-  setTimeout(setStatuses, process.env.SET_STATUSES_SLEEP_INTERVAL)
+async function routineTasks () {
+  statusUpdater.updateStatuses()
+  setTimeout(routineTasks, process.env.SET_STATUSES_SLEEP_INTERVAL)
 }
-setStatuses()
+routineTasks()
 
 /* wait for requests */
 app.listen(PORT, () => console.log(`Listening on ${PORT}`))
