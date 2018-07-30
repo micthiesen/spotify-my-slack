@@ -19,7 +19,8 @@
     "newrelic": "^4.6.0",
     "pg": "^7.4.3",
     "request": "^2.87.0",
-    "sequelize": "^4.38.0"
+    "sequelize": "^4.38.0",
+    "spotify-web-api-node": "^3.1.1"
   },
   "devDependencies": {
     "dotenv": "^6.0.0",

@@ -28,3 +28,11 @@
 .sss-footer a {
   text-decoration: none;
 }
+
+.sss-button--green {
+  color: white;
+  background-color: #1db954;
+}
+.sss-button--green:hover {
+  background-color: #1db954;
+}

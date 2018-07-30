@@ -18,6 +18,8 @@ app.set('view engine', 'ejs')
 
 /* router setup */
 app.get('/', views.root)
+app.get('/spotify-auth', views.spotifyAuth)
+app.get('/spotify-auth-callback', views.spotifyAuthCallback)
 app.get('/users', views.users)
 
 /* work loop */
