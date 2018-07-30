@@ -1,7 +1,7 @@
 const spotify = require('../utils/spotify')
 const userManager = require('../utils/user-manager.js')
 
-module.exports = function (req, res) {
+module.exports = async function (req, res) {
   if (!req.query.code) {
     console.warn('Couldn\'t get grant code from Spotify')
     res.redirect('/')
@@ -9,27 +9,20 @@ module.exports = function (req, res) {
   }
 
   const spotifyClient = spotify.buildClient()
+  try {
+    const authData = await spotifyClient.authorizationCodeGrant(req.query.code)
+    spotifyClient.setAccessToken(authData.body['access_token'])
+    const meData = await spotifyClient.getMe()
+  } catch(err) {
+    console.warn(err)
+    res.redirect('/')
+    return
+  }
 
-  spotifyClient.authorizationCodeGrant(req.query.code)
-    .then((authData) => {
-      // get the user's ID as well
-      spotifyClient.setAccessToken(authData.body['access_token'])
-      spotifyClient.getMe()
-        .then((meData) => {
-          req.session.spotifyId = meData.body['id']
-          req.session.spotifyExpiresIn = authData.body['expires_in']
-          req.session.spotifyAccessToken = authData.body['access_token']
-          req.session.spotifyRefreshToken = authData.body['refresh_token']
-          userManager.trySavingUser(req.session)
-          res.redirect('/')
-        })
-        .catch((err) => {
-          console.warn(err)
-          res.redirect('/')
-        })
-    })
-    .catch((err) => {
-      console.warn(err)
-      res.redirect('/')
-    })
+  req.session.spotifyId = meData.body['id']
+  req.session.spotifyExpiresIn = authData.body['expires_in']
+  req.session.spotifyAccessToken = authData.body['access_token']
+  req.session.spotifyRefreshToken = authData.body['refresh_token']
+  userManager.trySavingUser(req.session)
+  res.redirect('/')
 }
