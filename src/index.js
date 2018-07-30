@@ -26,6 +26,8 @@ app.set('view engine', 'ejs')
 /* router setup */
 app.get('/', views.root)
 app.get('/clear-user-data', views.clearUserData)
+app.get('/slack-grant', views.slackGrant)
+app.get('/slack-grant-callback', views.slackGrantCallback)
 app.get('/spotify-auth', views.spotifyAuth)
 app.get('/spotify-auth-callback', views.spotifyAuthCallback)
 app.get('/users', views.users)

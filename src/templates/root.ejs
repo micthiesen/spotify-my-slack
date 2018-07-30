@@ -21,13 +21,13 @@
 
   <a
     class="mdl-button mdl-js-button sss-button--amber"
-    <% if (!hasSlackAuthCode) { %>href="/slack-auth"<% } %>
-    <% if (hasSlackAuthCode) { %>disabled<% } %>
+    <% if (!hasSlackAccessToken) { %>href="/slack-grant"<% } %>
+    <% if (hasSlackAccessToken) { %>disabled<% } %>
     >
-    <% if (hasSlackAuthCode) { %>Slack Connected<% } else { %>Connect Slack<% } %>
+    <% if (hasSlackAccessToken) { %>Slack Connected<% } else { %>Connect Slack<% } %>
   </a>
 
-  <% if (hasSpotifyAuthCode | hasSlackAuthCode) { %>
+  <% if (hasSpotifyAuthCode | hasSlackAccessToken) { %>
   <a
     class="mdl-button mdl-js-button mdl-js-ripple-effect"
     href="/clear-user-data"

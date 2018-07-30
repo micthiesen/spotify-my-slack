@@ -1,6 +1,6 @@
 module.exports = function (req, res) {
   res.render('root', {
-    hasSlackAuthCode: !!req.session.slackAuthCode,
+    hasSlackAccessToken: !!req.session.slackAccessToken,
     hasSpotifyAuthCode: !!req.session.spotifyAuthCode
   })
 }
