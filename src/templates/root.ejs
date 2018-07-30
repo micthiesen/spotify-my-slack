@@ -13,10 +13,10 @@
 <p class="sss-button-group">
   <a
     class="mdl-button mdl-js-button sss-button--green"
-    <% if (!hasSpotifyAuthCode) { %>href="/spotify-auth"<% } %>
-    <% if (hasSpotifyAuthCode) { %>disabled<% } %>
+    <% if (!hasSpotifyAccessToken) { %>href="/spotify-grant"<% } %>
+    <% if (hasSpotifyAccessToken) { %>disabled<% } %>
     >
-    <% if (hasSpotifyAuthCode) { %>Spotify Connected<% } else { %>Connect Spotify<% } %>
+    <% if (hasSpotifyAccessToken) { %>Spotify Connected<% } else { %>Connect Spotify<% } %>
   </a>
 
   <a
@@ -27,7 +27,7 @@
     <% if (hasSlackAccessToken) { %>Slack Connected<% } else { %>Connect Slack<% } %>
   </a>
 
-  <% if (hasSpotifyAuthCode | hasSlackAccessToken) { %>
+  <% if (hasSpotifyAccessToken | hasSlackAccessToken) { %>
   <a
     class="mdl-button mdl-js-button mdl-js-ripple-effect"
     href="/clear-user-data"

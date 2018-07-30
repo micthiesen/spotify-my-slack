@@ -4,6 +4,7 @@ module.exports = function (req, res) {
   if (!req.query.code) {
     console.error('Couldn\'t get grant code from Slack')
     res.redirect('/')
+    return
   }
 
   web.oauth.access({

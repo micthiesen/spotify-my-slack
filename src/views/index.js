@@ -3,7 +3,7 @@ module.exports = {
   root: require('./root'),
   slackGrant: require('./slack-grant'),
   slackGrantCallback: require('./slack-grant-callback'),
-  spotifyAuth: require('./spotify-auth'),
-  spotifyAuthCallback: require('./spotify-auth-callback'),
+  spotifyGrant: require('./spotify-grant'),
+  spotifyGrantCallback: require('./spotify-grant-callback'),
   users: require('./users')
 }
