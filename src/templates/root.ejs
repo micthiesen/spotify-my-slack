@@ -1,6 +1,6 @@
 <% include layouts/main-being.ejs %>
 
-<h3>Connect your Spotify account</h3>
+<h3>Connect your Spotify and Slack accounts</h3>
 <p>
   Cillum dolor esse sit incididunt velit eiusmod magna ad nostrud officia aute
   dolor dolor. Magna esse ullamco pariatur adipisicing consectetur eu commodo
@@ -10,13 +10,31 @@
   aute ipsum sunt veniam do est. Occaecat mollit aliquip ut proident
   consectetur amet ex dolore consectetur aliqua elit.
 </p>
-<p>
+<p class="sss-button-group">
   <a
-    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect sss-button--green"
-    href="/spotify-auth"
+    class="mdl-button mdl-js-button sss-button--green"
+    <% if (!hasSpotifyAuthCode) { %>href="/spotify-auth"<% } %>
+    <% if (hasSpotifyAuthCode) { %>disabled<% } %>
     >
-    Authenticate with Spotify
+    <% if (hasSpotifyAuthCode) { %>Spotify Connected<% } else { %>Connect Spotify<% } %>
   </a>
+
+  <a
+    class="mdl-button mdl-js-button sss-button--amber"
+    <% if (!hasSlackAuthCode) { %>href="/slack-auth"<% } %>
+    <% if (hasSlackAuthCode) { %>disabled<% } %>
+    >
+    <% if (hasSlackAuthCode) { %>Slack Connected<% } else { %>Connect Slack<% } %>
+  </a>
+
+  <% if (hasSpotifyAuthCode | hasSlackAuthCode) { %>
+  <a
+    class="mdl-button mdl-js-button mdl-js-ripple-effect"
+    href="/clear"
+    >
+    Clear
+  </a>
+  <% } %>
 </p>
 
 <% include layouts/main-end.ejs %>

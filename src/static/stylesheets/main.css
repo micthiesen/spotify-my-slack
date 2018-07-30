@@ -29,10 +29,21 @@
   text-decoration: none;
 }
 
+.sss-button-group > .mdl-button:not(:last-child) {
+  margin-right: 8px;
+}
+
 .sss-button--green {
   color: white;
   background-color: #1db954;
 }
 .sss-button--green:hover {
   background-color: #1db954;
+}
+.sss-button--amber {
+  color: white;
+  background-color: #e9a820;
+}
+.sss-button--amber:hover {
+  background-color: #e9a820;
 }
