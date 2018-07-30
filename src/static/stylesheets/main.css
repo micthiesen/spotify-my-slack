@@ -29,6 +29,9 @@
   text-decoration: none;
 }
 
+.sss-button-group > .mdl-button {
+  margin-top: 8px;
+}
 .sss-button-group > .mdl-button:not(:last-child) {
   margin-right: 8px;
 }

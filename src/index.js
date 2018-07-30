@@ -19,9 +19,7 @@ const sessionOpts = {
   secret: process.env.SSS_SECRET_KEY
 }
 if (process.env.REDISCLOUD_URL) {
-  sessionOpts.store = new RedisStore({
-    url: process.env.REDISCLOUD_URL
-  })
+  sessionOpts.store = new RedisStore({ url: process.env.REDISCLOUD_URL })
 } else {
   console.warn('Falling back to memory session storage')
 }
