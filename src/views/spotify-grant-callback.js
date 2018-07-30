@@ -12,7 +12,7 @@ module.exports = function (req, res) {
 
   spotifyClient.authorizationCodeGrant(req.query.code)
     .then((authData) => {
-      // get the user's name as well
+      // get the user's ID as well
       spotifyClient.setAccessToken(authData.body['access_token'])
       spotifyClient.getMe()
         .then((meData) => {
