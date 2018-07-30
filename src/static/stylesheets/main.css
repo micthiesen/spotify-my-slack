@@ -12,18 +12,7 @@
 }
 .sss-ribbon {
   height: 40vh;
-}
-.sss-ribbon-left, .sss-ribbon-right {
-  height: 100%;
-  width: 50%;
-}
-.sss-ribbon-left {
   background-color: #1db954;
-  float: left;
-}
-.sss-ribbon-right {
-  background-color: #e9a820;
-  float: right;
 }
 
 .sss-content {
