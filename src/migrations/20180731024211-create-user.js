@@ -12,7 +12,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       spotifyExpiresAt: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.DATE
       },
       spotifyAccessToken: {

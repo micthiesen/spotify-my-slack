@@ -27,13 +27,12 @@ module.exports = (sequelize, DataTypes) => {
       validate: { notEmpty: true }
     },
     spotifyExpiresAt: {
-      allowNull: false,
+      allowNull: true,
       type: DataTypes.DATE
     },
     spotifyRefreshToken: {
       allowNull: false,
-      type: DataTypes.STRING,
-      validate: { notEmpty: true }
+      type: DataTypes.STRING
     },
     createdAt: {
       allowNull: false,
