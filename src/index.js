@@ -21,6 +21,7 @@ app.set('view engine', 'ejs')
 
 /* router setup */
 app.get('/', views.root)
+app.get('/delete-account', views.deleteAccount)
 app.get('/sign-out', views.signOut)
 app.get('/slack-grant', views.slackGrant)
 app.get('/slack-grant-callback', views.slackGrantCallback)

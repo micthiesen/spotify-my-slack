@@ -1,4 +1,5 @@
 module.exports = {
+  deleteAccount: require('./delete-account'),
   root: require('./root'),
   signOut: require('./sign-out'),
   slackGrant: require('./slack-grant'),
