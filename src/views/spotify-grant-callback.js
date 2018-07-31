@@ -16,6 +16,7 @@ module.exports = async function (req, res) {
 
     req.session.spotifyId = meData.body['id']
     req.session.spotifyExpiresIn = authData.body['expires_in']
+    req.session.spotifyExpiresAt =
     req.session.spotifyAccessToken = authData.body['access_token']
     req.session.spotifyRefreshToken = authData.body['refresh_token']
     userManager.trySavingUser(req.session)

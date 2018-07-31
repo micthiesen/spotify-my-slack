@@ -7,13 +7,28 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      firstName: {
+      spotifyId: {
+        allowNull: false,
         type: Sequelize.STRING
       },
-      lastName: {
+      spotifyExpiresAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },
+      spotifyAccessToken: {
+        allowNull: false,
         type: Sequelize.STRING
       },
-      email: {
+      spotifyRefreshToken: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
+      slackId: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
+      slackAccessToken: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       createdAt: {

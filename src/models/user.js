@@ -1,8 +1,48 @@
 module.exports = (sequelize, DataTypes) => {
   var User = sequelize.define('User', {
-    firstName: DataTypes.STRING,
-    lastName: DataTypes.STRING,
-    email: DataTypes.STRING
+    id: {
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+      type: DataTypes.INTEGER
+    },
+    spotifyId: {
+      allowNull: false,
+      type: DataTypes.STRING,
+      validate: { notEmpty: true }
+    },
+    spotifyExpiresAt: {
+      allowNull: false,
+      type: DataTypes.DATE
+    },
+    spotifyAccessToken: {
+      allowNull: false,
+      type: DataTypes.STRING,
+      validate: { notEmpty: true }
+    },
+    spotifyRefreshToken: {
+      allowNull: false,
+      type: DataTypes.STRING,
+      validate: { notEmpty: true }
+    },
+    slackId: {
+      allowNull: false,
+      type: DataTypes.STRING,
+      validate: { notEmpty: true }
+    },
+    slackAccessToken: {
+      allowNull: false,
+      type: DataTypes.STRING,
+      validate: { notEmpty: true }
+    },
+    createdAt: {
+      allowNull: false,
+      type: DataTypes.DATE
+    },
+    updatedAt: {
+      allowNull: false,
+      type: DataTypes.DATE
+    }
   }, {})
   return User
 }

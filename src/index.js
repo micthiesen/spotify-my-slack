@@ -16,7 +16,6 @@ const app = express()
 app.use(sessionBuilder())
 app.use('/static', express.static(path.join(__dirname, 'static')))
 app.use('/static', express.static(path.join(__dirname, '../node_modules')))
-app.use('/vue', express.static(path.join(__dirname, 'vue')))
 app.set('views', path.join(__dirname, 'templates'))
 app.set('view engine', 'ejs')
 
@@ -27,7 +26,6 @@ app.get('/slack-grant', views.slackGrant)
 app.get('/slack-grant-callback', views.slackGrantCallback)
 app.get('/spotify-grant', views.spotifyGrant)
 app.get('/spotify-grant-callback', views.spotifyGrantCallback)
-app.get('/users', views.users)
 
 /* work loop */
 async function routineTasks () {
