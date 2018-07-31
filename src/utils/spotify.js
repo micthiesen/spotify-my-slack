@@ -18,17 +18,14 @@ module.exports.getUserClient = async function (user) {
     try {
       const authData = await client.refreshAccessToken()
       const accessToken = authData.body.access_token
-      const refreshToken = authData.body.refresh_token || ''
-      const expiresAt = refreshToken ? new Date(now.getTime() + (1000 * authData.body.expires_in)) : null
+      const expiresAt = new Date(now.getTime() + (1000 * authData.body.expires_in))
 
       user.update({
         spotifyAccessToken: accessToken,
-        spotifyExpiresAt: expiresAt,
-        spotifyRefreshToken: refreshToken
+        spotifyExpiresAt: expiresAt
       })
 
       client.setAccessToken(accessToken)
-      client.setRefreshToken(refreshToken)
       console.log('Spotify token refreshed for user', user.id)
     } catch (err) {
       console.warn('Could not refresh access token for user', user.id, err)
