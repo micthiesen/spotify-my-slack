@@ -11,28 +11,35 @@
   consectetur amet ex dolore consectetur aliqua elit.
 </p>
 <p class="sss-button-group">
-  <a
-    class="mdl-button mdl-js-button sss-button--green"
-    <% if (!hasSpotifyAccessToken) { %>href="/spotify-grant"<% } %>
-    <% if (hasSpotifyAccessToken) { %>disabled<% } %>
-    >
-    <% if (hasSpotifyAccessToken) { %>Spotify Connected<% } else { %>Connect Spotify<% } %>
-  </a>
-
-  <a
-    class="mdl-button mdl-js-button sss-button--amber"
-    <% if (!hasSlackAccessToken) { %>href="/slack-grant"<% } %>
-    <% if (hasSlackAccessToken) { %>disabled<% } %>
-    >
-    <% if (hasSlackAccessToken) { %>Slack Connected<% } else { %>Connect Slack<% } %>
-  </a>
-
-  <% if (hasSpotifyAccessToken | hasSlackAccessToken) { %>
+  <% if (userId) { %>
+    <a
+      class="mdl-button mdl-js-button"
+      disabled
+      >
+      Your Status is being Monitored
+    </a>
+  <% } else { %>
+    <a
+      class="mdl-button mdl-js-button sss-button--green"
+      <% if (!hasSpotifyAccessToken) { %>href="/spotify-grant"<% } %>
+      <% if (hasSpotifyAccessToken) { %>disabled<% } %>
+      >
+      <% if (hasSpotifyAccessToken) { %>Spotify Connected<% } else { %>Connect Spotify<% } %>
+    </a>
+    <a
+      class="mdl-button mdl-js-button sss-button--amber"
+      <% if (!hasSlackAccessToken) { %>href="/slack-grant"<% } %>
+      <% if (hasSlackAccessToken) { %>disabled<% } %>
+      >
+      <% if (hasSlackAccessToken) { %>Slack Connected<% } else { %>Connect Slack<% } %>
+    </a>
+  <% } %>
+  <% if (userId | hasSpotifyAccessToken | hasSlackAccessToken) { %>
   <a
     class="mdl-button mdl-js-button mdl-js-ripple-effect"
     href="/clear-user-data"
     >
-    Clear
+    <% if (userId) { %>Stop<% } else { %>Clear<% } %>
   </a>
   <% } %>
 </p>

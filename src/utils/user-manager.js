@@ -19,11 +19,14 @@ module.exports.trySavingUser = async function (session) {
       opts[prop] = session[prop]
       return opts
     }, {})
-    const user = await models.User.create(createOpts)
+    const [user, created] = await models.User.findOrCreate({
+      where: { slackId: session.slackId, spotifyId: session.spotifyId },
+      defaults: createOpts
+    })
 
     USER_PROPS.forEach((prop) => { delete session[prop] })
-    session.user_id = user.id
-    console.log('Created new user', user.id)
+    session.userId = user.id
+    console.log(created ? 'Created new user' : 'Retrieved user', user.id)
   } catch (err) {
     console.error(err)
   }
