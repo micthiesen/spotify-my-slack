@@ -12,9 +12,12 @@ module.exports.updateStatuses = async function () {
 
     try {
       const playerData = await spotifyClient.getMyCurrentPlaybackState()
-      const status = `${playerData.body.item.name} by ${playerData.body.item.artists[0].name}`
+      const statusText = playerData.body.item
+        ? `${playerData.body.item.name} by ${playerData.body.item.artists[0].name}`
+        : null
+      const statusEmoji = playerData.body.item ? ':headphones:' : null
       await slackClient.users.profile.set({
-        profile: { status_text: status, status_emoji: ':headphones:' }
+        profile: { status_text: statusText, status_emoji: statusEmoji }
       })
       console.log('Updated status for user', user.id)
     } catch (err) {
