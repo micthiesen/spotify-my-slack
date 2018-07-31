@@ -6,7 +6,22 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       type: DataTypes.INTEGER
     },
+    slackId: {
+      allowNull: false,
+      type: DataTypes.STRING,
+      validate: { notEmpty: true }
+    },
+    slackAccessToken: {
+      allowNull: false,
+      type: DataTypes.STRING,
+      validate: { notEmpty: true }
+    },
     spotifyId: {
+      allowNull: false,
+      type: DataTypes.STRING,
+      validate: { notEmpty: true }
+    },
+    spotifyAccessToken: {
       allowNull: false,
       type: DataTypes.STRING,
       validate: { notEmpty: true }
@@ -15,22 +30,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.DATE
     },
-    spotifyAccessToken: {
-      allowNull: false,
-      type: DataTypes.STRING,
-      validate: { notEmpty: true }
-    },
     spotifyRefreshToken: {
-      allowNull: false,
-      type: DataTypes.STRING,
-      validate: { notEmpty: true }
-    },
-    slackId: {
-      allowNull: false,
-      type: DataTypes.STRING,
-      validate: { notEmpty: true }
-    },
-    slackAccessToken: {
       allowNull: false,
       type: DataTypes.STRING,
       validate: { notEmpty: true }

@@ -1,4 +1,5 @@
 const { WebClient } = require('@slack/client')
+const userManager = require('../utils/user-manager.js')
 
 const web = new WebClient()
 
@@ -16,7 +17,9 @@ module.exports = async function (req, res) {
       code: req.query.code,
       redirect_uri: process.env.SLACK_REDIRECT_URI
     })
+    req.session.slackId = slackRes.user_id
     req.session.slackAccessToken = slackRes.access_token
+    await userManager.trySavingUser(req.session)
   } catch (err) {
     console.warn(err)
   }

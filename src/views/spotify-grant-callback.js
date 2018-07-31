@@ -12,16 +12,15 @@ module.exports = async function (req, res) {
   const now = new Date()
   try {
     const authData = await spotifyClient.authorizationCodeGrant(req.query.code)
-    spotifyClient.setAccessToken(authData.body['access_token'])
+    spotifyClient.setAccessToken(authData.body.access_token)
     const meData = await spotifyClient.getMe()
 
-    const expiresAt = new Date(now.getTime() + (1000 * authData.body['expires_in']))
-    console.log(expiresAt)
-    req.session.spotifyAccessToken = authData.body['access_token']
+    const expiresAt = new Date(now.getTime() + (1000 * authData.body.expires_in))
+    req.session.spotifyId = meData.body.id
+    req.session.spotifyAccessToken = authData.body.access_token
     req.session.spotifyExpiresAt = expiresAt
-    req.session.spotifyId = meData.body['id']
-    req.session.spotifyRefreshToken = authData.body['refresh_token']
-    userManager.trySavingUser(req.session)
+    req.session.spotifyRefreshToken = authData.body.refresh_token
+    await userManager.trySavingUser(req.session)
   } catch (err) {
     console.warn(err)
   }
