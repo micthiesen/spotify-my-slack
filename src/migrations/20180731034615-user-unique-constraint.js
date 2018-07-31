@@ -7,6 +7,6 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.addConstraint('Users', 'user_unique_constraint')
+    return queryInterface.removeConstraint('Users', 'user_unique_constraint')
   }
 }
