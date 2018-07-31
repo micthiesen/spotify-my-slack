@@ -32,21 +32,23 @@
 .sss-button-group > .mdl-button {
   margin-top: 8px;
 }
+.sss-button-group > .mdl-button[disabled] {
+  background-color: #ededed;
+  color: #808080;
+}
 .sss-button-group > .mdl-button:not(:last-child) {
   margin-right: 8px;
 }
 
-.sss-button--green {
+.sss-button--green, .sss-button--green:hover {
   color: white;
   background-color: #1db954;
 }
-.sss-button--green:hover {
-  background-color: #1db954;
-}
-.sss-button--amber {
+.sss-button--amber, .sss-button--amber:hover {
   color: white;
   background-color: #e9a820;
 }
-.sss-button--amber:hover {
-  background-color: #e9a820;
+.sss-button--red, .sss-button--red:hover {
+  color: white;
+  background-color: #e01563;
 }

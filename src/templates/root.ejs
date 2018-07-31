@@ -20,26 +20,34 @@
     </a>
   <% } else { %>
     <a
-      class="mdl-button mdl-js-button sss-button--green"
+      class="mdl-button mdl-js-button mdl-js-ripple-effect sss-button--green"
       <% if (!hasSpotifyAccessToken) { %>href="/spotify-grant"<% } %>
       <% if (hasSpotifyAccessToken) { %>disabled<% } %>
       >
       <% if (hasSpotifyAccessToken) { %>Spotify Connected<% } else { %>Connect Spotify<% } %>
     </a>
     <a
-      class="mdl-button mdl-js-button sss-button--amber"
+      class="mdl-button mdl-js-button mdl-js-ripple-effect sss-button--amber"
       <% if (!hasSlackAccessToken) { %>href="/slack-grant"<% } %>
       <% if (hasSlackAccessToken) { %>disabled<% } %>
       >
       <% if (hasSlackAccessToken) { %>Slack Connected<% } else { %>Connect Slack<% } %>
     </a>
   <% } %>
+  <% if (userId) { %>
+  <a
+    class="mdl-button mdl-js-button mdl-js-ripple-effect sss-button--red"
+    href="/delete-account"
+    >
+    Stop
+  </a>
+  <% } %>
   <% if (userId | hasSpotifyAccessToken | hasSlackAccessToken) { %>
   <a
     class="mdl-button mdl-js-button mdl-js-ripple-effect"
-    href="/clear-user-data"
+    href="/sign-out"
     >
-    <% if (userId) { %>Stop<% } else { %>Clear<% } %>
+    <% if (userId) { %>Sign Out<% } else { %>Clear<% } %>
   </a>
   <% } %>
 </p>
