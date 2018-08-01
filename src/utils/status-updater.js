@@ -1,7 +1,8 @@
 const eachLimit = require('async/eachLimit')
-const { WebClient } = require('@slack/client')
+const emojis = require('./emojis')
 const models = require('../models')
 const spotify = require('./spotify')
+const { WebClient } = require('@slack/client')
 
 module.exports.updateStatuses = async function () {
   const users = await models.User.findAll()
@@ -15,7 +16,9 @@ module.exports.updateStatuses = async function () {
       const statusText = playerData.body.is_playing
         ? `${playerData.body.item.name} by ${playerData.body.item.artists[0].name}`
         : null
-      const statusEmoji = playerData.body.is_playing ? ':headphones:' : null
+      const statusEmoji = playerData.body.is_playing
+        ? emojis.getStatusEmoji(playerData.body.item)
+        : null
       await slackClient.users.profile.set({
         profile: { status_text: statusText, status_emoji: statusEmoji }
       })
