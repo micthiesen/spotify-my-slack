@@ -72,7 +72,6 @@ const EMOJI_MAP = new Map([
 const DEFAULT_EMOJIS = [
   ':headphones:',
   ':notes:',
-  ':speaker:',
   ':musical_note:'
 ]
 
