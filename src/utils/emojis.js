@@ -69,6 +69,9 @@ const EMOJI_MAP = new Map([
   ['hello', ':wave:'],
   ['love', ':heart:'],
   ['heart', ':heart:'],
+  ['ghost', ':ghost:'],
+  ['scary', ':ghost:'],
+  ['halloween', ':ghost:'],
   ['fire', ':fire:'],
   ['hot', ':fire:'],
   ['burn', ':fire:']
