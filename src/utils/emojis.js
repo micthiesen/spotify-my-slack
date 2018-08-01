@@ -74,7 +74,8 @@ const EMOJI_MAP = new Map([
   ['halloween', ':ghost:'],
   ['fire', ':fire:'],
   ['hot', ':fire:'],
-  ['burn', ':fire:']
+  ['burn', ':fire:'],
+  ['night', ':night_with_stars:']
 ])
 
 const DEFAULT_EMOJIS = [
