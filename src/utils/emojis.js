@@ -42,6 +42,8 @@ const EMOJI_MAP = new Map([
   ['ocean', ':ocean:'],
   ['wave', ':ocean:'],
   ['waves', ':ocean:'],
+  ['water', ':ocean:'],
+  ['waters', ':ocean:'],
   ['tired', ':sleeping:'],
   ['looking', ':eyes:'],
   ['rage', ':rage1:'],
