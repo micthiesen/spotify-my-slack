@@ -2,6 +2,7 @@ const spotify = require('../utils/spotify')
 const userManager = require('../utils/user-manager.js')
 
 module.exports = async function (req, res) {
+  delete req.session.userId
   if (!req.query.code) {
     console.warn('Couldn\'t get grant code from Spotify')
     res.redirect('/')

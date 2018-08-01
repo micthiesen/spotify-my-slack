@@ -4,6 +4,7 @@ const userManager = require('../utils/user-manager.js')
 const web = new WebClient()
 
 module.exports = async function (req, res) {
+  delete req.session.userId
   if (!req.query.code) {
     console.warn('Couldn\'t get grant code from Slack')
     res.redirect('/')
