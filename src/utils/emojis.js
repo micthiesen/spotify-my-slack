@@ -55,6 +55,7 @@ const EMOJI_MAP = new Map([
   ['mad', ':angry:'],
   ['hate', ':angry:'],
   ['sunny', ':sunny:'],
+  ['sun', ':sunny:'],
   ['snow', ':snowflake:'],
   ['snowflake', ':snowflake:'],
   ['snowy', ':snowflake:'],
