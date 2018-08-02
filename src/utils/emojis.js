@@ -79,8 +79,8 @@ const EMOJI_MAP = new Map([
   ['hot', ':fire:'],
   ['burn', ':fire:'],
   ['night', ':night_with_stars:'],
-  ['forest', 'evergreen_tree'],
-  ['tree', 'evergreen_tree']
+  ['forest', ':evergreen_tree:'],
+  ['tree', ':evergreen_tree:']
 ])
 
 const DEFAULT_EMOJIS = [
