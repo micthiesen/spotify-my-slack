@@ -63,7 +63,7 @@ const EMOJI_MAP = new Map([
   ['raining', ':droplet:'],
   ['cloud', ':cloud:'],
   ['cloudy', ':cloud:'],
-  ['moon', ':full_moon_with_face:'],
+  ['moon', ':full_moon:'],
   ['cool', ':sunglasses:'],
   ['wind', ':dash:'],
   ['fast', ':dash:'],
