@@ -29,7 +29,7 @@ module.exports.updateStatuses = async function () {
       stats.failures++
     }
 
-    console.log(`Updated statuses for ${stats.successes} of ${users.length} users (${stats.failures} failures)`)
     complete()
   })
+  console.log(`Updated statuses for ${stats.successes} of ${users.length} users (${stats.failures} failures)`)
 }
