@@ -31,6 +31,7 @@ module.exports.updateStatuses = async function () {
     }
 
     complete()
+  }, () => {
+    console.log(`Updated statuses for ${successes} of ${users.length} users (${failures} failures)`)
   })
-  console.log(`Updated statuses for ${successes} of ${users.length} users (${failures} failures)`)
 }
