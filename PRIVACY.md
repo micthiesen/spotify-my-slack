@@ -7,7 +7,7 @@ The following data is retained by "Spotify my Slack":
 2. Your Slack authentication token and user ID
 
 Only the minimum amount of data necessary for app functionality is kept. For
-the most up-to-date information about what information is handled by "Spotify
+the most up-to-date information about what is handled by "Spotify
 my Slack", view the source code (we are open source).
 
 ## Cookies
