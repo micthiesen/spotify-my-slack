@@ -4,7 +4,10 @@ const path = require('path')
 const basename = path.basename(__filename)
 const db = {}
 
-const sequelize = new Sequelize(process.env.DATABASE_URL, {operatorsAliases: false})
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
+  logging: false,
+  operatorsAliases: false
+})
 
 fs
   .readdirSync(__dirname)
