@@ -1,4 +1,3 @@
-const eachLimit = require('async/eachLimit')
 const emojis = require('./emojis')
 const models = require('../models')
 const spotify = require('./spotify')
@@ -9,7 +8,7 @@ module.exports.updateStatuses = async function () {
   var successes = 0
   var failures = 0
 
-  eachLimit(users, 4, async function (user, complete) {
+  for (const user of users) {
     const spotifyClient = await spotify.getUserClient(user)
     const slackClient = new WebClient(user.slackAccessToken)
 
@@ -29,9 +28,7 @@ module.exports.updateStatuses = async function () {
       console.warn('Updating status failed for', user.id, err)
       failures += 1
     }
+  }
 
-    complete()
-  }, () => {
-    console.log(`Updated statuses for ${successes} of ${users.length} users (${failures} failures)`)
-  })
+  console.log(`Updated statuses for ${successes} of ${users.length} users (${failures} failures)`)
 }
