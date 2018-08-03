@@ -6,7 +6,8 @@ const { WebClient } = require('@slack/client')
 
 module.exports.updateStatuses = async function () {
   const users = await models.User.findAll()
-  const stats = {'successes': 0, 'failures': 0}
+  var successes = 0
+  var failures = 0
 
   eachLimit(users, 4, async function (user, complete) {
     const spotifyClient = await spotify.getUserClient(user)
@@ -23,13 +24,13 @@ module.exports.updateStatuses = async function () {
       await slackClient.users.profile.set({
         profile: { status_text: statusText, status_emoji: statusEmoji }
       })
-      stats.successes++
+      successes += 1
     } catch (err) {
       console.warn('Updating status failed for', user.id, err)
-      stats.failures++
+      failures += 1
     }
 
     complete()
   })
-  console.log(`Updated statuses for ${stats.successes} of ${users.length} users (${stats.failures} failures)`)
+  console.log(`Updated statuses for ${successes} of ${users.length} users (${failures} failures)`)
 }
