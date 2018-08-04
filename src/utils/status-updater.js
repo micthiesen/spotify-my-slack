@@ -25,7 +25,7 @@ module.exports.updateStatuses = async function () {
       })
       successes += 1
     } catch (err) {
-      if (err.data.error === 'token_revoked') {
+      if (err.data && err.data.error === 'token_revoked') {
         console.log(`Token revoked for user ${user.id}. Deleting user...`)
         try { await user.destroy() } catch (err) { console.error(err) }
       } else {
