@@ -41,6 +41,11 @@ module.exports = (sequelize, DataTypes) => {
     updatedAt: {
       allowNull: false,
       type: DataTypes.DATE
+    },
+    statusSetLastTime: {
+      allowNull: false,
+      defaultValue: false,
+      type: DataTypes.BOOLEAN
     }
   }, {})
   return User

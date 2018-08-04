@@ -6,6 +6,7 @@ const { WebClient } = require('@slack/client')
 module.exports.updateStatuses = async function () {
   const users = await models.User.findAll()
   var successes = 0
+  var skips = 0
   var failures = 0
 
   for (const user of users) {
@@ -14,16 +15,24 @@ module.exports.updateStatuses = async function () {
 
     try {
       const playerData = await spotifyClient.getMyCurrentPlaybackState()
-      const statusText = playerData.body.is_playing
-        ? `${playerData.body.item.name} by ${playerData.body.item.artists[0].name}`
-        : null
-      const statusEmoji = playerData.body.is_playing
-        ? emojis.getStatusEmoji(playerData.body.item)
-        : null
-      await slackClient.users.profile.set({
-        profile: { status_text: statusText, status_emoji: statusEmoji }
-      })
-      successes += 1
+
+      if (playerData.body.is_playing) {
+        const statusText = `${playerData.body.item.name} by ${playerData.body.item.artists[0].name}`
+        const statusEmoji = emojis.getStatusEmoji(playerData.body.item)
+        await slackClient.users.profile.set({
+          profile: { status_text: statusText, status_emoji: statusEmoji }
+        })
+        if (!user.statusSetLastTime) { await user.update({ statusSetLastTime: true }) }
+        successes += 1
+      } else if (user.statusSetLastTime) {
+        await slackClient.users.profile.set({
+          profile: { status_text: null, status_emoji: null }
+        })
+        await user.update({ statusSetLastTime: false })
+        successes += 1
+      } else {
+        skips += 1
+      }
     } catch (err) {
       if (err.data && err.data.error === 'token_revoked') {
         console.log(`Token revoked for user ${user.id}. Deleting user...`)
@@ -35,5 +44,5 @@ module.exports.updateStatuses = async function () {
     }
   }
 
-  console.log(`Updated statuses for ${successes} of ${users.length} users (${failures} failures)`)
+  console.log(`Updated statuses for ${successes} of ${users.length} users (${skips} skipped, ${failures} failed)`)
 }

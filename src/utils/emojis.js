@@ -79,7 +79,7 @@ const EMOJI_MAP = new Map([
   ['fire', ':fire:'],
   ['hot', ':fire:'],
   ['burn', ':fire:'],
-  ['night', ':night_with_stars:'],
+  ['night', ':sparkles:'],
   ['forest', ':evergreen_tree:'],
   ['tree', ':evergreen_tree:']
 ])
