@@ -7,6 +7,7 @@
   },
   "main": "src/index.js",
   "scripts": {
+    "shell": "node --interactive --eval \"require('dotenv').config()\"",
     "start": "heroku local",
     "test": "eslint src/",
     "watch": "nodemon --exec \"heroku local\" --signal SIGTERM",
