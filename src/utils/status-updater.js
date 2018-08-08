@@ -4,6 +4,7 @@ const spotify = require('./spotify')
 const { WebClient } = require('@slack/client')
 
 module.exports.updateStatuses = async function () {
+  const timerStart = Date.now()
   const users = await models.User.findAll()
   var successes = 0
   var skips = 0
@@ -43,6 +44,8 @@ module.exports.updateStatuses = async function () {
       failures += 1
     }
   }
+  const timerEnd = Date.now()
+  const timeSpent = (timerEnd - timerStart) / 1000
 
-  console.log(`Updated statuses for ${successes} of ${users.length} users (${skips} skipped, ${failures} failed)`)
+  console.log(`Updated statuses for ${successes} of ${users.length} users (${skips} skipped, ${failures} failed) [${timeSpent}s]`)
 }
