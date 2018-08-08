@@ -81,7 +81,9 @@ const EMOJI_MAP = new Map([
   ['burn', ':fire:'],
   ['night', ':sparkles:'],
   ['forest', ':evergreen_tree:'],
-  ['tree', ':evergreen_tree:']
+  ['tree', ':evergreen_tree:'],
+  ['hug', ':hugging_face:'],
+  ['hugging', ':hugging_face:']
 ])
 
 const DEFAULT_EMOJIS = [
