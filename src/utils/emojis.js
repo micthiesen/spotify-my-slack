@@ -1,3 +1,5 @@
+const spotify = require('./spotify')
+
 // Map of lowercase strings to emojis. Ordered in decending preference
 // https://www.webpagefx.com/tools/emoji-cheat-sheet/
 const EMOJI_MAP = new Map([
@@ -98,7 +100,7 @@ const getDefault = function (spotifyItem) {
 }
 
 module.exports.getStatusEmoji = function (spotifyItem) {
-  const stringsToCheck = [spotifyItem.name, spotifyItem.artists[0].name]
+  const stringsToCheck = [spotifyItem.name, spotify.getArtistString(spotifyItem)]
 
   for (const string of stringsToCheck) {
     for (const [alias, emoji] of EMOJI_MAP) {

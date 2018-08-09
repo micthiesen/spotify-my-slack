@@ -34,3 +34,14 @@ module.exports.getUserClient = async function (user) {
 
   return client
 }
+
+module.exports.getArtistString = (spotifyItem) => {
+  const artistNames = spotifyItem.artists.map((artist) => {
+    return artist.name
+  })
+  if (artistNames.length > 0) {
+    return `by ${artistNames.join(', ')}`
+  } else {
+    return ''
+  }
+}

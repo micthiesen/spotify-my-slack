@@ -63,7 +63,7 @@ const performUpdate = async (user, resolve) => {
 // helper functions
 const setUserStatus = async (user, spotifyItem) => {
   const slackClient = new WebClient(user.slackAccessToken)
-  const statusText = `${spotifyItem.name} by ${spotifyItem.artists[0].name}`
+  const statusText = `${spotifyItem.name} ${spotify.getArtistString(spotifyItem)}`
   const statusEmoji = emojis.getStatusEmoji(spotifyItem)
 
   await slackClient.users.profile.set({
