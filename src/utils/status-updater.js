@@ -3,6 +3,26 @@ const models = require('../models')
 const spotify = require('./spotify')
 const { WebClient } = require('@slack/client')
 
+const setUserStatus = async (user, spotifyItem) => {
+  const slackClient = new WebClient(user.slackAccessToken)
+  const statusText = `${spotifyItem.name} by ${spotifyItem.artists[0].name}`
+  const statusEmoji = emojis.getStatusEmoji(spotifyItem)
+
+  await slackClient.users.profile.set({
+    profile: { status_text: statusText, status_emoji: statusEmoji }
+  })
+  if (!user.statusSetLastTime) { await user.update({ statusSetLastTime: true }) }
+}
+
+const clearUserStatus = async (user) => {
+  const slackClient = new WebClient(user.slackAccessToken)
+
+  await slackClient.users.profile.set({
+    profile: { status_text: null, status_emoji: null }
+  })
+  await user.update({ statusSetLastTime: false })
+}
+
 module.exports.updateStatuses = async function () {
   const timerStart = Date.now()
   const users = await models.User.findAll()
@@ -12,24 +32,15 @@ module.exports.updateStatuses = async function () {
 
   for (const user of users) {
     const spotifyClient = await spotify.getUserClient(user)
-    const slackClient = new WebClient(user.slackAccessToken)
 
     try {
       const playerData = await spotifyClient.getMyCurrentPlaybackState()
 
       if (playerData.body.is_playing) {
-        const statusText = `${playerData.body.item.name} by ${playerData.body.item.artists[0].name}`
-        const statusEmoji = emojis.getStatusEmoji(playerData.body.item)
-        await slackClient.users.profile.set({
-          profile: { status_text: statusText, status_emoji: statusEmoji }
-        })
-        if (!user.statusSetLastTime) { await user.update({ statusSetLastTime: true }) }
+        await setUserStatus(user, playerData.body.item)
         successes += 1
       } else if (user.statusSetLastTime) {
-        await slackClient.users.profile.set({
-          profile: { status_text: null, status_emoji: null }
-        })
-        await user.update({ statusSetLastTime: false })
+        await clearUserStatus(user)
         successes += 1
       } else {
         skips += 1
