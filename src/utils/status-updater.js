@@ -50,7 +50,7 @@ module.exports.updateStatuses = async function () {
         console.log(`Token revoked for user ${user.id}. Deleting user...`)
         try { await user.destroy() } catch (err) { console.error(err) }
       } else {
-        console.warn('Updating status failed for', user.id, err)
+        console.warn('Updating status failed for', user.id, err.stack || err)
       }
       failures += 1
     }
