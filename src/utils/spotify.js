@@ -26,9 +26,9 @@ module.exports.getUserClient = async function (user) {
       })
 
       client.setAccessToken(accessToken)
-      console.log('Spotify token refreshed for user', user.id)
+      console.log(`Spotify token refreshed for user ${user.id}`)
     } catch (err) {
-      console.warn('Could not refresh access token for user', user.id, err)
+      console.warn(`Could not refresh Spotify access token for user ${user.id}:`, err)
     }
   }
 
