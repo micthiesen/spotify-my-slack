@@ -30,8 +30,13 @@ app.get('/spotify-grant-callback', views.spotifyGrantCallback)
 
 /* work loop */
 async function routineTasks () {
-  await statusUpdater.updateStatuses()
-  setTimeout(routineTasks, process.env.SET_STATUSES_SLEEP_INTERVAL)
+  try {
+    await statusUpdater.updateStatuses()
+  } catch (err) {
+    console.error(`Fatal error in update loop: ${err}`)
+  } finally {
+    setTimeout(routineTasks, process.env.SET_STATUSES_SLEEP_INTERVAL)
+  }
 }
 routineTasks()
 
