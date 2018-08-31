@@ -19,7 +19,7 @@ module.exports.updateLoop = async function (userId) {
     console.error(`Fatal error in update loop for user ${userId}: ${err}`)
   }
 
-  setTimeout(() => { module.exports.updateLoop(userId) }, 10000)
+  setTimeout(() => { module.exports.updateLoop(userId) }, process.env.UPDATE_LOOP_DEFAULT_INTERVAL)
 }
 
 // update a single user
