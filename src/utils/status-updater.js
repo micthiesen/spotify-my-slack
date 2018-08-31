@@ -14,7 +14,6 @@ module.exports.updateLoop = async function (userId) {
 
     const updatePromise = new Promise(async (resolve) => { return performUpdate(user, resolve) })
     var [updateResult, interval] = await updatePromise
-    console.log(interval)
     console.log(`Update result for user ${userId}: ${updateResult}`)
   } catch (err) {
     console.error(`Fatal error in update loop for user ${userId}: ${err}`)
@@ -32,7 +31,7 @@ const performUpdate = async (user, resolve) => {
     var playerData = await spotifyClient.getMyCurrentPlaybackState()
   } catch (err) {
     if (err.headers['retry-after']) {
-      console.info(`Spotify throttling requests for user ${user.id}; retry after ${err.headers['retry-after']}`)
+      console.info(`Spotify throttling requests for user ${user.id}; retry after ${err.headers['retry-after']}s`)
       return resolve(['skip', parseInt(err.headers['retry-after']) * 1000])
     } else {
       console.warn(`Retrieving Spotify player state failed for user ${user.id}:`, err)
