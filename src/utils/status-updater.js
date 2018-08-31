@@ -31,8 +31,9 @@ const performUpdate = async (user, resolve) => {
     var playerData = await spotifyClient.getMyCurrentPlaybackState()
   } catch (err) {
     if (err.headers['retry-after']) {
-      console.info(`Spotify throttling requests for user ${user.id}; retry after ${err.headers['retry-after']}s`)
-      return resolve(['skip', parseInt(err.headers['retry-after']) * 1000])
+      const retryAfter = parseInt(err.headers['retry-after']) + 2
+      console.info(`Spotify throttling requests for user ${user.id}; retry after ${retryAfter}s`)
+      return resolve(['skip', retryAfter * 1000])
     } else {
       console.warn(`Retrieving Spotify player state failed for user ${user.id}:`, err)
       return resolve(['failure', null])
