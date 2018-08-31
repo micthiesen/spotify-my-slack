@@ -1,4 +1,5 @@
 const models = require('../models')
+const statusUpdater = require('./status-updater')
 const USER_PROPS = [
   'slackId',
   'slackAccessToken',
@@ -26,6 +27,7 @@ module.exports.trySavingUser = async function (session) {
 
     USER_PROPS.forEach((prop) => { delete session[prop] })
     session.userId = user.id
+    if (created) { statusUpdater.updateLoop(user.id) }
     console.log(created ? 'Created new user' : 'Retrieved user', user.id)
   } catch (err) {
     console.error(err)
