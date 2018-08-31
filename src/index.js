@@ -1,6 +1,7 @@
 if (process.env.NEW_RELIC_ENABLED === 'true') { require('newrelic') }
 const assert = require('assert')
 const express = require('express')
+const models = require('./models')
 const path = require('path')
 const views = require('./views')
 const sessionBuilder = require('./utils/session-builder')
@@ -28,17 +29,12 @@ app.get('/slack-grant-callback', views.slackGrantCallback)
 app.get('/spotify-grant', views.spotifyGrant)
 app.get('/spotify-grant-callback', views.spotifyGrantCallback)
 
-/* work loop */
-async function routineTasks () {
-  try {
-    await statusUpdater.updateStatuses()
-  } catch (err) {
-    console.error(`Fatal error in update loop: ${err}`)
-  } finally {
-    setTimeout(routineTasks, process.env.SET_STATUSES_SLEEP_INTERVAL)
-  }
+/* work loops */
+async function initialUpdateLoops () {
+  const users = await models.User.findAll({attributes: ['id']})
+  users.forEach((user) => { statusUpdater.updateLoop(user.id) })
 }
-routineTasks()
+initialUpdateLoops()
 
 /* wait for requests */
 app.listen(PORT, () => console.log(`Listening on ${PORT}`))

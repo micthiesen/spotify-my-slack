@@ -3,26 +3,23 @@ const models = require('../models')
 const spotify = require('./spotify')
 const { WebClient } = require('@slack/client')
 
-module.exports.updateStatuses = async function () {
-  const timerStart = Date.now()
-  const users = await models.User.findAll()
+// start an update loop for a user
+module.exports.updateLoop = async function (userId) {
+  try {
+    const user = await models.User.findById(userId)
+    if (!user) {
+      console.log(`Stopping update loop; user ${userId} does not exist`)
+      return
+    }
 
-  const updatePromises = users.map((user) => {
-    return new Promise(async (resolve) => {
-      return performUpdate(user, resolve)
-    })
-  })
+    const updatePromise = new Promise(async (resolve) => { return performUpdate(user, resolve) })
+    const updateResult = await updatePromise
+    console.log(`Update result for user ${userId}: ${updateResult}`)
+  } catch (err) {
+    console.error(`Fatal error in update loop for user ${userId}: ${err}`)
+  }
 
-  const statsList = await Promise.all(updatePromises)
-  const stats = statsList.reduce((memo, statItem) => {
-    memo[statItem] += 1
-    return memo
-  }, {success: 0, failure: 0, skip: 0})
-
-  const timerEnd = Date.now()
-  const timeSpent = (timerEnd - timerStart) / 1000
-
-  console.log(`Updated ${stats.success} of ${users.length} users (${stats.skip} skipped, ${stats.failure} failed) [${timeSpent}s]`)
+  setTimeout(() => { module.exports.updateLoop(userId) }, 10000)
 }
 
 // update a single user
