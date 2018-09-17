@@ -1,5 +1,4 @@
 const spotify = require('./spotify')
-
 // Map of lowercase strings to emojis. Ordered in decending preference
 // https://www.webpagefx.com/tools/emoji-cheat-sheet/
 const EMOJI_MAP = new Map([
@@ -80,7 +79,15 @@ const EMOJI_MAP = new Map([
   ['halloween', ':ghost:'],
   ['fire', ':fire:'],
   ['hot', ':fire:'],
+  ['heat', ':fire:'],
   ['burn', ':fire:'],
+  ['prison', ':gun:'],
+  ['Lucky', ':raised_hands:'],
+  ['electric', ':zap:'],
+  ['thunder', ':thunder_cloud_and_rain:'],
+  ['storm', ':thunder_cloud_and_rain:'],
+  ['money', ':money_mouth_face:'],
+  ['dollar', ':money_mouth_face:'],  
   ['night', ':sparkles:'],
   ['forest', ':evergreen_tree:'],
   ['tree', ':evergreen_tree:'],
