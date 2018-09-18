@@ -85,7 +85,13 @@ const EMOJI_MAP = new Map([
   ['forest', ':evergreen_tree:'],
   ['tree', ':evergreen_tree:'],
   ['hug', ':hugging_face:'],
-  ['hugging', ':hugging_face:']
+  ['hugging', ':hugging_face:'],
+  ['prison', ':gun:'],
+  ['lucky', ':raised_hands:'],
+  ['thunder', ':thunder_cloud_and_rain:'],
+  ['storm', ':thunder_cloud_and_rain:'],
+  ['money', ':money_mouth_face:'],
+  ['dollar', ':money_mouth_face:'],
 ])
 
 const DEFAULT_EMOJIS = [
