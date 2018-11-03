@@ -8,6 +8,12 @@ const USER_PROPS = [
   'spotifyExpiresAt',
   'spotifyRefreshToken'
 ]
+const USER_PROPS_SETUP = [
+  'slackId',
+  'spotifyId',
+  'spotifyExpiresAt',
+  'spotifyRefreshToken'
+]
 
 module.exports.trySavingUser = async function (session) {
   if (!USER_PROPS.every((prop) => session.hasOwnProperty(prop))) {
@@ -25,7 +31,7 @@ module.exports.trySavingUser = async function (session) {
       defaults: createOpts
     })
 
-    USER_PROPS.forEach((prop) => { delete session[prop] })
+    USER_PROPS_SETUP.forEach((prop) => { delete session[prop] })
     session.userId = user.id
     if (created) { statusUpdater.updateLoop(user.id) }
     console.log(created ? 'Created new user' : 'Retrieved user', user.id)
