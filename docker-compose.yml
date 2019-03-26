@@ -4,6 +4,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile_local
+    depends_on:
+      - postgres
     volumes:
       - "./src:/spotify-my-slack/src"
     networks:
@@ -11,8 +13,12 @@ services:
     ports:
       - "5000:5000"
   postgres:
-    image: postgres:10.7-alpine
+    image: postgres:10.7
     hostname: postgres
+    environment:
+      POSTGRES_DB: spotify_my_slack
+      POSTGRES_USER: spotify_my_slack_user
+      POSTGRES_PASSWORD: password
     networks:
       - main
     restart: on-failure
