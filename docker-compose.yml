@@ -1,0 +1,20 @@
+version: '3.7'
+services:
+  express:
+    build:
+      context: .
+      dockerfile: Dockerfile_local
+    volumes:
+      - "./src:/spotify-my-slack/src"
+    networks:
+      - main
+    ports:
+      - "5000:5000"
+  postgres:
+    image: postgres:10.7-alpine
+    hostname: postgres
+    networks:
+      - main
+    restart: on-failure
+networks:
+  main:

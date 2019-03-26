@@ -1,0 +1,9 @@
+FROM node:10.7.0-alpine
+
+COPY package.json package-lock.json /spotify-my-slack/
+WORKDIR /spotify-my-slack
+RUN npm install
+
+EXPOSE 5000
+ENTRYPOINT ["npm", "run"]
+CMD ["watch"]
