@@ -23,7 +23,7 @@ module.exports = async function (req, res) {
     req.session.spotifyRefreshToken = authData.body.refresh_token
     await userManager.trySavingUser(req.session)
   } catch (err) {
-    console.warn(err)
+    console.warn('Error processing spotify grant callback', err)
   }
 
   res.redirect('/')

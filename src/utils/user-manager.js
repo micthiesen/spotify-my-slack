@@ -17,7 +17,6 @@ const USER_PROPS_SETUP = [
 
 module.exports.trySavingUser = async function (session) {
   if (!USER_PROPS.every((prop) => session.hasOwnProperty(prop))) {
-    console.log('Not creating user; not enough data')
     return
   }
 
