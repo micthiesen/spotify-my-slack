@@ -6,6 +6,11 @@
   status emojis are set based on the song and artist name when possible. Sign
   in with your Spotify and Slack accounts to get started.
 </p>
+<% if (!hasSpotifyAccessToken) { %>
+<p>
+  <i>Note: You may have to try connecting to Spotify a few times before it works (<a href="https://github.com/micthiesen/spotify-my-slack/issues/9">details here</a>)</i>
+</p>
+<% } %>
 <p class="sss-button-group">
   <% if (userId) { %>
     <a
