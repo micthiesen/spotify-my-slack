@@ -282,7 +282,7 @@ const EMOJI_MAP = new Map([
   ['knife', ':knife:'],
   ['cocktails', ':cocktail:'],
   ['balloon', ':balloon:'],
-  ['balloons', ':balloons:'],
+  ['balloons', ':balloon:'],
   ['win', ':trophy:'],
   ['winner', ':trophy:'],
   ['winning', ':trophy:'],
