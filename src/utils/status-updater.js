@@ -32,6 +32,10 @@ const performUpdate = async (user, resolve) => {
     if (err.headers['retry-after']) {
       const retryAfter = parseInt(err.headers['retry-after']) + 2
       return resolve(['skip', retryAfter * 1000])
+    } else if (err.statusCode === 401) {
+      console.log(`401 response received from Spotify. Deleting user ${user.id}`)
+      try { await user.destroy() } catch (err) { console.error(err) }
+      return resolve(['failure', null])
     } else {
       console.warn(`Retrieving Spotify player state failed for user ${user.id}:`, err)
       return resolve(['failure', null])
