@@ -15,7 +15,7 @@ module.exports.updateLoop = async function (userId) {
     const updatePromise = new Promise(async (resolve) => { return performUpdate(user, resolve) })
     var interval = await updatePromise[1]
   } catch (err) {
-    console.error(`Fatal error in update loop for user ${userId}: ${err}`)
+    console.trace(`Fatal error in update loop for user ${userId}: {err}`)
   }
 
   setTimeout(() => { module.exports.updateLoop(userId) }, interval || process.env.UPDATE_LOOP_DEFAULT_INTERVAL)
