@@ -37,7 +37,7 @@ async function initialUpdateLoops () {
     const p = (((index + 1) / users.length) * 100).toFixed(1)
     console.log(`[${p}%] Starting update loop for user ${user.id} (${index + 1} of ${users.length})`)
     statusUpdater.updateLoop(user.id)
-    await sleep(100) // don't overload the DB when starting up
+    await sleep(10) // don't overload the DB when starting up
   }
 }
 initialUpdateLoops()
