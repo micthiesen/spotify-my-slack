@@ -51,7 +51,7 @@ const EMOJI_MAP = new Map([
   ['money', ':money_with_wings:'],
   ['millionaire', ':money_with_wings:'],
   ['billionaire', ':money_with_wings:'],
-  ['rage', ':rage1:'],
+  ['rage', ':rage:'],
   ['angry', ':angry:'],
   ['anger', ':angry:'],
   ['mad', ':angry:'],
