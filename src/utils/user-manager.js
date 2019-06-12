@@ -30,11 +30,15 @@ module.exports.trySavingUser = async function (session) {
       where: { slackId: session.slackId, spotifyId: session.spotifyId },
       defaults: createOpts
     })
+    console.log(created ? 'Created new user' : 'Retrieved user', user.id)
 
     USER_PROPS_SETUP.forEach((prop) => { delete session[prop] })
     session.userId = user.id
-    if (created) { statusUpdater.updateLoop(user.id) }
-    console.log(created ? 'Created new user' : 'Retrieved user', user.id)
+
+    if (created) {
+      console.log(`Starting update loop for new user ${user.id}`)
+      statusUpdater.updateLoop(user.id)
+    }
   } catch (err) {
     console.error(err)
   }

@@ -1,6 +1,6 @@
 version: '3.7'
 services:
-  express:
+  node:
     build:
       context: .
       dockerfile: Dockerfile_local

@@ -32,7 +32,10 @@ app.get('/spotify-grant-callback', views.spotifyGrantCallback)
 /* work loops */
 async function initialUpdateLoops () {
   const users = await models.User.findAll({ attributes: ['id'] })
-  users.forEach((user) => { statusUpdater.updateLoop(user.id) })
+  users.forEach((user) => {
+    console.log(`Starting update loop for user ${user.id} (${users.length} users total)`)
+    statusUpdater.updateLoop(user.id)
+  })
 }
 initialUpdateLoops()
 
