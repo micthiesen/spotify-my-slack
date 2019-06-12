@@ -7,6 +7,7 @@
   },
   "main": "src/index.js",
   "scripts": {
+    "sequelize": "sequelize",
     "shell": "node --interactive --eval \"require('dotenv').config()\"",
     "start": "heroku local",
     "test": "eslint src/",
@@ -36,7 +37,7 @@
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-standard": "^4.0.0",
     "nodemon": "^1.18.10",
-    "sequelize-cli": "^5.4.0"
+    "sequelize-cli": "^5.5.0"
   },
   "repository": {
     "type": "git",
