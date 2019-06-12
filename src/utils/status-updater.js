@@ -29,7 +29,7 @@ const performUpdate = async (user, resolve) => {
   try {
     var playerData = await spotifyClient.getMyCurrentPlaybackState()
   } catch (err) {
-    if (err.headers['retry-after']) {
+    if (err.headers && err.headers['retry-after']) {
       const retryAfter = parseInt(err.headers['retry-after']) + 2
       return resolve(['skip', retryAfter * 1000])
     } else if (err.statusCode === 401) {
