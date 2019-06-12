@@ -44,7 +44,7 @@ const performUpdate = async (user, resolve) => {
 
   // update Slack status
   try {
-    if (playerData.body.is_playing) {
+    if (playerData.body.is_playing && playerData.body.item) {
       await setUserStatus(user, playerData.body.item)
       return resolve(['success', null])
     } else if (user.statusSetLastTime) {
@@ -59,7 +59,13 @@ const performUpdate = async (user, resolve) => {
       try { await user.destroy() } catch (err) { console.error(err) }
       return resolve(['skip', null])
     } else {
-      console.warn(`Updating Slack status failed for user ${user.id}:`, err)
+      var statusEmoji = 'undefined'
+      try {
+        statusEmoji = emojis.getStatusEmoji(playerData.body.item)
+      } catch (err) {
+        console.error(err)
+      }
+      console.warn(`Updating Slack status failed for user ${user.id} (emoji ${statusEmoji}):`, err)
       return resolve(['failure', null])
     }
   }
