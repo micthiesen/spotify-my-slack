@@ -33,11 +33,11 @@ app.get('/spotify-grant-callback', views.spotifyGrantCallback)
 function sleep (ms) { return new Promise(resolve => setTimeout(resolve, ms)) }
 async function initialUpdateLoops () {
   const users = await models.User.findAll({ attributes: ['id'] })
-  await users.forEach(async (user) => {
+  for (const user of users) {
     console.log(`Starting update loop for user ${user.id} (${users.length} users total)`)
     statusUpdater.updateLoop(user.id)
-    await sleep(50) // don't overload the DB when starting up
-  })
+    await sleep(100) // don't overload the DB when starting up
+  }
 }
 initialUpdateLoops()
 

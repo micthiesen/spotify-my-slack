@@ -237,7 +237,7 @@ const EMOJI_MAP = new Map([
   ['bananas', ':banana:'],
   ['pineapple', ':pineapple:'],
   ['apple', ':apple:'],
-  ['apple', ':apples:'],
+  ['apple', ':apple:'],
   ['cherry', ':cherries:'],
   ['cherries', ':cherries:'],
   ['strawberry', ':strawberry:'],
