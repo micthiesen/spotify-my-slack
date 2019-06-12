@@ -342,7 +342,7 @@ const EMOJI_MAP = new Map([
   ['crying', ':cry:'],
   ['nerd', ':nerd_face:'],
   ['up', ':point_up:'],
-  ['down', ':down:'],
+  ['down', ':point_down:'],
   ['snake', ':snake:'],
   ['snakes', ':snake:'],
   ['firework', ':fireworks:'],
