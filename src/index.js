@@ -36,7 +36,7 @@ async function initialUpdateLoops () {
   await users.forEach(async (user) => {
     console.log(`Starting update loop for user ${user.id} (${users.length} users total)`)
     statusUpdater.updateLoop(user.id)
-    await sleep(10) // don't overload the DB when starting up
+    await sleep(50) // don't overload the DB when starting up
   })
 }
 initialUpdateLoops()
