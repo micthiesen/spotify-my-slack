@@ -266,7 +266,7 @@ const EMOJI_MAP = new Map([
   ['cake', ':cake:'],
   ['pie', ':pie:'],
   ['pies', ':pie:'],
-  ['chocolate', ':chocolate_Bar:'],
+  ['chocolate', ':chocolate_bar:'],
   ['candy', ':candy:'],
   ['candies', ':candy:'],
   ['lollipop', ':lollipop:'],
