@@ -5,9 +5,9 @@ const spotify = require('./spotify')
 const EMOJI_MAP = new Map([
   ['alien', ':alien:'],
   ['ufo', ':alien:'],
-  ['heartbreak', ':heartbreak:'],
-  ['heart break', ':heartbreak:'],
-  ['broken heart', ':heartbreak:'],
+  ['heartbreak', ':broken_heart:'],
+  ['heart break', ':broken_heart:'],
+  ['broken heart', ':broken_heart:'],
   ['space', ':alien:'],
   ['innocent', ':innocent:'],
   ['evil', ':smiling_imp:'],
