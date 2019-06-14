@@ -223,7 +223,7 @@ const EMOJI_MAP = new Map([
   ['sunflowers', ':sunflower:'],
   ['flowers', ':bouquet:'],
   ['leaves', ':leaves:'],
-  ['leaf', ':leaf:'],
+  ['leaf', ':leaves:'],
   ['pray', ':pray:'],
   ['prays', ':pray:'],
   ['punch', ':facepunch:'],
