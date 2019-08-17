@@ -8,6 +8,12 @@
 1. Run migrations: `$ docker-compose run --rm node sequelize db:migrate`
 1. Start the server: `$ docker-compose up`
 
+## Local Dependencies
+It is useful to have Node.js and dependencies installed locally for linting and management.
+1. Ensure [nvm](https://github.com/nvm-sh/nvm) is installed. Run `nvm install`
+1. Install the project dependencies locally: `npm install`
+1. To audit dependencies, run `npm audit`
+
 ### Sequelize ORM
 1. Sequelize CLI is available via `$ docker-compose run --rm node sequelize`
 1. Options are automatically provided to the command from `.sequelizerc`

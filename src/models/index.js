@@ -6,7 +6,6 @@ const db = {}
 
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
   logging: false,
-  operatorsAliases: false,
   pool: {
     max: 10,
     min: 0,

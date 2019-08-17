@@ -6,7 +6,7 @@ const { WebClient } = require('@slack/client')
 // start an update loop for a user
 module.exports.updateLoop = async function (userId) {
   try {
-    const user = await models.User.findById(userId)
+    const user = await models.User.findByPk(userId)
     if (!user) {
       console.log(`Stopping update loop; user ${userId} does not exist`)
       return
