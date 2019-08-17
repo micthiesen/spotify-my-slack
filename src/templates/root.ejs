@@ -51,6 +51,10 @@
     <% if (userId) { %>Sign Out<% } else { %>Clear<% } %>
   </a>
   <% } %>
+
+  <% if (userId) { %>
+  <% include partials/user-settings.ejs %>
+  <% } %>
 </p>
 
 <% include layouts/main-end.ejs %>
