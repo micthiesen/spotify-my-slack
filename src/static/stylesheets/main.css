@@ -17,12 +17,12 @@
 
 .sss-content {
   border-radius: 2px;
-  margin-bottom: 80px;
   padding: 40px 28px;
 }
 
 .sss-footer {
-  margin-bottom: 40px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .sss-footer a {
