@@ -46,6 +46,11 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       defaultValue: false,
       type: DataTypes.BOOLEAN
+    },
+    useCustomEmojis: {
+      allowNull: false,
+      defaultValue: true,
+      type: DataTypes.BOOLEAN
     }
   }, {})
   return User

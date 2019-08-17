@@ -8,6 +8,7 @@
   "main": "src/index.js",
   "scripts": {
     "sequelize": "sequelize",
+    "makemigration": "sequelize migration:generate --name",
     "shell": "node --interactive --eval \"require('dotenv').config()\"",
     "start": "heroku local",
     "test": "eslint src/",

@@ -17,3 +17,4 @@ It is useful to have Node.js and dependencies installed locally for linting and 
 ### Sequelize ORM
 1. Sequelize CLI is available via `$ docker-compose run --rm node sequelize`
 1. Options are automatically provided to the command from `.sequelizerc`
+1. To create a migration, use `$ docker-compose run --rm node makemigration <name>`. A specific script has been created due to argument conflicts with `docker-compose run`
