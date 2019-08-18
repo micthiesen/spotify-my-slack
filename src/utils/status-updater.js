@@ -60,7 +60,7 @@ const performUpdate = async (user, resolve) => {
     } else {
       var statusEmoji = 'undefined'
       try {
-        statusEmoji = emojis.getStatusEmoji(playerData.body.item)
+        statusEmoji = emojis.getStatusEmoji(user, playerData.body.item)
       } catch (err) {
         console.error(err)
       }
@@ -73,7 +73,7 @@ const performUpdate = async (user, resolve) => {
 // helper functions
 const setUserStatus = async (user, spotifyItem) => {
   const slackClient = new WebClient(user.slackAccessToken)
-  const statusEmoji = emojis.getStatusEmoji(spotifyItem)
+  const statusEmoji = emojis.getStatusEmoji(user, spotifyItem)
   var statusText = `${spotifyItem.name} ${spotify.getArtistString(spotifyItem)}`
   if (statusText.length > 100) {
     statusText = statusText.substr(0, 97).trim() + '...'

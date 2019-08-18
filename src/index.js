@@ -29,7 +29,7 @@ app.get('/slack-grant', views.slackGrant)
 app.get('/slack-grant-callback', views.slackGrantCallback)
 app.get('/spotify-grant', views.spotifyGrant)
 app.get('/spotify-grant-callback', views.spotifyGrantCallback)
-app.get('/user-settings', views.userSettings)
+app.put('/user-settings', views.userSettings)
 
 /* work loops */
 function sleep (ms) { return new Promise(resolve => setTimeout(resolve, ms)) }

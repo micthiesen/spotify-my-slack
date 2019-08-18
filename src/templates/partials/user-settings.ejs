@@ -1,13 +1,14 @@
 <h4>Preferences</h4>
-<form>
+<form id="user-settings-form">
   <label
     class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect"
-    for="use-custom-emojis"
+    for="useCustomEmojis"
     >
     <input
       class="mdl-checkbox__input"
-      id="use-custom-emojis"
+      id="useCustomEmojis"
       type="checkbox"
+      name="useCustomEmojis"
       <% if (user.useCustomEmojis) { %>checked<% } %>
       >
     <span class="mdl-checkbox__label">

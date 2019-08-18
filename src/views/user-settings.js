@@ -17,7 +17,7 @@ module.exports = async function (req, res) {
   try {
     const result = await models.User.update(
       { useCustomEmojis: req.body.useCustomEmojis },
-      { where: { userId: req.session.userId } }
+      { where: { id: req.session.userId } }
     )
     console.log(`Done updating user with ID ${req.session.userId}: ${result}`)
   } catch (err) {
