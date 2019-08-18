@@ -27,5 +27,5 @@ module.exports = async function (req, res) {
     })
   }
 
-  return res.status(204)
+  return res.status(200).json({ 'message': 'ok' })
 }

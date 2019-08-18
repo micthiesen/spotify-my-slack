@@ -6,6 +6,9 @@
     "node": "10.15.3"
   },
   "main": "src/index.js",
+  "nodemonConfig": {
+    "ignore": ["src/static/*"]
+  },
   "scripts": {
     "sequelize": "sequelize",
     "makemigration": "sequelize migration:generate --name",
