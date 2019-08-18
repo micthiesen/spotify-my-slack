@@ -10,7 +10,7 @@ module.exports = async function (req, res) {
   if (!REQ_FORM_PROPS.every((prop) => req.body.hasOwnProperty(prop.name))) {
     return res.status(400).json({ 'message': 'Missing form data' })
   }
-  if (!REQ_FORM_PROPS.every((prop) => req.body[prop.name] !== prop.type)) {
+  if (!REQ_FORM_PROPS.every((prop) => typeof req.body[prop.name] === prop.type)) { // eslint-disable-line valid-typeof
     return res.status(400).json({ 'message': 'Malformed form data' })
   }
 
