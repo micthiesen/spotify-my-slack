@@ -5,5 +5,6 @@ module.exports = {
   slackGrant: require('./slack-grant'),
   slackGrantCallback: require('./slack-grant-callback'),
   spotifyGrant: require('./spotify-grant'),
-  spotifyGrantCallback: require('./spotify-grant-callback')
+  spotifyGrantCallback: require('./spotify-grant-callback'),
+  userSettings: require('./user-settings')
 }

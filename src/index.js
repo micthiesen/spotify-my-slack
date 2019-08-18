@@ -14,6 +14,7 @@ assert.ok(process.env.UPDATE_LOOP_DEFAULT_INTERVAL)
 
 /* express app setup */
 const app = express()
+app.use(express.json())
 app.use(sessionBuilder())
 app.use('/static', express.static(path.join(__dirname, 'static')))
 app.use('/static', express.static(path.join(__dirname, '../node_modules')))
@@ -28,6 +29,7 @@ app.get('/slack-grant', views.slackGrant)
 app.get('/slack-grant-callback', views.slackGrantCallback)
 app.get('/spotify-grant', views.spotifyGrant)
 app.get('/spotify-grant-callback', views.spotifyGrantCallback)
+app.get('/user-settings', views.userSettings)
 
 /* work loops */
 function sleep (ms) { return new Promise(resolve => setTimeout(resolve, ms)) }

@@ -20,7 +20,7 @@ module.exports.getUserClient = async function (user) {
       const accessToken = authData.body.access_token
       const expiresAt = new Date(now.getTime() + (1000 * authData.body.expires_in))
 
-      user.update({
+      await user.update({
         spotifyAccessToken: accessToken,
         spotifyExpiresAt: expiresAt
       })

@@ -8,7 +8,7 @@
       class="mdl-checkbox__input"
       id="use-custom-emojis"
       type="checkbox"
-      checked
+      <% if (user.useCustomEmojis) { %>checked<% } %>
       >
     <span class="mdl-checkbox__label">
       Set status emojis based on song and artist name 👉🥰🎉
