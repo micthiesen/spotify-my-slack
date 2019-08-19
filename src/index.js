@@ -9,6 +9,7 @@ const statusUpdater = require('./utils/status-updater')
 const PORT = process.env.PORT || 5000
 
 assert.ok(process.env.DATABASE_URL)
+assert.ok(process.env.REDIS_URL)
 assert.ok(process.env.SSS_SECRET_KEY)
 assert.ok(process.env.UPDATE_LOOP_DEFAULT_INTERVAL)
 
