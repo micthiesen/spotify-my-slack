@@ -22,6 +22,7 @@ module.exports = async function (req, res) {
     req.session.spotifyExpiresAt = expiresAt
     req.session.spotifyRefreshToken = authData.body.refresh_token
     await userManager.trySavingUser(req.session)
+    await req.session.save()
   } catch (err) {
     console.warn('Error processing spotify grant callback', err)
   }

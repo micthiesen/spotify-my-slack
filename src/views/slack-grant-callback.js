@@ -21,6 +21,7 @@ module.exports = async function (req, res) {
     req.session.slackId = slackRes.user_id
     req.session.slackAccessToken = slackRes.access_token
     await userManager.trySavingUser(req.session)
+    await req.session.save()
   } catch (err) {
     console.warn(err)
   }
