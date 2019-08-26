@@ -388,14 +388,13 @@ const getDefault = function (spotifyItem) {
 }
 
 module.exports.getStatusEmoji = function (user, spotifyItem) {
+  if (!user.useCustomEmojis) { return DEFAULT_EMOJIS[0] }
   const stringsToCheck = [spotifyItem.name, spotify.getArtistString(spotifyItem)]
 
-  if (user.useCustomEmojis) {
-    for (const string of stringsToCheck) {
-      for (const [alias, emoji] of EMOJI_MAP) {
-        var regexp = new RegExp('(^| )' + alias + '( |$)', 'i')
-        if (regexp.test(string)) { return emoji }
-      }
+  for (const string of stringsToCheck) {
+    for (const [alias, emoji] of EMOJI_MAP) {
+      var regexp = new RegExp('(^| )' + alias + '( |$)', 'i')
+      if (regexp.test(string)) { return emoji }
     }
   }
 
