@@ -7,7 +7,9 @@
   },
   "main": "src/index.js",
   "nodemonConfig": {
-    "ignore": ["src/static/*"]
+    "ignore": [
+      "src/static/*"
+    ]
   },
   "scripts": {
     "sequelize": "sequelize",
