@@ -14,6 +14,7 @@
 1. Run migrations: `$ docker-compose run --rm node sequelize db:migrate`
 1. Start the server: `$ docker-compose up -d` (then `$ docker-compose logs -f`
    to follow logs)
+1. The application will be accessible at http://localhost:5000
 
 ### Installing Dependencies on Host
 Since Node.js and project dependencies are automatically installed inside the
