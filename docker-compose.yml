@@ -14,7 +14,7 @@ services:
     ports:
       - "5000:5000"
   postgres:
-    image: postgres:10.7
+    image: postgres:10.10
     hostname: postgres
     environment:
       POSTGRES_DB: spotify_my_slack
