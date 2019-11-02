@@ -31,7 +31,7 @@
     "newrelic": "^4.6.0",
     "pg": "^7.4.3",
     "request": "^2.87.0",
-    "sequelize": "^5.15.0",
+    "sequelize": "^5.15.1",
     "spotify-web-api-node": "kauffecup/spotify-web-api-node#error-headers"
   },
   "devDependencies": {
