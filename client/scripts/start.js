@@ -41,10 +41,6 @@ const compiler = webpack(config);
 compiler.watch({ ignored: [paths.appNodeModules] }, (err, stats) => {
   let messages;
   if (err) {
-    if (!err.message) {
-      return reject(err);
-    }
-
     let errMessage = err.message;
 
     messages = formatWebpackMessages({

@@ -4,6 +4,8 @@
   "scripts": {
     "build": "tsc",
     "heroku-postbuild": "sequelize db:migrate",
+    "lint": "npm-run-all lint:*",
+    "lint:eslint": "eslint \"src/**/*.{js,jsx,ts,tsx}\"",
     "makemigration": "tsc && sequelize migration:generate --name",
     "sequelize": "tsc && sequelize",
     "shell": "node --interactive --eval \"require('dotenv').config()\"",
@@ -26,14 +28,18 @@
   },
   "devDependencies": {
     "dotenv": "^6.0.0",
+    "eslint": "^6.7.2",
+    "npm-run-all": "^4.1.5",
     "sequelize-cli": "^5.5.0",
     "tsc-watch": "^4.0.0",
     "typescript": "^3.7.3"
   },
-  "nodemonConfig": {
-    "ignore": [
-      "build/*",
-      "src/static/*"
-    ]
+  "eslintConfig": {
+  "parserOptions": {
+    "ecmaVersion": 2017
+  },
+    "env": {
+      "es6": true
+    }
   }
 }
