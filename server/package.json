@@ -3,7 +3,6 @@
   "private": true,
   "scripts": {
     "build": "tsc",
-    "heroku-postbuild": "sequelize db:migrate",
     "lint": "npm-run-all lint:*",
     "lint:eslint": "eslint \"src/**/*.{js,jsx,ts,tsx}\"",
     "makemigration": "tsc && sequelize migration:generate --name",
@@ -35,9 +34,9 @@
     "typescript": "^3.7.3"
   },
   "eslintConfig": {
-  "parserOptions": {
-    "ecmaVersion": 2017
-  },
+    "parserOptions": {
+      "ecmaVersion": 2017
+    },
     "env": {
       "es6": true
     }
