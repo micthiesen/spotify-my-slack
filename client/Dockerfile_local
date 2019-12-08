@@ -1,0 +1,13 @@
+FROM node:12.13.1
+
+RUN mkdir /client
+
+COPY package.json package-lock.json /.build-deps/
+WORKDIR /.build-deps/
+RUN npm install
+RUN mv /.build-deps/node_modules /client/node_modules
+RUN rm -r /.build-deps
+
+WORKDIR /client
+ENTRYPOINT ["npm"]
+CMD ["start"]

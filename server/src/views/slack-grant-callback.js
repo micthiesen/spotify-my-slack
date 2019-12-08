@@ -1,5 +1,5 @@
 const { WebClient } = require('@slack/client')
-const userManager = require('../utils/user-manager.js')
+const userManager = require('../utils/user-manager')
 
 const web = new WebClient()
 

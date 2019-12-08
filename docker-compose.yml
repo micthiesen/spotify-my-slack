@@ -1,18 +1,28 @@
 version: '3.7'
 services:
-  node:
+  server:
     build:
       context: .
-      dockerfile: Dockerfile_local
+      dockerfile: server/Dockerfile_local
     depends_on:
       - postgres
       - redis
+    env_file:
+      - server.env
     volumes:
-      - "./src:/spotify-my-slack/src"
+      - .:/spotify-my-slack
+      - /spotify-my-slack/server/node_modules/
     networks:
       - main
     ports:
-      - "5000:5000"
+      - 5000:5000
+  client:
+    build:
+      context: client
+      dockerfile: Dockerfile_local
+    volumes:
+      - ./client:/client
+      - /client/node_modules/
   postgres:
     image: postgres:10.10
     hostname: postgres

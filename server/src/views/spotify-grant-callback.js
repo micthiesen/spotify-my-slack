@@ -1,5 +1,5 @@
 const spotify = require('../utils/spotify')
-const userManager = require('../utils/user-manager.js')
+const userManager = require('../utils/user-manager')
 
 module.exports = async function (req, res) {
   delete req.session.userId

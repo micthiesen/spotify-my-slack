@@ -1,3 +1,7 @@
+# Env files
+client.env
+server.env
+
 # Logs
 logs
 *.log

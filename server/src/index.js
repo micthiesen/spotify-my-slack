@@ -32,6 +32,15 @@ app.get('/spotify-grant', views.spotifyGrant)
 app.get('/spotify-grant-callback', views.spotifyGrantCallback)
 app.put('/user-settings', views.userSettings)
 
+/* send all other requests to the SPA */
+app.get('/static/*', (req, res) => {
+  // TODO: fix, this is insecure
+  res.sendFile(path.join(__dirname, '../../client/build/', req.path))
+})
+app.get('*', (_req, res) => {
+  res.sendFile(path.join(__dirname, '../../client/build/index.html'))
+})
+
 /* work loops */
 function sleep (ms) { return new Promise(resolve => setTimeout(resolve, ms)) }
 async function initialUpdateLoops () {
