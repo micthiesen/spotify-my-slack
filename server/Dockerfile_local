@@ -1,4 +1,4 @@
-FROM node:10.15.3
+FROM node:12.13.1
 
 RUN mkdir /spotify-my-slack
 RUN mkdir /spotify-my-slack/server

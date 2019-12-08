@@ -1,5 +1,6 @@
 {
   "name": "spotify-my-slack-server",
+  "private": true,
   "scripts": {
     "sequelize": "sequelize",
     "makemigration": "sequelize migration:generate --name",
