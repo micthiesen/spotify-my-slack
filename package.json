@@ -7,7 +7,6 @@
   },
   "scripts": {
     "build": "scripts/build.sh",
-    "heroku-postbuild": "scripts/heroku-postbuild.sh",
     "install-deps": "npm install && cd client && npm install && cd ../server && npm install",
     "lint": "npm-run-all lint:*",
     "lint:prettier": "prettier --check \"{client/{scripts,src},scripts,server/src}/**/*.{js,jsx,ts,tsx}\"",
