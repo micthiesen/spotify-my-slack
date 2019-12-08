@@ -1,6 +1,4 @@
-# Env files
-client.env
-server.env
+dist/
 
 # Logs
 logs

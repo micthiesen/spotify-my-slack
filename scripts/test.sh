@@ -9,10 +9,10 @@ npm-run-all test:*
 
 printf "\nTesting the client...\n"
 cd "$SCRIPT_DIR/../client"
-npm install
+npm install --only=prod && npm install --only=dev
 npm test
 
 printf "\nTesting the server...\n"
 cd "$SCRIPT_DIR/../server"
-# npm install
+# npm install --only=prod && npm install --only=dev
 # npm test

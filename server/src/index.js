@@ -19,9 +19,13 @@ assert.ok(process.env.UPDATE_LOOP_DEFAULT_INTERVAL);
 const app = express();
 app.use(express.json());
 app.use(sessionBuilder());
-app.use("/static", express.static(path.join(__dirname, "static")));
+app.use("/static", express.static(path.join(__dirname, "../static")));
 app.use("/static", express.static(path.join(__dirname, "../node_modules")));
-app.set("views", path.join(__dirname, "templates"));
+app.use(
+  "/static",
+  express.static(path.join(__dirname, "../../client/build/static"))
+);
+app.set("views", path.join(__dirname, "../templates"));
 app.set("view engine", "ejs");
 
 /* router setup */
@@ -35,10 +39,6 @@ app.get("/spotify-grant-callback", views.spotifyGrantCallback);
 app.put("/user-settings", views.userSettings);
 
 /* send all other requests to the SPA */
-app.get("/static/*", (req, res) => {
-  // TODO: fix, this is insecure
-  res.sendFile(path.join(__dirname, "../../client/build/", req.path));
-});
 app.get("*", (_req, res) => {
   res.sendFile(path.join(__dirname, "../../client/build/index.html"));
 });
