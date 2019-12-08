@@ -1,9 +1,11 @@
 #!/usr/bin/env node
 
-const http = require('http')
+const http = require("http");
 
-http.get(process.env.PINGME_URI, (res) => {
-  res.on('end', () => {
-    console.log('Done pinging')
+http
+  .get(process.env.PINGME_URI, res => {
+    res.on("end", () => {
+      console.log("Done pinging");
+    });
   })
-}).on('error', console.error)
+  .on("error", console.error);

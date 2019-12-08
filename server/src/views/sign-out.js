@@ -1,4 +1,4 @@
-module.exports = function (req, res) {
-  req.session.destroy()
-  res.redirect('/')
-}
+module.exports = function(req, res) {
+  req.session.destroy();
+  res.redirect("/");
+};
