@@ -6,13 +6,14 @@ import os
 from fastapi import FastAPI
 from starlette.staticfiles import FileResponse, StaticFiles
 from starlette.responses import Response
-from starlette.types import Receive, Scope, Send
+from starlette.types import Scope
 
 
 class StaticFilesLocal(StaticFiles):
     """
     Subclass to ensure static files from the frontend are always cached
     """
+
     def file_response(
         self,
         full_path: str,
@@ -39,6 +40,9 @@ ROUTER = FastAPI()
 
 @ROUTER.get("/")
 async def frontend_index():
+    """
+    Return the entrypoint for the frontend SPA. Never cache this
+    """
     return FileResponse(
         "frontend/build/index.html", headers={"Cache-Control": "no-store"}
     )

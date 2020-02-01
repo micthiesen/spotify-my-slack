@@ -3,7 +3,7 @@ Entrypoint for the backend (FastAPI)
 """
 from fastapi import FastAPI
 
-from .routers import frontend
+from backend.routers import frontend
 
 
 APP = FastAPI()
