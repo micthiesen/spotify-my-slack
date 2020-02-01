@@ -14,4 +14,4 @@ async def worker_entrypoint() -> None:
     """
     while True:
         LOGGER.info("In the worker function")
-        await asyncio.sleep(5)
+        await asyncio.sleep(15)

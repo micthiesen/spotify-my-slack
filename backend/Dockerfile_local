@@ -1,7 +1,6 @@
 FROM python:3.8.1
 
 RUN mkdir /spotify-my-slack
-RUN curl https://cli-assets.heroku.com/install.sh | sh
 
 COPY requirements.txt requirements-test.txt /.build-deps/
 WORKDIR /.build-deps/
@@ -13,4 +12,10 @@ RUN pip install \
 RUN rm -r /.build-deps
 
 WORKDIR /spotify-my-slack
-CMD ["heroku", "local", "web"]
+CMD watchmedo \
+    auto-restart \
+    --directory=./backend \
+    --patterns="*.py" \
+    --recursive \
+    -- \
+    python -m backend.main
