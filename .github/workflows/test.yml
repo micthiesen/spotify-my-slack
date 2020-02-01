@@ -17,6 +17,8 @@ jobs:
         pip install -r requirements.txt -r requirements-test.txt
     - name: Lint with black
       run: black --check .
+    - name: Lint with mypy
+      run: mypy --config-file=mypy.ini backend
     - name: Lint with pylint
       run: pylint --rcfile=pylintrc backend
 
