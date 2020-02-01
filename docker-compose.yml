@@ -10,8 +10,9 @@ services:
     env_file:
       - backend/.env
     environment:
+      DEBUG: "true"
       PORT: 5000
-      UVICORN_OPTIONS: --reload
+      PYTHONUNBUFFERED: 1
     volumes:
       - .:/spotify-my-slack
     networks:

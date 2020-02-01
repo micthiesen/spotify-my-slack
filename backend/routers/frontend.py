@@ -3,7 +3,7 @@ Frontend (SPA) routes. Serves static files built by the frontend
 """
 import os
 
-from fastapi import FastAPI
+from fastapi.routing import APIRouter
 from starlette.staticfiles import FileResponse, StaticFiles
 from starlette.responses import Response
 from starlette.types import Scope
@@ -35,7 +35,7 @@ STATIC_FILES_PATH = "/static"
 STATIC_FILES_NAME = "frontend_static"
 
 
-ROUTER = FastAPI()
+ROUTER = APIRouter()
 
 
 @ROUTER.get("/")

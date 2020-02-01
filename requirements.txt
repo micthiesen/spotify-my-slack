@@ -2,3 +2,4 @@ aiofiles==0.4.0
 email_validator==1.0.5
 fastapi==0.47.1
 uvicorn==0.11.2
+uvloop==0.14.0
