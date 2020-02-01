@@ -28,7 +28,7 @@ services:
       - ./frontend:/frontend
       - /frontend/node_modules/
   postgres:
-    image: postgres:10.10
+    image: postgres:12.1
     hostname: postgres
     environment:
       POSTGRES_DB: spotify_my_slack
