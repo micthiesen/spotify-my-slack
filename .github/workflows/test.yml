@@ -29,7 +29,6 @@ jobs:
     - uses: actions/setup-node@v1
       with:
         node-version: 12.13.1
-      working-directory: frontend
     - run: npm install
       working-directory: frontend
     - run: npm run build
