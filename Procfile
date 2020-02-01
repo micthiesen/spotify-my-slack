@@ -1,2 +1,2 @@
 release: scripts/release.sh
-web: npm start
+web: uvicorn backend.src.main:APP $UVICORN_OPTIONS --host 0.0.0.0 --port $PORT
