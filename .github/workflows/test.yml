@@ -2,8 +2,7 @@ name: test
 on: push
 
 jobs:
-  test_backend:
-    name: Test Backend
+  backend:
     runs-on: ubuntu-latest
 
     steps:
@@ -22,8 +21,7 @@ jobs:
     - name: Lint with pylint
       run: pylint --rcfile=pylintrc backend
 
-  test_frontend:
-    name: Test Frontend
+  frontend:
     runs-on: ubuntu-latest
 
     steps:

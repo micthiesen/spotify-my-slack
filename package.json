@@ -16,9 +16,10 @@
     "frontend/node_modules"
   ],
   "keywords": [
-    "express",
+    "fastapi",
     "heroku",
     "node",
+    "python",
     "slack",
     "spotify"
   ],
