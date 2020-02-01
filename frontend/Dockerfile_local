@@ -1,13 +1,13 @@
 FROM node:12.13.1
 
-RUN mkdir /client
+RUN mkdir /spotify-my-slack
 
 COPY package.json package-lock.json /.build-deps/
 WORKDIR /.build-deps/
 RUN npm install
-RUN mv /.build-deps/node_modules /client/node_modules
+RUN mv /.build-deps/node_modules /spotify-my-slack/node_modules
 RUN rm -r /.build-deps
 
-WORKDIR /client
+WORKDIR /spotify-my-slack
 ENTRYPOINT ["npm"]
 CMD ["start"]

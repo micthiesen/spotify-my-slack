@@ -1,0 +1,16 @@
+FROM python:3.8.1
+
+RUN mkdir /spotify-my-slack
+RUN curl https://cli-assets.heroku.com/install.sh | sh
+
+COPY requirements.txt requirements-test.txt /.build-deps/
+WORKDIR /.build-deps/
+RUN npm install \
+    -r requirements.txt \
+    -r requirements-test.txt \
+    --disable-pip-version-check \
+    --no-cache-dir
+RUN rm -r /.build-deps
+
+WORKDIR /spotify-my-slack
+CMD ["heroku", "local", "web"]

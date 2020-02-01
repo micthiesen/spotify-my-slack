@@ -2,7 +2,7 @@ version: '3.7'
 services:
   backend:
     build:
-      context: backend
+      context: .
       dockerfile: backend/Dockerfile_local
     depends_on:
       - postgres
@@ -15,13 +15,13 @@ services:
       - main
     ports:
       - 5000:5000
-  client:
+  frontend:
     build:
-      context: client
-      dockerfile: Dockerfile_local
+      context: .
+      dockerfile: frontend/Dockerfile_local
     volumes:
-      - ./client:/client
-      - /client/node_modules/
+      - .:/spotify-my-slack
+      - /spotify-my-slack/node_modules/
   postgres:
     image: postgres:10.10
     hostname: postgres
