@@ -1,0 +1,4 @@
+black==19.10b0
+mypy==0.761
+ptvsd==4.3.2
+pylint==2.4.4

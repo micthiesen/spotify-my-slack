@@ -4,7 +4,7 @@
 
 ## Local Development
 
-1. Copy `server/.env.example` to `server/.env` and fill in the placeholders. Usually you
+1. Copy `backend/.env.example` to `backend/.env` and fill in the placeholders. Usually you
    should only have to change the following variables after creating both a Slack and
    Spotify development app:
    - `SLACK_CLIENT_ID`
