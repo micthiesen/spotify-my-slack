@@ -1,17 +1,16 @@
 version: '3.7'
 services:
-  server:
+  backend:
     build:
-      context: .
-      dockerfile: server/Dockerfile_local
+      context: backend
+      dockerfile: backend/Dockerfile_local
     depends_on:
       - postgres
       - redis
     env_file:
-      - server/.env
+      - backend/.env
     volumes:
       - .:/spotify-my-slack
-      - /spotify-my-slack/server/node_modules/
     networks:
       - main
     ports:
