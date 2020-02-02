@@ -6,6 +6,7 @@ import logging
 
 import uvicorn
 from fastapi import FastAPI
+from starlette.middleware.sessions import SessionMiddleware
 
 from backend.conf import LOGGER, SETTINGS
 from backend.routers import frontend, spotify
@@ -13,11 +14,14 @@ from backend.worker import worker_entrypoint
 
 
 APP = FastAPI()
+
+APP.add_middleware(SessionMiddleware, secret_key=SETTINGS.sss_secret_key)
 APP.mount(
     frontend.STATIC_FILES_PATH,
     frontend.STATIC_FILES_APP,
     name=frontend.STATIC_FILES_NAME,
 )
+
 APP.include_router(frontend.ROUTER)
 APP.include_router(spotify.ROUTER)
 

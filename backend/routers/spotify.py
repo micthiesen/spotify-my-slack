@@ -5,11 +5,13 @@ from typing import Optional
 from urllib.parse import urlencode
 
 from fastapi.routing import APIRouter
+from starlette.requests import Request
 from starlette.responses import RedirectResponse
 
 from backend.conf import LOGGER, SETTINGS
 from backend.utils.spotify import (
     GrantType,
+    TokenExchangeData,
     TokenExchangeError,
     get_new_access_token,
 )
@@ -42,7 +44,7 @@ async def spotify_grant():
 
 @ROUTER.get("/spotify-grant-callback")
 async def spotify_grant_callback(
-    code: Optional[str] = None, error: Optional[str] = None
+    request: Request, code: Optional[str] = None, error: Optional[str] = None
 ):
     """
     Spotify grant callback (receive access & refresh tokens)
@@ -54,12 +56,16 @@ async def spotify_grant_callback(
         return RedirectResponse("/")
 
     try:
-        exchange_data = await get_new_access_token(code, GrantType.CODE)
+        exchange_data: TokenExchangeData = await get_new_access_token(
+            code, GrantType.CODE
+        )
     except TokenExchangeError as err:
         LOGGER.warning("%s", err)
         return RedirectResponse("/")
 
-    # TODO save the access token to the database
     LOGGER.info("Got exhange data from Spotify! %s", exchange_data)
+    request.session["spotify_access_token"] = exchange_data.access_token
+    request.session["spotify_refresh_token"] = exchange_data.refresh_token
+    # TODO try saving the user
 
     return RedirectResponse("/")

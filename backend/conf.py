@@ -18,7 +18,6 @@ class Settings(BaseSettings):
     update_loop_default_interval: int
 
     database_url: str
-    redis_url: str
 
     slack_client_id: str
     slack_client_secret: str

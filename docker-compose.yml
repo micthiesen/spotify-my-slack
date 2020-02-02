@@ -31,11 +31,5 @@ services:
     networks:
       - main
     restart: on-failure
-  redis:
-    image: redis:5
-    hostname: redis
-    networks:
-      - main
-    restart: on-failure
 networks:
   main:
