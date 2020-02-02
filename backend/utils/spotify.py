@@ -7,7 +7,7 @@ from typing import Optional, cast
 import httpx
 from pydantic import BaseModel, ValidationError
 
-from backend.conf import SETTINGS
+from backend.config import SETTINGS
 
 
 TOKEN_EXCHANGE_URI = "https://accounts.spotify.com/api/token"

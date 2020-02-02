@@ -8,7 +8,7 @@ import uvicorn
 from fastapi import FastAPI
 from starlette.middleware.sessions import SessionMiddleware
 
-from backend.conf import LOGGER, SETTINGS
+from backend.config import LOGGER, SETTINGS
 from backend.database import DATABASE
 from backend.routers import frontend, spotify
 from backend.worker import worker_entrypoint

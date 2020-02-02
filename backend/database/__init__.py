@@ -5,7 +5,7 @@ import databases
 import sqlalchemy
 from sqlalchemy.ext.declarative import declarative_base
 
-from backend.conf import SETTINGS
+from backend.config import SETTINGS
 
 
 _DATABASE_URL = SETTINGS.database_url.replace("postgres://", "postgresql://")

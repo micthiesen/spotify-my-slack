@@ -3,14 +3,15 @@
 Manage & interact with the project
 """
 if __name__ == "__main__":
-    import asyncio
     import sys
+    import asyncio
     from IPython import embed
 
     # Ensure `import backend.something` works
     sys.path.append("/spotify-my-slack")
 
     # pylint:disable=unused-import,unused-wildcard-import,wildcard-import
+    from backend.config import LOGGER, SETTINGS
     from backend.database import DATABASE, METADATA
     from backend.database.users import User
     from backend.utils.emojis import *

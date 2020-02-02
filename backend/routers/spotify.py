@@ -8,7 +8,7 @@ from fastapi.routing import APIRouter
 from starlette.requests import Request
 from starlette.responses import RedirectResponse
 
-from backend.conf import LOGGER, SETTINGS
+from backend.config import LOGGER, SETTINGS
 from backend.utils.spotify import (
     GrantType,
     TokenExchangeData,
@@ -63,7 +63,7 @@ async def spotify_grant_callback(
         LOGGER.warning("%s", err)
         return RedirectResponse("/")
 
-    LOGGER.info("Got exhange data from Spotify! %s", exchange_data)
+    LOGGER.info("Got exchange data from Spotify! %s", exchange_data)
     request.session["spotify_access_token"] = exchange_data.access_token
     request.session["spotify_refresh_token"] = exchange_data.refresh_token
     # TODO try saving the user
