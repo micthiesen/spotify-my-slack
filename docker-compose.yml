@@ -28,8 +28,6 @@ services:
     hostname: postgres
     environment:
       POSTGRES_DB: spotify_my_slack
-      POSTGRES_USER: spotify_my_slack_user
-      POSTGRES_PASSWORD: password
     networks:
       - main
     restart: on-failure
