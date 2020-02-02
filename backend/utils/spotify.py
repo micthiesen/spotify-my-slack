@@ -13,12 +13,6 @@ from backend.conf import SETTINGS
 TOKEN_EXCHANGE_URI = "https://accounts.spotify.com/api/token"
 
 
-class TokenExchangeError(Exception):
-    """
-    Error when exchaging tokens with Spotify
-    """
-
-
 class GrantType(Enum):
     """
     The grant type to use when requesting access & refresh tokens
@@ -26,6 +20,16 @@ class GrantType(Enum):
 
     CODE = "authorization_code"
     REFRESH_TOKEN = "refresh_token"
+
+
+class TokenExchangeError(Exception):
+    """
+    Error when exchaging tokens with Spotify
+    """
+
+    def __init__(self, message: str, error_code: int) -> None:
+        self.error_code = error_code
+        super().__init__(message)
 
 
 class TokenExchangeData(BaseModel):
@@ -63,6 +67,7 @@ async def get_new_access_token(
         raise TokenExchangeError(
             f"Unexpected {response.status_code} response from Spotify when "
             f"exchanging tokens: {response.text}",
+            error_code=response.status_code,
         )
 
     try:
@@ -72,5 +77,6 @@ async def get_new_access_token(
         raise TokenExchangeError(
             f"Could not decode response from Spotify when exchanging tokens: "
             f"{err}",
+            error_code=500,
         )
     return exchange_data
