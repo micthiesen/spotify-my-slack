@@ -7,10 +7,10 @@
     "url": "https://github.com/micthiesen/spotify-my-slack"
   },
   "engines": {
-    "node": "12.13.1"
+    "node": "12.14.1"
   },
   "scripts": {
-    "build": "cd frontend && npm install --only=prod && npm install --only=dev && npm run build"
+    "build": "cd frontend && npm install && npm run build"
   },
   "cacheDirectories": [
     "frontend/node_modules"
@@ -23,5 +23,8 @@
     "slack",
     "spotify"
   ],
-  "license": "GPL-3.0-only"
+  "license": "GPL-3.0-only",
+  "dependencies": {
+    "@material-ui/core": "^4.9.1"
+  }
 }
