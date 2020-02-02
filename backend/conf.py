@@ -1,6 +1,8 @@
 """
 Configuration module
 """
+import logging
+
 from pydantic import BaseSettings
 
 
@@ -27,4 +29,5 @@ class Settings(BaseSettings):
     spotify_redirect_uri: str
 
 
+LOGGER = logging.getLogger("backend")
 SETTINGS = Settings()

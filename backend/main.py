@@ -7,21 +7,19 @@ import logging
 import uvicorn
 from fastapi import FastAPI
 
-from backend.conf import SETTINGS
-from backend.routers import frontend
+from backend.conf import LOGGER, SETTINGS
+from backend.routers import frontend, spotify
 from backend.worker import worker_entrypoint
 
 
 APP = FastAPI()
-LOGGER = logging.getLogger("backend")
-
-
 APP.mount(
     frontend.STATIC_FILES_PATH,
     frontend.STATIC_FILES_APP,
     name=frontend.STATIC_FILES_NAME,
 )
 APP.include_router(frontend.ROUTER)
+APP.include_router(spotify.ROUTER)
 
 
 if __name__ == "__main__":
@@ -41,7 +39,9 @@ if __name__ == "__main__":
     CONFIG.setup_event_loop()
     LOOP = asyncio.get_event_loop()
     try:
-        LOOP.run_until_complete(asyncio.gather(SERVER.serve(), worker_entrypoint()))
+        LOOP.run_until_complete(
+            asyncio.gather(SERVER.serve(), worker_entrypoint())
+        )
     finally:
         LOOP.close()
         LOGGER.info("Shutdown successful")
