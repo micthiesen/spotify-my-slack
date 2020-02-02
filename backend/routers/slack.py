@@ -9,6 +9,7 @@ from starlette.requests import Request
 from starlette.responses import RedirectResponse
 
 from backend.config import LOGGER, SETTINGS
+from backend.utils.auth import log_in
 from backend.utils.slack import (
     TokenExchangeData,
     TokenExchangeError,
@@ -54,9 +55,9 @@ async def slack_grant_callback(request: Request, code: Optional[str] = None):
         LOGGER.warning("%s", err)
         return RedirectResponse("/")
 
-    LOGGER.info("Got exchange data from Slack! %s", exchange_data)
     request.session["slack_id"] = exchange_data.user_id
     request.session["slack_access_token"] = exchange_data.access_token
-    # TODO try saving the user
+
+    await log_in(request)
 
     return RedirectResponse("/")

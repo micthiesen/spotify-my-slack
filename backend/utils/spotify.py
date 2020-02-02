@@ -111,7 +111,6 @@ async def get_me(access_token: str) -> MeData:
 
     try:
         me_json = cast(dict, response.json())
-        print(me_json)
         me_data = MeData(**me_json)
     except (ValidationError, ValueError) as err:
         raise SpotifyApiError(
