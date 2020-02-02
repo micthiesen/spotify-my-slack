@@ -10,7 +10,7 @@ if __name__ == "__main__":
     sys.path.append("/spotify-my-slack")
 
     # pylint:disable=unused-import,unused-wildcard-import,wildcard-import
-    from backend.database import SessionLocal
+    from backend.database import DATABASE
     from backend.database.users import User
     from backend.utils.emojis import *
     from backend.utils.slack import *

@@ -9,6 +9,7 @@ from fastapi import FastAPI
 from starlette.middleware.sessions import SessionMiddleware
 
 from backend.conf import LOGGER, SETTINGS
+from backend.database import DATABASE
 from backend.routers import frontend, spotify
 from backend.worker import worker_entrypoint
 
@@ -24,6 +25,22 @@ APP.mount(
 
 APP.include_router(frontend.ROUTER)
 APP.include_router(spotify.ROUTER)
+
+
+@APP.on_event("startup")
+async def startup():
+    """
+    Startup actions
+    """
+    await DATABASE.connect()
+
+
+@APP.on_event("shutdown")
+async def shutdown():
+    """
+    Shutdown actions
+    """
+    await DATABASE.disconnect()
 
 
 if __name__ == "__main__":
