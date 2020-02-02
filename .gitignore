@@ -11,6 +11,7 @@ npm-debug.log*
 .npm
 .eslintcache
 frontend/build/
+frontend/node_modules/
 
 # misc
 *.swp
