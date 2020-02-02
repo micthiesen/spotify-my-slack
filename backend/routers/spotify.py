@@ -11,8 +11,10 @@ from starlette.responses import RedirectResponse
 from backend.config import LOGGER, SETTINGS
 from backend.utils.spotify import (
     GrantType,
+    MeData,
+    SpotifyApiError,
     TokenExchangeData,
-    TokenExchangeError,
+    get_me,
     get_new_access_token,
 )
 
@@ -59,11 +61,19 @@ async def spotify_grant_callback(
         exchange_data: TokenExchangeData = await get_new_access_token(
             cast(str, code), GrantType.CODE  # Checks above ensure code is str
         )
-    except TokenExchangeError as err:
+    except SpotifyApiError as err:
         LOGGER.warning("%s", err)
         return RedirectResponse("/")
 
     LOGGER.info("Got exchange data from Spotify! %s", exchange_data)
+    try:
+        me_data: MeData = await get_me(exchange_data.access_token)
+    except SpotifyApiError as err:
+        LOGGER.warning("%s", err)
+        return RedirectResponse("/")
+
+    LOGGER.info("Got 'me' data from Spotify! %s", me_data)
+    request.session["spotify_id"] = me_data.id
     request.session["spotify_access_token"] = exchange_data.access_token
     request.session["spotify_refresh_token"] = exchange_data.refresh_token
     # TODO try saving the user

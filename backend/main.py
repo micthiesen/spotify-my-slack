@@ -10,7 +10,7 @@ from starlette.middleware.sessions import SessionMiddleware
 
 from backend.config import LOGGER, SETTINGS
 from backend.database import DATABASE
-from backend.routers import frontend, spotify
+from backend.routers import frontend, slack, spotify
 from backend.worker import worker_entrypoint
 
 
@@ -24,6 +24,7 @@ APP.mount(
 )
 
 APP.include_router(frontend.ROUTER)
+APP.include_router(slack.ROUTER)
 APP.include_router(spotify.ROUTER)
 
 

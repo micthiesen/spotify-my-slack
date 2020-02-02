@@ -1,6 +1,8 @@
 """
 User model & CRUD
 """
+from typing import Any, Dict, Optional
+
 import orm
 
 from backend.database import DATABASE, METADATA
@@ -26,3 +28,9 @@ class User(orm.Model):
     updatedAt = orm.DateTime()
     statusSetLastTime = orm.Boolean(default=False)
     useCustomEmojis = orm.Boolean(default=True)
+
+
+def get_or_create_from_session(session: Dict[str, Any]) -> Optional[User]:
+    """
+    Get or create a user based on auth info in their session
+    """

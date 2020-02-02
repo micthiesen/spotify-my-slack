@@ -2,7 +2,7 @@
 Spotify utilities
 """
 from enum import Enum
-from typing import Optional, cast
+from typing import Dict, Optional, cast
 
 import httpx
 from pydantic import BaseModel, ValidationError
@@ -10,7 +10,18 @@ from pydantic import BaseModel, ValidationError
 from backend.config import SETTINGS
 
 
+ME_URI = "https://api.spotify.com/v1/me"
 TOKEN_EXCHANGE_URI = "https://accounts.spotify.com/api/token"
+
+
+class SpotifyApiError(Exception):
+    """
+    Error when accessing the Spotify API
+    """
+
+    def __init__(self, message: str, error_code: int) -> None:
+        self.error_code = error_code
+        super().__init__(message)
 
 
 class GrantType(Enum):
@@ -20,16 +31,6 @@ class GrantType(Enum):
 
     CODE = "authorization_code"
     REFRESH_TOKEN = "refresh_token"
-
-
-class TokenExchangeError(Exception):
-    """
-    Error when exchaging tokens with Spotify
-    """
-
-    def __init__(self, message: str, error_code: int) -> None:
-        self.error_code = error_code
-        super().__init__(message)
 
 
 class TokenExchangeData(BaseModel):
@@ -42,6 +43,17 @@ class TokenExchangeData(BaseModel):
     scope: str
     expires_in: int
     refresh_token: Optional[str] = None
+
+
+class MeData(BaseModel):
+    """
+    Data returned by Spotify after a 'me' request
+    """
+
+    display_name: Optional[str]
+    href: str
+    id: str
+    uri: str
 
 
 async def get_new_access_token(
@@ -64,7 +76,7 @@ async def get_new_access_token(
     async with httpx.AsyncClient() as client:
         response = await client.post(TOKEN_EXCHANGE_URI, data=exchange_args)
     if response.status_code != 200:
-        raise TokenExchangeError(
+        raise SpotifyApiError(
             f"Unexpected {response.status_code} response from Spotify when "
             f"exchanging tokens: {response.text}",
             error_code=response.status_code,
@@ -74,9 +86,44 @@ async def get_new_access_token(
         exchange_json = cast(dict, response.json())
         exchange_data = TokenExchangeData(**exchange_json)
     except (ValidationError, ValueError) as err:
-        raise TokenExchangeError(
+        raise SpotifyApiError(
             f"Could not decode response from Spotify when exchanging tokens: "
             f"{err}",
             error_code=500,
         )
     return exchange_data
+
+
+async def get_me(access_token: str) -> MeData:
+    """
+    Get the currently logged in user
+    """
+    async with httpx.AsyncClient() as client:
+        response = await client.get(
+            ME_URI, headers=_get_auth_headers(access_token)
+        )
+    if response.status_code != 200:
+        raise SpotifyApiError(
+            f"Unexpected {response.status_code} response from Spotify when "
+            f"retrieving 'me': {response.text}",
+            error_code=response.status_code,
+        )
+
+    try:
+        me_json = cast(dict, response.json())
+        print(me_json)
+        me_data = MeData(**me_json)
+    except (ValidationError, ValueError) as err:
+        raise SpotifyApiError(
+            f"Could not decode response from Spotify when retrieving 'me': "
+            f"{err}",
+            error_code=500,
+        )
+    return me_data
+
+
+def _get_auth_headers(access_token: str) -> Dict[str, str]:
+    """
+    Get authorization headers for the Spotify API
+    """
+    return {"Authorization": f"Bearer {access_token}"}
