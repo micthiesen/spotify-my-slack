@@ -1,7 +1,7 @@
 """
 Spotify OAuth grant routes
 """
-from typing import Optional
+from typing import Optional, cast
 from urllib.parse import urlencode
 
 from fastapi.routing import APIRouter
@@ -57,7 +57,7 @@ async def spotify_grant_callback(
 
     try:
         exchange_data: TokenExchangeData = await get_new_access_token(
-            code, GrantType.CODE
+            cast(str, code), GrantType.CODE  # Checks above ensure code is str
         )
     except TokenExchangeError as err:
         LOGGER.warning("%s", err)

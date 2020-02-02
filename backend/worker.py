@@ -12,6 +12,7 @@ async def do_fake_work(index, sleep):
     """
     Fake work function
     """
+    del index
     # LOGGER.info("Finished work for %s", index)
     await asyncio.sleep(sleep)
 

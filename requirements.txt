@@ -4,5 +4,6 @@ email_validator==1.0.5
 fastapi==0.47.1
 httpx==0.11.1
 itsdangerous==1.1.0
+orm==0.1.5
 uvicorn==0.11.2
 uvloop==0.14.0
