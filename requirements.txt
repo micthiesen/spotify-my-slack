@@ -1,4 +1,5 @@
 aiofiles==0.4.0
+databases[postgresql]==0.2.6
 email_validator==1.0.5
 fastapi==0.47.1
 httpx==0.11.1

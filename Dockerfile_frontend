@@ -2,7 +2,7 @@ FROM node:12.13.1
 
 RUN mkdir /frontend
 
-COPY package.json package-lock.json /.build-deps/
+COPY frontend/package.json frontend/package-lock.json /.build-deps/
 WORKDIR /.build-deps/
 RUN npm install
 RUN mv /.build-deps/node_modules /frontend/node_modules

@@ -3,12 +3,11 @@ services:
   backend:
     build:
       context: .
-      dockerfile: backend/Dockerfile_local
+      dockerfile: Dockerfile_backend
     depends_on:
       - postgres
-      - redis
     env_file:
-      - backend/.env
+      - .env
     volumes:
       - .:/spotify-my-slack
     networks:
@@ -18,8 +17,8 @@ services:
     init: true
   frontend:
     build:
-      context: frontend
-      dockerfile: Dockerfile_local
+      context: .
+      dockerfile: Dockerfile_frontend
     volumes:
       - ./frontend:/frontend
       - /frontend/node_modules/
