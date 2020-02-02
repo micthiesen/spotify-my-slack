@@ -1,7 +1,8 @@
 """
 Spotify utilities
 """
-from typing import cast
+from enum import Enum
+from typing import Optional, cast
 
 import httpx
 from pydantic import BaseModel, ValidationError
@@ -18,6 +19,15 @@ class TokenExchangeError(Exception):
     """
 
 
+class GrantType(Enum):
+    """
+    The grant type to use when requesting access & refresh tokens
+    """
+
+    CODE = "authorization_code"
+    REFRESH_TOKEN = "refresh_token"
+
+
 class TokenExchangeData(BaseModel):
     """
     Data returned by Spotify after exchanging tokens
@@ -27,20 +37,26 @@ class TokenExchangeData(BaseModel):
     token_type: str
     scope: str
     expires_in: int
-    refresh_token: str
+    refresh_token: Optional[str] = None
 
 
-async def exchange_code_for_tokens(code: str) -> TokenExchangeData:
+async def get_new_access_token(
+    code_or_refresh_token: str, grant_type: GrantType
+) -> TokenExchangeData:
     """
-    Exchange an authorization code for an access & refresh token
+    Exchange a code or refresh token for a new access & refresh token
     """
     exchange_args = {
-        "grant_type": "authorization_code",
-        "code": code,
-        "redirect_uri": SETTINGS.spotify_redirect_uri,
         "client_id": SETTINGS.spotify_client_id,
         "client_secret": SETTINGS.spotify_client_secret,
+        "grant_type": grant_type.value,
+        "redirect_uri": SETTINGS.spotify_redirect_uri,
     }
+    if grant_type == GrantType.CODE:
+        exchange_args["code"] = code_or_refresh_token
+    elif grant_type == GrantType.REFRESH_TOKEN:
+        exchange_args["refresh_token"] = code_or_refresh_token
+
     async with httpx.AsyncClient() as client:
         response = await client.post(TOKEN_EXCHANGE_URI, data=exchange_args)
     if response.status_code != 200:

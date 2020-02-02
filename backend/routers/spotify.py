@@ -8,7 +8,11 @@ from fastapi.routing import APIRouter
 from starlette.responses import RedirectResponse
 
 from backend.conf import LOGGER, SETTINGS
-from backend.utils.spotify import TokenExchangeError, exchange_code_for_tokens
+from backend.utils.spotify import (
+    GrantType,
+    TokenExchangeError,
+    get_new_access_token,
+)
 
 
 AUTHORIZE_SCOPES = [
@@ -50,7 +54,7 @@ async def spotify_grant_callback(
         return RedirectResponse("/")
 
     try:
-        exchange_data = await exchange_code_for_tokens(code=code)
+        exchange_data = await get_new_access_token(code, GrantType.CODE)
     except TokenExchangeError as err:
         LOGGER.warning("%s", err)
         return RedirectResponse("/")
