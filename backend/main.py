@@ -18,7 +18,7 @@ APP = FastAPI()
 
 # Temporary hack to allow access to the cookie within the frontend
 APP.add_middleware(SessionMiddleware, secret_key=SETTINGS.sss_secret_key)
-APP.error_middleware.app.security_flags = "samesite=lax" # type:ignore
+APP.error_middleware.app.security_flags = "samesite=lax"  # type:ignore
 
 APP.mount(
     frontend.STATIC_FILES_PATH,

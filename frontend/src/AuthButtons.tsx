@@ -1,12 +1,12 @@
 import Button from "@material-ui/core/Button";
 import React from "react";
 import "./AuthButtons.scss";
-import { getSessionData } from "./utils/auth";
+import { getSessionData, isAuthenticated } from "./utils/auth";
 
 const AuthButtons: React.FC = () => {
   const session = getSessionData();
   const buttons: React.ReactNode[] = [];
-  if (session?.user_id) {
+  if (isAuthenticated()) {
     buttons.push(
       <Button key="monitor-message" variant="contained" disabled>
         Your status is being monitored

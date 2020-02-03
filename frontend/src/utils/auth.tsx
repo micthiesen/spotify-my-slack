@@ -22,3 +22,8 @@ export const getSessionData = () => {
     return null;
   }
 };
+
+export const isAuthenticated = () => {
+  const session = getSessionData();
+  return session?.user_id ? true : false;
+};

@@ -37,18 +37,21 @@ $button-spacing: 0.5rem;
   padding-bottom: $content-spacing;
   padding-right: $content-spacing;
 }
-.App__container__content .App__container__content_h {
+.App__container__content > .App__container__content_h {
   letter-spacing: normal;
 }
-.App__container__content .MuiTypography-root {
+.App__container__content > .MuiTypography-root {
   margin: $content-spacing 0;
   &:first-of-type {
     margin-top: 0;
   }
 }
-.App__container__content .App__container__content_p {
+.App__container__content > .App__container__content_p {
   // This is the last item before the buttons
   margin-bottom: $content-spacing - $button-spacing;
+}
+.App__container__content > .UserSettings {
+  margin-top: $content-spacing;
 }
 .App footer {
   margin: $container-spacing 0;

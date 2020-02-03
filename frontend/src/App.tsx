@@ -8,6 +8,8 @@ import {
 import React from "react";
 import "./App.scss";
 import AuthButtons from "./AuthButtons";
+import UserSettings from "./UserSettings";
+import { isAuthenticated } from "./utils/auth";
 
 const App: React.FC = () => {
   return (
@@ -24,15 +26,20 @@ const App: React.FC = () => {
       <Container className="App__container" maxWidth={false}>
         <Paper className="App__container__content" elevation={4}>
           <Typography className="App__container__content_h" variant="h4">
-            Connect your Spotify and Slack accounts
+            {isAuthenticated()
+              ? "Setup complete. Spotify 🔀 Slack"
+              : "Connect your Spotify and Slack accounts"}
           </Typography>
           <Typography className="App__container__content_p">
             Show what's currently playing on Spotify as your Slack status. As an
             optional bonus, status emojis can be set based on the song and
-            artist name. Sign in with your Spotify and Slack accounts to get
-            started.
+            artist name.
+            {isAuthenticated()
+              ? null
+              : " Sign in with your Spotify and Slack accounts to get started"}
           </Typography>
           <AuthButtons />
+          <UserSettings />
         </Paper>
         <footer>
           <Typography align="center">
