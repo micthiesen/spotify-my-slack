@@ -5,9 +5,9 @@ import {
   Toolbar,
   Typography
 } from "@material-ui/core";
-import Button from "@material-ui/core/Button";
 import React from "react";
 import "./App.scss";
+import AuthButtons from "./AuthButtons";
 
 const App: React.FC = () => {
   return (
@@ -32,15 +32,7 @@ const App: React.FC = () => {
             artist name. Sign in with your Spotify and Slack accounts to get
             started.
           </Typography>
-          <Button variant="contained" color="primary" href="/spotify-grant">
-            Connect Spotify
-          </Button>
-          <Button variant="contained" color="secondary" href="/slack-grant">
-            Connect Slack
-          </Button>
-          <Button variant="text" href="/sign-out">
-            Sign Out
-          </Button>
+          <AuthButtons />
         </Paper>
         <footer>
           <Typography align="center">

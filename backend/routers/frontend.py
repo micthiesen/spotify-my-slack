@@ -9,8 +9,6 @@ from starlette.requests import Request
 from starlette.responses import Response
 from starlette.types import Scope
 
-from backend.config import LOGGER
-
 
 class StaticFilesLocal(StaticFiles):
     """
@@ -46,7 +44,6 @@ async def frontend_index(request: Request):
     """
     Return the entrypoint for the frontend SPA. Never cache this
     """
-    LOGGER.debug("Frontend SPA requested [%s]", request.client)
     return FileResponse(
         "frontend/build/index.html", headers={"Cache-Control": "no-store"}
     )

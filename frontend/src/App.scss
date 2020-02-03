@@ -50,13 +50,6 @@ $button-spacing: 0.5rem;
   // This is the last item before the buttons
   margin-bottom: $content-spacing - $button-spacing;
 }
-.App .MuiButton-root {
-  margin-top: 0.5rem;
-  margin-right: 0.5rem;
-  &:last-of-type {
-    margin-right: 0;
-  }
-}
 .App footer {
   margin: $container-spacing 0;
   a {

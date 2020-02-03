@@ -2,6 +2,7 @@
 Configuration module
 """
 import logging
+from typing import Optional
 
 from pydantic import BaseSettings
 
@@ -11,8 +12,8 @@ class Settings(BaseSettings):
     Backend settings
     """
 
-    debug: bool
-    new_relic_enabled: bool
+    debug: Optional[bool] = False
+    new_relic_enabled: Optional[bool] = False
     port: int
     sss_secret_key: str
     update_loop_default_interval: int
