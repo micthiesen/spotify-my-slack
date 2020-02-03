@@ -5,8 +5,11 @@ import os
 
 from fastapi.routing import APIRouter
 from starlette.staticfiles import FileResponse, StaticFiles
+from starlette.requests import Request
 from starlette.responses import Response
 from starlette.types import Scope
+
+from backend.config import LOGGER
 
 
 class StaticFilesLocal(StaticFiles):
@@ -39,10 +42,11 @@ ROUTER = APIRouter()
 
 
 @ROUTER.get("/")
-async def frontend_index():
+async def frontend_index(request: Request):
     """
     Return the entrypoint for the frontend SPA. Never cache this
     """
+    LOGGER.debug("Frontend SPA requested [%s]", request.client)
     return FileResponse(
         "frontend/build/index.html", headers={"Cache-Control": "no-store"}
     )

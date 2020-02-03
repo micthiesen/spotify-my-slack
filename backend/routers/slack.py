@@ -9,7 +9,7 @@ from starlette.requests import Request
 from starlette.responses import RedirectResponse
 
 from backend.config import LOGGER, SETTINGS
-from backend.utils.auth import log_in
+from backend.utils.auth import sign_in
 from backend.utils.slack import (
     TokenExchangeData,
     TokenExchangeError,
@@ -23,7 +23,7 @@ ROUTER = APIRouter()
 
 
 @ROUTER.get("/slack-grant")
-async def slack_grant():
+async def slack_grant(request: Request):
     """
     Slack grant redirect (request access token)
     """
@@ -33,6 +33,7 @@ async def slack_grant():
         "scope": " ".join(AUTHORIZE_SCOPES),
         "redirect_uri": SETTINGS.slack_redirect_uri,
     }
+    LOGGER.debug("Slack grant redirect initiated [%s]", request.client)
     return RedirectResponse(
         f"{AUTHORIZE_URI}?{urlencode(grant_args, doseq=True)}"
     )
@@ -58,6 +59,7 @@ async def slack_grant_callback(request: Request, code: Optional[str] = None):
     request.session["slack_id"] = exchange_data.user_id
     request.session["slack_access_token"] = exchange_data.access_token
 
-    await log_in(request)
+    await sign_in(request)
 
+    LOGGER.debug("Slack grant callback successful [%s]", request.client)
     return RedirectResponse("/")

@@ -10,7 +10,7 @@ from starlette.requests import Request
 from starlette.responses import RedirectResponse
 
 from backend.config import LOGGER, SETTINGS
-from backend.utils.auth import log_in
+from backend.utils.auth import sign_in
 from backend.utils.spotify import (
     GrantType,
     MeData,
@@ -30,7 +30,7 @@ ROUTER = APIRouter()
 
 
 @ROUTER.get("/spotify-grant")
-async def spotify_grant():
+async def spotify_grant(request: Request):
     """
     Spotify grant redirect (request access & refresh tokens)
     """
@@ -41,6 +41,7 @@ async def spotify_grant():
         "scope": AUTHORIZE_SCOPES,
         "redirect_uri": SETTINGS.spotify_redirect_uri,
     }
+    LOGGER.debug("Spotify grant redirect initiated [%s]", request.client)
     return RedirectResponse(
         f"{AUTHORIZE_URI}?{urlencode(grant_args, doseq=True)}"
     )
@@ -81,6 +82,7 @@ async def spotify_grant_callback(
     request.session["spotify_access_token"] = exchange_data.access_token
     request.session["spotify_refresh_token"] = exchange_data.refresh_token
 
-    await log_in(request)
+    await sign_in(request)
 
+    LOGGER.debug("Spotify grant callback successful [%s]", request.client)
     return RedirectResponse("/")

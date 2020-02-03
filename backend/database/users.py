@@ -2,7 +2,7 @@
 User model & CRUD
 """
 from datetime import datetime, timezone
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, Tuple
 
 import orm
 from pydantic import BaseModel, ValidationError
@@ -49,15 +49,16 @@ class FullSession(BaseModel):
 @DATABASE.transaction()
 async def get_or_create_from_session(
     session: Dict[str, Any]
-) -> Optional[User]:
+) -> Tuple[Optional[User], bool]:
     """
     Get or create a user based on auth info in their session
     """
+    created = False
     now = datetime.now(timezone.utc)
     try:
         full_session = FullSession(**session)
     except ValidationError:
-        return None
+        return (None, created)
 
     try:
         user = await User.objects.get(
@@ -71,7 +72,7 @@ async def get_or_create_from_session(
         )
         user = None
     except orm.exceptions.NoMatch:
-        # TODO: include Spotify refresh token expiry
+        created = True
         user = await User.objects.create(
             slackId=full_session.slack_id,
             slackAccessToken=full_session.slack_access_token,
@@ -83,7 +84,6 @@ async def get_or_create_from_session(
             updatedAt=now,
         )
     else:
-        # TODO: include Spotify refresh token expiry
         await user.update(
             slackAccessToken=full_session.slack_access_token,
             spotifyExpiresAt=full_session.spotify_expires_at,
@@ -92,4 +92,4 @@ async def get_or_create_from_session(
             updatedAt=now,
         )
 
-    return user
+    return (user, created)

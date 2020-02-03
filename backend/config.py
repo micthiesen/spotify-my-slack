@@ -28,5 +28,6 @@ class Settings(BaseSettings):
     spotify_redirect_uri: str
 
 
-LOGGER = logging.getLogger("backend")
 SETTINGS = Settings()
+LOGGER = logging.getLogger("backend")
+LOGGER.setLevel(logging.DEBUG if SETTINGS.debug else logging.INFO)

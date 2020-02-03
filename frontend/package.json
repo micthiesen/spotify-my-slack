@@ -8,9 +8,10 @@
     "lint:eslint": "eslint \"{scripts,src}/**/*.{js,jsx,ts,tsx}\"",
     "lint:prettier": "prettier --check \"{client/{scripts,src},scripts,server/src}/**/*.{js,jsx,ts,tsx}\"",
     "start": "scripts/start.js",
-    "test": "react-scripts test"
+    "test": "react-scripts test --passWithNoTests"
   },
   "dependencies": {
+    "@material-ui/core": "^4.9.1",
     "@material-ui/icons": "^4.9.1",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
