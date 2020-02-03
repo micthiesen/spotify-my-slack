@@ -1,38 +1,66 @@
+$container-spacing: 2rem;
+$content-spacing: 1.5rem;
+$button-spacing: 0.5rem;
+
 .App {
-  text-align: center;
+  position: relative;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.App__backdrop {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 16rem;
+  background: #1db954;
+  z-index: -1;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+.App__bar {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.App__bar__title {
+  color: #757575;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  span {
+    color: #424242;
+    margin-right: 1rem;
   }
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.App__container {
+  max-width: 730px;
 }
-
-.App-link {
-  color: #61dafb;
+.App__container__content {
+  margin: $container-spacing 0;
+  padding-top: $content-spacing + 0.5rem;
+  padding-left: $content-spacing;
+  padding-bottom: $content-spacing;
+  padding-right: $content-spacing;
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.App__container__content .App__container__content_h {
+  letter-spacing: normal;
+}
+.App__container__content .MuiTypography-root {
+  margin: $content-spacing 0;
+  &:first-of-type {
+    margin-top: 0;
   }
-  to {
-    transform: rotate(360deg);
+}
+.App__container__content .App__container__content_p {
+  // This is the last item before the buttons
+  margin-bottom: $content-spacing - $button-spacing;
+}
+.App .MuiButton-root {
+  margin-top: 0.5rem;
+  margin-right: 0.5rem;
+  &:last-of-type {
+    margin-right: 0;
+  }
+}
+.App footer {
+  margin: $container-spacing 0;
+  a {
+    text-decoration: none;
+    color: inherit;
   }
 }
