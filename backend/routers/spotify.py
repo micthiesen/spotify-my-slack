@@ -38,7 +38,7 @@ async def spotify_grant(request: Request):
     grant_args = {
         "client_id": SETTINGS.spotify_client_id,
         "response_type": "code",
-        "scope": AUTHORIZE_SCOPES,
+        "scope": " ".join(AUTHORIZE_SCOPES),
         "redirect_uri": SETTINGS.spotify_redirect_uri,
     }
     LOGGER.debug("Spotify grant redirect initiated [%s]", request.client)

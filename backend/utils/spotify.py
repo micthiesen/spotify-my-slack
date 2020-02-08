@@ -2,7 +2,7 @@
 Spotify utilities
 """
 from enum import Enum
-from typing import Optional
+from typing import List, Optional
 
 from pydantic import BaseModel
 
@@ -83,16 +83,75 @@ async def get_me(access_token: str) -> MeData:
     return await MAKE_REQUEST("GET", ME_URI, MeData, access_token=access_token)
 
 
+class Device(BaseModel):
+    """
+    A Spotify device
+    """
+
+    id: Optional[str]
+    is_active: bool
+    name: str
+    type: str
+
+
+class Album(BaseModel):
+    """
+    A Spotify album
+    """
+
+    album_type: str
+    id: str
+    name: str
+    uri: str
+
+
+class Artist(BaseModel):
+    """
+    A Spotify artist
+    """
+
+    id: str
+    name: str
+    uri: str
+
+
+class TrackItem(BaseModel):
+    """
+    A Spotify track being played
+    """
+
+    album: Album
+    artists: List[Artist]
+    duration_ms: int
+    explicit: bool
+    id: str
+    name: str
+    popularity: int
+    preview_url: str
+    uri: str
+    is_local: bool
+
+
 class PlayerData(BaseModel):
     """
     Data returned by Spotify after a 'player' request
     """
 
+    device: Device
+    progress_ms: Optional[int]
+    is_playing: bool
+    item: Optional[TrackItem]
 
-async def get_player(access_token: str) -> PlayerData:
+
+async def get_player(access_token: str) -> Optional[PlayerData]:
     """
     Get information about the user's current player state
     """
-    return await MAKE_REQUEST(
-        "GET", PLAYER_URI, PlayerData, access_token=access_token
-    )
+    try:
+        return await MAKE_REQUEST(
+            "GET", PLAYER_URI, PlayerData, access_token=access_token
+        )
+    except SpotifyApiError as err:
+        if err.error_code == 204:
+            return None
+        raise
