@@ -11,8 +11,8 @@ from starlette.responses import RedirectResponse
 from backend.config import LOGGER, SETTINGS
 from backend.utils.auth import sign_in
 from backend.utils.slack import (
+    SlackApiError,
     TokenExchangeData,
-    TokenExchangeError,
     get_new_access_token,
 )
 
@@ -52,7 +52,7 @@ async def slack_grant_callback(request: Request, code: Optional[str] = None):
 
     try:
         exchange_data: TokenExchangeData = await get_new_access_token(code,)
-    except TokenExchangeError as err:
+    except SlackApiError as err:
         LOGGER.warning("%s", err)
         return RedirectResponse("/")
 

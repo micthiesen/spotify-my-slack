@@ -2,29 +2,24 @@
 Spotify utilities
 """
 from enum import Enum
-from typing import Optional, Type, TypeVar, cast
+from typing import Optional
 
-import httpx
-from pydantic import BaseModel, ValidationError
+from pydantic import BaseModel
 
 from backend.config import SETTINGS
+from backend.utils.http import BaseApiError, gen_make_request
 
 
-ME_URI = "https://api.spotify.com/v1/me"
-PLAYER_URI = "https://api.spotify.com/v1/me/player"
-TOKEN_EXCHANGE_URI = "https://accounts.spotify.com/api/token"
-
-T = TypeVar("T", bound=BaseModel)  # pylint:disable=invalid-name
-
-
-class SpotifyApiError(Exception):
+class SpotifyApiError(BaseApiError):
     """
     Error when accessing the Spotify API
     """
 
-    def __init__(self, message: str, error_code: int) -> None:
-        self.error_code = error_code
-        super().__init__(message)
+
+MAKE_REQUEST = gen_make_request("Spotify", SpotifyApiError)
+ME_URI = "https://api.spotify.com/v1/me"
+PLAYER_URI = "https://api.spotify.com/v1/me/player"
+TOKEN_EXCHANGE_URI = "https://accounts.spotify.com/api/token"
 
 
 class GrantType(Enum):
@@ -65,7 +60,7 @@ async def get_new_access_token(
     elif grant_type == GrantType.REFRESH_TOKEN:
         exchange_args["refresh_token"] = code_or_refresh_token
 
-    return await _make_request(
+    return await MAKE_REQUEST(
         "POST", TOKEN_EXCHANGE_URI, TokenExchangeData, data=exchange_args
     )
 
@@ -85,9 +80,7 @@ async def get_me(access_token: str) -> MeData:
     """
     Get the currently logged in user
     """
-    return await _make_request(
-        "GET", ME_URI, MeData, access_token=access_token
-    )
+    return await MAKE_REQUEST("GET", ME_URI, MeData, access_token=access_token)
 
 
 class PlayerData(BaseModel):
@@ -100,45 +93,6 @@ async def get_player(access_token: str) -> PlayerData:
     """
     Get information about the user's current player state
     """
-    return await _make_request(
+    return await MAKE_REQUEST(
         "GET", PLAYER_URI, PlayerData, access_token=access_token
     )
-
-
-async def _make_request(
-    method: str,
-    uri: str,
-    model: Type[T],
-    *,
-    access_token: Optional[str] = None,
-    data: Optional[httpx.models.RequestData] = None,
-) -> T:
-    """
-    Make a Spotify API request with error handling etc.
-    """
-    headers = (
-        {}
-        if access_token is None
-        else {"Authorization": f"Bearer {access_token}"}
-    )
-    async with httpx.AsyncClient() as client:
-        response = await client.request(
-            method, uri, data=data, headers=headers
-        )
-    if response.status_code != 200:
-        raise SpotifyApiError(
-            f"Unexpected {response.status_code} response from Spotify when "
-            f"retrieving '{model.__name__}': {response.text}",
-            error_code=response.status_code,
-        )
-
-    try:
-        response_json = cast(dict, response.json())
-        response_data = model(**response_json)
-    except (ValidationError, ValueError) as err:
-        raise SpotifyApiError(
-            f"Could not decode response from Spotify when retrieving "
-            f"'{model.__name__}': {err}",
-            error_code=500,
-        )
-    return response_data
