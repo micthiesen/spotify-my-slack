@@ -2,7 +2,7 @@
 Spotify utilities
 """
 from enum import Enum
-from typing import Dict, Optional, cast
+from typing import Optional, Type, TypeVar, cast
 
 import httpx
 from pydantic import BaseModel, ValidationError
@@ -11,7 +11,10 @@ from backend.config import SETTINGS
 
 
 ME_URI = "https://api.spotify.com/v1/me"
+PLAYER_URI = "https://api.spotify.com/v1/me/player"
 TOKEN_EXCHANGE_URI = "https://accounts.spotify.com/api/token"
+
+T = TypeVar("T", bound=BaseModel)  # pylint:disable=invalid-name
 
 
 class SpotifyApiError(Exception):
@@ -45,17 +48,6 @@ class TokenExchangeData(BaseModel):
     refresh_token: Optional[str] = None
 
 
-class MeData(BaseModel):
-    """
-    Data returned by Spotify after a 'me' request
-    """
-
-    display_name: Optional[str]
-    href: str
-    id: str
-    uri: str
-
-
 async def get_new_access_token(
     code_or_refresh_token: str, grant_type: GrantType
 ) -> TokenExchangeData:
@@ -73,56 +65,80 @@ async def get_new_access_token(
     elif grant_type == GrantType.REFRESH_TOKEN:
         exchange_args["refresh_token"] = code_or_refresh_token
 
-    async with httpx.AsyncClient() as client:
-        response = await client.post(TOKEN_EXCHANGE_URI, data=exchange_args)
-    if response.status_code != 200:
-        raise SpotifyApiError(
-            f"Unexpected {response.status_code} response from Spotify when "
-            f"exchanging tokens: {response.text}",
-            error_code=response.status_code,
-        )
+    return await _make_request(
+        "POST", TOKEN_EXCHANGE_URI, TokenExchangeData, data=exchange_args
+    )
 
-    try:
-        exchange_json = cast(dict, response.json())
-        exchange_data = TokenExchangeData(**exchange_json)
-    except (ValidationError, ValueError) as err:
-        raise SpotifyApiError(
-            f"Could not decode response from Spotify when exchanging tokens: "
-            f"{err}",
-            error_code=500,
-        )
-    return exchange_data
+
+class MeData(BaseModel):
+    """
+    Data returned by Spotify after a 'me' request
+    """
+
+    display_name: Optional[str]
+    href: str
+    id: str
+    uri: str
 
 
 async def get_me(access_token: str) -> MeData:
     """
     Get the currently logged in user
     """
+    return await _make_request(
+        "GET", ME_URI, MeData, access_token=access_token
+    )
+
+
+class PlayerData(BaseModel):
+    """
+    Data returned by Spotify after a 'player' request
+    """
+
+
+async def get_player(access_token: str) -> PlayerData:
+    """
+    Get information about the user's current player state
+    """
+    return await _make_request(
+        "GET", PLAYER_URI, PlayerData, access_token=access_token
+    )
+
+
+async def _make_request(
+    method: str,
+    uri: str,
+    model: Type[T],
+    *,
+    access_token: Optional[str] = None,
+    data: Optional[httpx.models.RequestData] = None,
+) -> T:
+    """
+    Make a Spotify API request with error handling etc.
+    """
+    headers = (
+        {}
+        if access_token is None
+        else {"Authorization": f"Bearer {access_token}"}
+    )
     async with httpx.AsyncClient() as client:
-        response = await client.get(
-            ME_URI, headers=_get_auth_headers(access_token)
+        response = await client.request(
+            method, uri, data=data, headers=headers
         )
     if response.status_code != 200:
         raise SpotifyApiError(
             f"Unexpected {response.status_code} response from Spotify when "
-            f"retrieving 'me': {response.text}",
+            f"retrieving '{model.__name__}': {response.text}",
             error_code=response.status_code,
         )
 
     try:
-        me_json = cast(dict, response.json())
-        me_data = MeData(**me_json)
+        response_json = cast(dict, response.json())
+        response_data = model(**response_json)
     except (ValidationError, ValueError) as err:
         raise SpotifyApiError(
-            f"Could not decode response from Spotify when retrieving 'me': "
-            f"{err}",
+            f"Could not decode response from Spotify when retrieving "
+            f"'{model.__name__}': {err}",
             error_code=500,
         )
-    return me_data
-
-
-def _get_auth_headers(access_token: str) -> Dict[str, str]:
-    """
-    Get authorization headers for the Spotify API
-    """
-    return {"Authorization": f"Bearer {access_token}"}
+    return response_data
