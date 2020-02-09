@@ -62,13 +62,14 @@ if __name__ == "__main__":
     logging.basicConfig(level=2, format="%(levelname)-9s %(message)s")
     try:
         uvicorn.run(
-            "backend.main:APP",
+            APP,
             host="0.0.0.0",
             port=SETTINGS.port,
             lifespan="on",
             loop="uvloop",
             log_level="info",
             use_colors=True,
+            workers=1,
         )
     except asyncio.CancelledError:
         pass
