@@ -20,9 +20,17 @@ class BaseApiError(Exception):
     def __init__(
         self, message: str, error_code: int, retry_after: Optional[int] = None
     ) -> None:
+        self.message = message
         self.error_code = error_code
         self.retry_after = retry_after
         super().__init__(message)
+
+    def __str__(self):
+        string = f"[{self.error_code}] {self.message}"
+        if self.retry_after is not None:
+            return f"{string} (retry-after {self.retry_after}s)"
+        else:
+            return string
 
 
 def gen_make_request(

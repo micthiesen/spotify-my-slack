@@ -57,8 +57,7 @@ async def _update_user(user: User) -> None:
             "refresh token is available :(",
             user.id,
         )
-        LOGGER.warning("Pretend delete for now")  # TODO
-        # await user.delete()
+        await user.delete()
         return
 
     if spotify_token_expired:
@@ -182,8 +181,7 @@ async def worker_entrypoint() -> None:
     The entrypoint for the worker. Currently a stub
     """
     # pylint:disable=protected-access
-    print(DATABASE._global_connection)
-    DATABASE._connection_context = ContextVar("connection_context")
+    DATABASE._connection_context = ContextVar("connection_context")  # Hack :(
     sem = asyncio.Semaphore(SETTINGS.worker_coroutines)
     while True:
         LOGGER.debug("Starting global update loop")
