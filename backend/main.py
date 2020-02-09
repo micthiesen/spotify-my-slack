@@ -37,8 +37,7 @@ async def startup():
     """
     Startup actions
     """
-    await DATABASE.connect()
-    asyncio.create_task(worker_entrypoint())
+    pass
 
 
 @APP.on_event("shutdown")
@@ -61,15 +60,24 @@ async def shutdown():
 
 if __name__ == "__main__":
     logging.basicConfig(level=2, format="%(levelname)-9s %(message)s")
+    CONFIG = uvicorn.Config(
+        "backend.main:APP",
+        host="0.0.0.0",
+        port=SETTINGS.port,
+        lifespan="on",
+        loop="uvloop",
+        log_level="info",
+        use_colors=True,
+    )
+    SERVER = uvicorn.Server(config=CONFIG)
+    CONFIG.setup_event_loop()
+    LOOP = asyncio.get_event_loop()
+
+    LOOP.run_until_complete(DATABASE.connect())
     try:
-        uvicorn.run(
-            "backend.main:APP",
-            host="0.0.0.0",
-            port=SETTINGS.port,
-            lifespan="on",
-            loop="uvloop",
-            log_level="info",
-            use_colors=True,
+        LOOP.run_until_complete(
+            asyncio.gather(SERVER.serve(), worker_entrypoint())
         )
-    except asyncio.CancelledError:
-        pass
+    finally:
+        LOOP.close()
+        LOGGER.info("Shutdown successful")

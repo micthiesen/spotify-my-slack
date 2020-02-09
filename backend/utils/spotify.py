@@ -128,7 +128,6 @@ class TrackItem(BaseModel):
     id: str
     name: str
     popularity: int
-    preview_url: str
     uri: str
     is_local: bool
 
