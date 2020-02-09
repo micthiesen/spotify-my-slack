@@ -18,10 +18,15 @@ class BaseApiError(Exception):
     """
 
     def __init__(
-        self, message: str, error_code: int, retry_after: Optional[int] = None
+        self,
+        message: str,
+        error_code: int,
+        response: httpx.Response,
+        retry_after: Optional[int] = None,
     ) -> None:
         self.message = message
         self.error_code = error_code
+        self.response = response
         self.retry_after = retry_after
         super().__init__(message)
 
@@ -29,8 +34,16 @@ class BaseApiError(Exception):
         string = f"[{self.error_code}] {self.message}"
         if self.retry_after is not None:
             return f"{string} (retry-after {self.retry_after}s)"
-        else:
-            return string
+        return string
+
+    def response_json(self) -> dict:
+        """
+        Return JSON from the response. Assume dict format
+        """
+        try:
+            return cast(dict, self.response.json())
+        except ValueError:
+            return {}
 
 
 def gen_make_request(
@@ -86,6 +99,7 @@ async def _make_request_base(
             f"Unexpected {response.status_code} response from {service_name} "
             f"when retrieving '{model.__name__}': {response.text}",
             error_code=response.status_code,
+            response=response,
             retry_after=retry_after,
         )
 
@@ -97,5 +111,6 @@ async def _make_request_base(
             f"Could not decode response from {service_name} when retrieving "
             f"'{model.__name__}': {err}",
             error_code=500,
+            response=response,
         )
     return response_data

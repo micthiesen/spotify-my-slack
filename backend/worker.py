@@ -120,6 +120,14 @@ async def _update_spotify_tokens(user: User) -> bool:
             user.id,
             err,
         )
+        err_dict = err.response_json()
+        if err_dict.get("error_description") == "Refresh token revoked":
+            LOGGER.warning(
+                "Deleting user %s as their Spotify refresh token is revoked "
+                "and we have no way to recover :(",
+                user.id,
+            )
+            await user.delete()
         return False
     await user.update(
         spotifyExpiresAt=calc_spotify_expiry(exchange_data.expires_in),
