@@ -35,7 +35,7 @@ from backend.utils.spotify import (
 UPDATE_THRESHOLD = datetime.now(timezone.utc)
 
 
-async def _update_user(user: User) -> None:
+async def _update_user(user: User, attempt: int = 1) -> None:
     """
     Update a single user
     """
@@ -78,13 +78,16 @@ async def _update_user(user: User) -> None:
                 err,
             )
         else:
+            retry_after_final = err.retry_after + 2
             UPDATE_THRESHOLD = datetime.now(timezone.utc) + timedelta(
-                seconds=err.retry_after
+                seconds=retry_after_final
             )
             LOGGER.debug(
-                "Exiting update loop. Spotify is throttling for %ss",
-                err.retry_after,
+                "Retrying update loop (%s). Spotify is throttling for %ss",
+                attempt,
+                retry_after_final,
             )
+            await _update_user(user=user, attempt=attempt + 1)
         return
     if player is not None and player.item is not None and player.is_playing:
         user_profile_args = UserProfileArgs(
