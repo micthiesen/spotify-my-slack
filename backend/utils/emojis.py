@@ -398,6 +398,6 @@ def get_custom_emoji(user: User, track: TrackItem) -> str:
     strings_to_check = [track.name, *[a.name for a in track.artists]]
     for string in strings_to_check:
         for alias, emoji in EMOJI_MAP.items():
-            if re.match(rf"\b{alias}\b", string):
+            if re.match(rf"\b{alias}\b", string, re.IGNORECASE):
                 return emoji
     return get_default_emoji(track)
