@@ -176,3 +176,4 @@ async def worker_entrypoint() -> None:
             for user in await User.objects.filter(id__gte=7769).all()
         ]
         await asyncio.gather(*update_tasks)
+        await asyncio.sleep(5)

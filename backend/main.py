@@ -43,6 +43,9 @@ async def shutdown():
     """
     Shutdown actions
     """
+    # pylint:disable=import-outside-toplevel
+    from backend.database import DATABASE
+
     current_task = asyncio.current_task()
     other_tasks = [t for t in asyncio.all_tasks() if t is not current_task]
     LOGGER.info("Cancelling %s outstanding tasks", len(other_tasks))
@@ -56,6 +59,19 @@ async def shutdown():
     asyncio.get_event_loop().stop()
 
 
+async def main_entrypoint(config: uvicorn.Config):
+    """
+    Cool entrypoint
+    """
+    # pylint:disable=import-outside-toplevel
+    from backend.database import DATABASE
+
+    await DATABASE.connect()
+    server = uvicorn.Server(config=config)
+
+    await asyncio.gather(server.serve(), worker_entrypoint())
+
+
 if __name__ == "__main__":
     logging.basicConfig(level=2, format="%(levelname)-9s %(message)s")
     CONFIG = uvicorn.Config(
@@ -67,17 +83,9 @@ if __name__ == "__main__":
         log_level="info",
         use_colors=True,
     )
-    SERVER = uvicorn.Server(config=CONFIG)
     CONFIG.setup_event_loop()
     LOOP = asyncio.get_event_loop()
-
-    from backend.database import DATABASE
-
-    LOOP.run_until_complete(DATABASE.connect())
     try:
-        LOOP.run_until_complete(
-            asyncio.gather(SERVER.serve(), worker_entrypoint())
-        )
-    finally:
-        LOOP.close()
-        LOGGER.info("Shutdown successful")
+        LOOP.run_until_complete(main_entrypoint(CONFIG))
+    except asyncio.CancelledError:
+        pass
