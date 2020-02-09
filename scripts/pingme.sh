@@ -2,4 +2,4 @@
 
 set -e
 set -x
-curl -I "$PINGME_URL"
+ping -q -w1 -c1 "$PINGME_URL"

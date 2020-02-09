@@ -2,12 +2,14 @@
 Worker module
 """
 import asyncio
+from contextvars import ContextVar
 from datetime import datetime, timedelta, timezone
 from typing import Optional
 
 import httpx
 import sqlalchemy
 
+from backend.database import DATABASE
 from backend.database.users import User
 from backend.config import LOGGER, SETTINGS
 from backend.utils.emojis import get_custom_emoji
@@ -179,12 +181,14 @@ async def worker_entrypoint() -> None:
     """
     The entrypoint for the worker. Currently a stub
     """
-    loop = asyncio.get_running_loop()
+    # pylint:disable=protected-access
+    print(DATABASE._global_connection)
+    DATABASE._connection_context = ContextVar("connection_context")
     sem = asyncio.Semaphore(SETTINGS.worker_coroutines)
     while True:
         LOGGER.debug("Starting global update loop")
         update_tasks = [
-            loop.create_task(_throttled_update_user(user=user, sem=sem))
+            _throttled_update_user(user=user, sem=sem)
             for user in await User.objects.filter(id__gte=7769).all()
         ]
         await asyncio.gather(*update_tasks)
