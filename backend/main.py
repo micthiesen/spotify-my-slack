@@ -1,15 +1,30 @@
 """
 Entrypoint for the backend (FastAPI)
 """
+# pylint:disable=wrong-import-order,wrong-import-position,ungrouped-imports
+import uvloop
+import uvicorn
 import asyncio
+from backend.config import LOGGER, SETTINGS
+
+CONFIG = uvicorn.Config(
+    "backend.main:APP",
+    host="0.0.0.0",
+    port=SETTINGS.port,
+    lifespan="on",
+    loop="uvloop",
+    log_level="info",
+    use_colors=True,
+)
+uvloop.install()
+CONFIG.setup_event_loop()
+LOOP = asyncio.get_event_loop()
+
 import logging
 
-import uvicorn
-import uvloop
 from fastapi import FastAPI
 from starlette.middleware.sessions import SessionMiddleware
 
-from backend.config import LOGGER, SETTINGS
 from backend.routers import frontend, slack, spotify, users
 from backend.worker import worker_entrypoint
 
@@ -75,18 +90,6 @@ async def main_entrypoint(config: uvicorn.Config):
 
 if __name__ == "__main__":
     logging.basicConfig(level=2, format="%(levelname)-9s %(message)s")
-    CONFIG = uvicorn.Config(
-        "backend.main:APP",
-        host="0.0.0.0",
-        port=SETTINGS.port,
-        lifespan="on",
-        loop="asyncio",
-        log_level="info",
-        use_colors=True,
-    )
-    # uvloop.install()
-    # CONFIG.setup_event_loop()
-    # LOOP = asyncio.get_event_loop()
     try:
         asyncio.run(main_entrypoint(CONFIG))
     except asyncio.CancelledError:
