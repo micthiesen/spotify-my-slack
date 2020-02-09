@@ -4,6 +4,7 @@ Worker module
 import asyncio
 from contextvars import ContextVar
 from datetime import datetime, timedelta, timezone
+from random import random
 from typing import Optional
 
 import httpx
@@ -40,12 +41,7 @@ async def _update_user(user: User) -> None:
     global UPDATE_THRESHOLD  # pylint:disable=global-statement
     update_threshold_delta = UPDATE_THRESHOLD - datetime.now(timezone.utc)
     if update_threshold_delta.total_seconds() > 0:
-        LOGGER.debug(
-            "Sleeping update thread for %s for %ss",
-            user.id,
-            update_threshold_delta.total_seconds(),
-        )
-        await asyncio.sleep(update_threshold_delta.total_seconds())
+        await asyncio.sleep(update_threshold_delta.total_seconds() + random())
 
     # Handle Spotify token refreshes
     spotify_token_expired = user.spotifyExpiresAt <= datetime.now(
@@ -84,7 +80,7 @@ async def _update_user(user: User) -> None:
             UPDATE_THRESHOLD = datetime.now(timezone.utc) + timedelta(
                 seconds=err.retry_after
             )
-            LOGGER.warning(
+            LOGGER.info(
                 "Exiting update loop. Spotify is throttling for %ss",
                 err.retry_after,
             )
@@ -117,11 +113,14 @@ async def _update_spotify_tokens(user: User) -> bool:
             err,
         )
         err_dict = err.response_json()
-        if err_dict.get("error_description") == "Refresh token revoked":
+        if err_dict.get("error_description") in {
+            "Refresh token revoked",
+            "User does not exist",
+        }:
             LOGGER.warning(
-                "Deleting user %s as their Spotify refresh token is revoked "
-                "and we have no way to recover :(",
+                "Deleting user %s: %s",
                 user.id,
+                err_dict.get("error_description"),
             )
             await user.delete()
         return False
