@@ -38,6 +38,7 @@ async def startup():
     Startup actions
     """
     await DATABASE.connect()
+    asyncio.create_task(worker_entrypoint())
 
 
 @APP.on_event("shutdown")
@@ -45,29 +46,30 @@ async def shutdown():
     """
     Shutdown actions
     """
-    await DATABASE.disconnect()
+    current_task = asyncio.current_task()
+    other_tasks = [t for t in asyncio.all_tasks() if t is not current_task]
+    LOGGER.info("Cancelling %s outstanding tasks", len(other_tasks))
+    for task in other_tasks:
+        task.cancel()
+
+    await asyncio.gather(
+        *other_tasks, DATABASE.disconnect(), return_exceptions=True
+    )
+    LOGGER.info("Flushing metrics")
+    asyncio.get_event_loop().stop()
 
 
 if __name__ == "__main__":
     logging.basicConfig(level=2, format="%(levelname)-9s %(message)s")
-
-    CONFIG = uvicorn.Config(
-        "backend.main:APP",
-        host="0.0.0.0",
-        port=SETTINGS.port,
-        loop="uvloop",
-        log_level="info",
-        use_colors=True,
-    )
-    SERVER = uvicorn.Server(config=CONFIG)
-
-    # Start both the server & worker together
-    CONFIG.setup_event_loop()
-    LOOP = asyncio.get_event_loop()
     try:
-        LOOP.run_until_complete(
-            asyncio.gather(SERVER.serve(), worker_entrypoint())
+        uvicorn.run(
+            "backend.main:APP",
+            host="0.0.0.0",
+            port=SETTINGS.port,
+            lifespan="on",
+            loop="uvloop",
+            log_level="info",
+            use_colors=True,
         )
-    finally:
-        LOOP.close()
-        LOGGER.info("Shutdown successful")
+    except asyncio.CancelledError:
+        pass

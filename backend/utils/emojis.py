@@ -1,6 +1,11 @@
 """
-Emoji-related utlities
+Emoji-related utilities
 """
+import re
+
+from backend.database.users import User
+from backend.utils.spotify import TrackItem
+
 
 # Map of lowercase strings to emojis. Ordered in decending preference
 # https://www.webpagefx.com/tools/emoji-cheat-sheet/
@@ -373,3 +378,26 @@ EMOJI_MAP = {
     "weddings": ":wedding:",
 }
 DEFAULT_EMOJIS = [":headphones:", ":notes:", ":musical_note:"]
+
+
+def get_default_emoji(track: TrackItem) -> str:
+    """
+    Get a default emoji for a track. Deterministic
+    """
+    string = track.name + "".join(a.name for a in track.artists)
+    return DEFAULT_EMOJIS[len(string) % len(DEFAULT_EMOJIS)]
+
+
+def get_custom_emoji(user: User, track: TrackItem) -> str:
+    """
+    Get a custom (or default fallback) emoji for a track. Deterministic
+    """
+    if not user.useCustomEmojis:
+        return DEFAULT_EMOJIS[0]  # Don't even cycle through the defaults
+
+    strings_to_check = [track.name, *[a.name for a in track.artists]]
+    for string in strings_to_check:
+        for alias, emoji in EMOJI_MAP.items():
+            if re.match(rf"\b{alias}\b", string):
+                return emoji
+    return get_default_emoji(track)

@@ -16,6 +16,7 @@ from backend.utils.spotify import (
     MeData,
     SpotifyApiError,
     TokenExchangeData,
+    calc_spotify_expiry,
     get_me,
     get_new_access_token,
 )
@@ -75,9 +76,8 @@ async def spotify_grant_callback(
         return RedirectResponse("/")
 
     request.session["spotify_id"] = me_data.id
-    request.session["spotify_expires_at"] = (
-        datetime.now(timezone.utc)
-        + timedelta(seconds=exchange_data.expires_in)
+    request.session["spotify_expires_at"] = calc_spotify_expiry(
+        exchange_data.expires_in
     ).isoformat()
     request.session["spotify_access_token"] = exchange_data.access_token
     request.session["spotify_refresh_token"] = exchange_data.refresh_token

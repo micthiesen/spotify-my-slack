@@ -1,6 +1,7 @@
 """
 Spotify utilities
 """
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import List, Optional
 
@@ -155,3 +156,10 @@ async def get_player(access_token: str) -> Optional[PlayerData]:
         if err.error_code == 204:
             return None
         raise
+
+
+def calc_spotify_expiry(expires_in: int) -> datetime:
+    """
+    Spotify expiry integer to a datetime
+    """
+    return datetime.now(timezone.utc) + timedelta(seconds=expires_in)

@@ -26,7 +26,7 @@ class User(orm.Model):
     spotifyId = orm.String(max_length=255)
     spotifyExpiresAt = orm.DateTime(max_length=255)
     spotifyAccessToken = orm.String(max_length=255)
-    spotifyRefreshToken = orm.String(max_length=255)
+    spotifyRefreshToken = orm.String(allow_blank=True, max_length=255)
     createdAt = orm.DateTime()
     updatedAt = orm.DateTime()
     statusSetLastTime = orm.Boolean(default=False)
