@@ -37,7 +37,6 @@ async def startup():
     """
     Startup actions
     """
-    pass
 
 
 @APP.on_event("shutdown")
