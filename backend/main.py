@@ -79,7 +79,7 @@ if __name__ == "__main__":
         host="0.0.0.0",
         port=SETTINGS.port,
         lifespan="on",
-        loop="uvloop",
+        loop="asyncio",
         log_level="info",
         use_colors=True,
     )
