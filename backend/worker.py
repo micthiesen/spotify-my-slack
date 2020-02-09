@@ -5,6 +5,9 @@ import asyncio
 from datetime import datetime, timedelta, timezone
 from typing import Optional
 
+import httpx
+import sqlalchemy
+
 from backend.database.users import User
 from backend.config import LOGGER, SETTINGS
 from backend.utils.emojis import get_custom_emoji
@@ -156,12 +159,20 @@ def _calc_status_text(track: TrackItem) -> str:
         by_artists = ""
     else:
         by_artists = f' by {", ".join(a.name for a in track.artists)}'
-    return f"{track.name}{by_artists}"
+    status_text = f"{track.name}{by_artists}"
+    if len(status_text) > 100:
+        status_text = f"{status_text[:99].strip()}…"
+    return status_text
 
 
 async def _throttled_update_user(user, sem):
     async with sem:  # semaphore limits num of simultaneous updated
-        return await _update_user(user)
+        try:
+            return await _update_user(user)
+        except (httpx.HTTPError, sqlalchemy.exc.SQLAlchemyError) as err:
+            LOGGER.error(
+                "Fatal error in update loop for user %s: %s", user.id, err
+            )
 
 
 async def worker_entrypoint() -> None:

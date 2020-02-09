@@ -85,9 +85,9 @@ if __name__ == "__main__":
         use_colors=True,
     )
     uvloop.install()
-    CONFIG.setup_event_loop()
-    LOOP = asyncio.get_event_loop()
+    # CONFIG.setup_event_loop()
+    # LOOP = asyncio.get_event_loop()
     try:
-        LOOP.run_until_complete(main_entrypoint(CONFIG))
+        asyncio.run(main_entrypoint(CONFIG))
     except asyncio.CancelledError:
         pass
