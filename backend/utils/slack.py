@@ -74,7 +74,7 @@ async def set_status(
     """
     Set the user's status
     """
-    user_profile_data = await MAKE_REQUEST(
+    return await MAKE_REQUEST(
         "POST",
         USERS_PROFILE_SET_URI,
         UserProfileData,
@@ -83,9 +83,3 @@ async def set_status(
             "profile": json.dumps(user_profile_args.dict()).encode("UTF-8"),
         },
     )
-    if not user_profile_data.ok:
-        raise SlackApiError(
-            f"200 response but error returned: {user_profile_data.error}",
-            error_code=422,
-        )
-    return user_profile_data

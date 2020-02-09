@@ -21,7 +21,7 @@ class BaseApiError(Exception):
         self,
         message: str,
         error_code: int,
-        response: Optional[httpx.Response] = None,
+        response: httpx.Response,
         retry_after: Optional[int] = None,
     ) -> None:
         self.message = message

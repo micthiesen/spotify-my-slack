@@ -17,6 +17,7 @@ from backend.utils.emojis import get_custom_emoji
 from backend.utils.slack import (
     SlackApiError,
     UserProfileArgs,
+    UserProfileData,
     set_status,
 )
 from backend.utils.spotify import (
@@ -80,7 +81,7 @@ async def _update_user(user: User) -> None:
             UPDATE_THRESHOLD = datetime.now(timezone.utc) + timedelta(
                 seconds=err.retry_after
             )
-            LOGGER.info(
+            LOGGER.debug(
                 "Exiting update loop. Spotify is throttling for %ss",
                 err.retry_after,
             )
@@ -90,7 +91,7 @@ async def _update_user(user: User) -> None:
             status_text=_calc_status_text(player.item),
             status_emoji=get_custom_emoji(user, player.item),
         )
-        LOGGER.debug("Setting user status %s", user_profile_args)  # TODO rm
+        LOGGER.info("Setting user status %s", user_profile_args)
         await _set_user_status(user, user_profile_args, True)
     elif user.statusSetLastTime:
         user_profile_args = UserProfileArgs(status_text="", status_emoji="")
@@ -140,13 +141,25 @@ async def _set_user_status(
     Set the user status & update their database entry. Returns success status
     """
     try:
-        await set_status(user_profile_args, user.slackAccessToken)
+        user_profile_data: UserProfileData = await set_status(
+            user_profile_args, user.slackAccessToken
+        )
     except SlackApiError as err:
         LOGGER.warning(
-            "Exiting update loop. Could not set status for user %s: " "%s",
+            "Exiting update loop. Could not set status for user %s: %s",
             user.id,
             err,
         )
+        return False
+    if not user_profile_data.ok:
+        LOGGER.warning(
+            "Exiting update loop. Could not set status for user %s: %s",
+            user.id,
+            user_profile_data.error,
+        )
+        if user_profile_data.error in {"token_revoked"}:
+            LOGGER.warning("Slack token revoked. Deleting user %s", user.id)
+            await user.delete()
         return False
     await user.update(
         statusSetLastTime=status_set_last_time,
@@ -175,7 +188,10 @@ async def _throttled_update_user(user, sem):
             await _update_user(user)
         except (httpx.HTTPError, sqlalchemy.exc.SQLAlchemyError) as err:
             LOGGER.error(
-                "Fatal error in update loop for user %s: %s", user.id, err
+                "Fatal error in update loop for user %s: %s (%s)",
+                user.id,
+                err,
+                type(err),
             )
 
 
