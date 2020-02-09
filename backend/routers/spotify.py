@@ -1,7 +1,6 @@
 """
 Spotify OAuth grant routes
 """
-from datetime import datetime, timedelta, timezone
 from typing import Optional, cast
 from urllib.parse import urlencode
 
