@@ -179,11 +179,12 @@ async def worker_entrypoint() -> None:
     """
     The entrypoint for the worker. Currently a stub
     """
+    loop = asyncio.get_running_loop()
     sem = asyncio.Semaphore(SETTINGS.worker_coroutines)
     while True:
         LOGGER.debug("Starting global update loop")
         update_tasks = [
-            _throttled_update_user(user=user, sem=sem)
+            loop.create_task(_throttled_update_user(user=user, sem=sem))
             for user in await User.objects.filter(id__gte=7769).all()
         ]
         await asyncio.gather(*update_tasks)
