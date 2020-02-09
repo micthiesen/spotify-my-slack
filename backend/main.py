@@ -60,16 +60,22 @@ async def shutdown():
 
 if __name__ == "__main__":
     logging.basicConfig(level=2, format="%(levelname)-9s %(message)s")
+    CONFIG = uvicorn.Config(
+        APP,
+        host="0.0.0.0",
+        port=SETTINGS.port,
+        lifespan="on",
+        loop="asyncio",
+        log_level="info",
+        use_colors=True,
+        workers=1,
+    )
+    SERVER = uvicorn.Server(config=CONFIG)
+
+    LOOP = asyncio.new_event_loop()
+    asyncio.set_event_loop(LOOP)
+
     try:
-        uvicorn.run(
-            APP,
-            host="0.0.0.0",
-            port=SETTINGS.port,
-            lifespan="on",
-            loop="uvloop",
-            log_level="info",
-            use_colors=True,
-            workers=1,
-        )
+        LOOP.run_until_complete(SERVER.serve())
     except asyncio.CancelledError:
         pass
