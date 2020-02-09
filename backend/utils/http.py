@@ -21,7 +21,7 @@ class BaseApiError(Exception):
         self,
         message: str,
         error_code: int,
-        response: httpx.Response,
+        response: Optional[httpx.Response] = None,
         retry_after: Optional[int] = None,
     ) -> None:
         self.message = message
@@ -42,7 +42,7 @@ class BaseApiError(Exception):
         """
         try:
             return cast(dict, self.response.json())
-        except ValueError:
+        except (AttributeError, ValueError):
             return {}
 
 

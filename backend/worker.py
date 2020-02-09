@@ -68,7 +68,6 @@ async def _update_user(user: User) -> None:
         LOGGER.debug("Refreshing Spotify token for user %s COMPLETE", user.id)
 
     # Retrieve Spotify player status
-    LOGGER.debug("Updating user %s", user.id)  # TODO rm
     try:
         player: Optional[PlayerData] = await get_player(
             user.spotifyAccessToken
@@ -98,11 +97,8 @@ async def _update_user(user: User) -> None:
         LOGGER.debug("Setting user status %s", user_profile_args)  # TODO rm
         await _set_user_status(user, user_profile_args, True)
     elif user.statusSetLastTime:
-        LOGGER.debug("Clearing user status")  # TODO rm
         user_profile_args = UserProfileArgs(status_text="", status_emoji="")
         await _set_user_status(user, user_profile_args, False)
-    else:
-        LOGGER.debug("Nothing playing and nothing to clear")  # TODO rm
 
 
 async def _update_spotify_tokens(user: User) -> bool:
@@ -195,7 +191,6 @@ async def worker_entrypoint() -> None:
         LOGGER.debug("Starting global update loop")
         update_tasks = [
             _throttled_update_user(user=user, sem=sem)
-            for user in await User.objects.filter(id__gte=7769).all()
+            for user in await User.objects.all()
         ]
         await asyncio.gather(*update_tasks)
-        await asyncio.sleep(5)
