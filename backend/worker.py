@@ -6,7 +6,7 @@ from datetime import datetime, timedelta, timezone
 from typing import Optional
 
 from backend.database.users import User
-from backend.config import LOGGER
+from backend.config import LOGGER, SETTINGS
 from backend.utils.emojis import get_custom_emoji
 from backend.utils.slack import (
     SlackApiError,
@@ -100,8 +100,6 @@ async def _update_user(user: User) -> None:
     else:
         LOGGER.debug("Nothing playing and nothing to clear")  # TODO rm
 
-    await asyncio.sleep(5)
-
 
 async def _update_spotify_tokens(user: User) -> bool:
     """
@@ -170,7 +168,7 @@ async def worker_entrypoint() -> None:
     """
     The entrypoint for the worker. Currently a stub
     """
-    sem = asyncio.Semaphore(10)
+    sem = asyncio.Semaphore(SETTINGS.worker_coroutines)
     while True:
         LOGGER.debug("Starting global update loop")
         update_tasks = [
@@ -178,4 +176,3 @@ async def worker_entrypoint() -> None:
             for user in await User.objects.filter(id__gte=7769).all()
         ]
         await asyncio.gather(*update_tasks)
-        await asyncio.sleep(5)
