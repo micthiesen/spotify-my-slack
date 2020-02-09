@@ -1,30 +1,15 @@
 """
 Entrypoint for the backend (FastAPI)
 """
-# pylint:disable=wrong-import-order,wrong-import-position,ungrouped-imports
-import uvloop
-import uvicorn
 import asyncio
-from backend.config import LOGGER, SETTINGS
-
-CONFIG = uvicorn.Config(
-    "backend.main:APP",
-    host="0.0.0.0",
-    port=SETTINGS.port,
-    lifespan="on",
-    loop="uvloop",
-    log_level="info",
-    use_colors=True,
-)
-uvloop.install()
-CONFIG.setup_event_loop()
-LOOP = asyncio.get_event_loop()
-
 import logging
 
+import uvicorn
 from fastapi import FastAPI
 from starlette.middleware.sessions import SessionMiddleware
 
+from backend.config import LOGGER, SETTINGS
+from backend.database import DATABASE
 from backend.routers import frontend, slack, spotify, users
 from backend.worker import worker_entrypoint
 
@@ -52,6 +37,9 @@ async def startup():
     """
     Startup actions
     """
+    loop = asyncio.get_running_loop()
+    await loop.create_task(DATABASE.connect())
+    loop.create_task(worker_entrypoint())
 
 
 @APP.on_event("shutdown")
@@ -60,37 +48,27 @@ async def shutdown():
     Shutdown actions
     """
     # pylint:disable=import-outside-toplevel
-    from backend.database import DATABASE
-
     current_task = asyncio.current_task()
     other_tasks = [t for t in asyncio.all_tasks() if t is not current_task]
     LOGGER.info("Cancelling %s outstanding tasks", len(other_tasks))
     for task in other_tasks:
         task.cancel()
 
-    await asyncio.gather(
-        *other_tasks, DATABASE.disconnect(), return_exceptions=True
-    )
-    LOGGER.info("Flushing metrics")
-    asyncio.get_event_loop().stop()
-
-
-async def main_entrypoint(config: uvicorn.Config):
-    """
-    Cool entrypoint
-    """
-    # pylint:disable=import-outside-toplevel
-    from backend.database import DATABASE
-
-    await DATABASE.connect()
-    server = uvicorn.Server(config=config)
-
-    await asyncio.gather(server.serve(), worker_entrypoint())
+    await DATABASE.disconnect()
+    await asyncio.gather(*other_tasks, return_exceptions=True)
 
 
 if __name__ == "__main__":
     logging.basicConfig(level=2, format="%(levelname)-9s %(message)s")
     try:
-        asyncio.run(main_entrypoint(CONFIG))
+        uvicorn.run(
+            "backend.main:APP",
+            host="0.0.0.0",
+            port=SETTINGS.port,
+            lifespan="on",
+            loop="uvloop",
+            log_level="info",
+            use_colors=True,
+        )
     except asyncio.CancelledError:
         pass

@@ -168,7 +168,7 @@ def _calc_status_text(track: TrackItem) -> str:
 async def _throttled_update_user(user, sem):
     async with sem:  # semaphore limits num of simultaneous updated
         try:
-            return await _update_user(user)
+            await _update_user(user)
         except (httpx.HTTPError, sqlalchemy.exc.SQLAlchemyError) as err:
             LOGGER.error(
                 "Fatal error in update loop for user %s: %s", user.id, err
