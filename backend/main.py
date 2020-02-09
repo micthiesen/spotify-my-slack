@@ -9,7 +9,6 @@ from fastapi import FastAPI
 from starlette.middleware.sessions import SessionMiddleware
 
 from backend.config import LOGGER, SETTINGS
-from backend.database import DATABASE
 from backend.routers import frontend, slack, spotify, users
 from backend.worker import worker_entrypoint
 
@@ -71,6 +70,8 @@ if __name__ == "__main__":
     SERVER = uvicorn.Server(config=CONFIG)
     CONFIG.setup_event_loop()
     LOOP = asyncio.get_event_loop()
+
+    from backend.database import DATABASE
 
     LOOP.run_until_complete(DATABASE.connect())
     try:
