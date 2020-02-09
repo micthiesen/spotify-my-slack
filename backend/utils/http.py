@@ -17,8 +17,11 @@ class BaseApiError(Exception):
     Base API error to extend from. Includes an error code
     """
 
-    def __init__(self, message: str, error_code: int) -> None:
+    def __init__(
+        self, message: str, error_code: int, retry_after: Optional[int] = None
+    ) -> None:
         self.error_code = error_code
+        self.retry_after = retry_after
         super().__init__(message)
 
 
@@ -67,10 +70,15 @@ async def _make_request_base(
             method, uri, data=data, headers=headers
         )
     if response.status_code != 200:
+        try:
+            retry_after: Optional[int] = int(response.headers["retry-after"])
+        except (KeyError, ValueError):
+            retry_after = None
         raise api_error_cls(
             f"Unexpected {response.status_code} response from {service_name} "
             f"when retrieving '{model.__name__}': {response.text}",
             error_code=response.status_code,
+            retry_after=retry_after,
         )
 
     try:

@@ -18,17 +18,31 @@ from backend.utils.spotify import (
     PlayerData,
     SpotifyApiError,
     TokenExchangeData,
+    TrackItem,
     calc_spotify_expiry,
     get_new_access_token,
     get_player,
 )
 
 
+UPDATE_THRESHOLD = datetime.now(timezone.utc)
+
+
 async def _update_user(user: User) -> None:
     """
     Update a single user
     """
-    LOGGER.debug("Spotify token expires at %s", user.spotifyExpiresAt)
+    global UPDATE_THRESHOLD  # pylint:disable=global-statement
+    update_threshold_delta = UPDATE_THRESHOLD - datetime.now(timezone.utc)
+    if update_threshold_delta.total_seconds() > 0:
+        LOGGER.debug(
+            "Sleeping update thread for %s for %ss",
+            user.id,
+            update_threshold_delta.total_seconds(),
+        )
+        await asyncio.sleep(update_threshold_delta.total_seconds())
+
+    # Handle Spotify token refreshes
     spotify_token_expired = user.spotifyExpiresAt <= datetime.now(
         timezone.utc
     ) - timedelta(minutes=5)
@@ -38,30 +52,15 @@ async def _update_user(user: User) -> None:
             "refresh token is available :(",
             user.id,
         )
-        await user.delete()
+        LOGGER.warning("Pretend delete for now")  # TODO
+        # await user.delete()
         return
 
-    # Handle Spotify token refreshes
     if spotify_token_expired:
         LOGGER.debug("Refreshing Spotify token for user %s", user.id)
-        try:
-            exchange_data: TokenExchangeData = await get_new_access_token(
-                user.spotifyRefreshToken, GrantType.REFRESH_TOKEN
-            )
-        except SpotifyApiError as err:
-            LOGGER.warning(
-                "Exiting update loop. Could not refresh Spotify token for "
-                "user %s: %s",
-                user.id,
-                err,
-            )
+        update_ok = await _update_spotify_tokens(user)
+        if not update_ok:
             return
-        await user.update(
-            spotifyExpiresAt=calc_spotify_expiry(exchange_data.expires_in),
-            spotifyAccessToken=exchange_data.access_token,
-            spotifyRefreshToken=exchange_data.refresh_token or "",
-            updatedAt=datetime.now(timezone.utc),
-        )
         LOGGER.debug("Refreshing Spotify token for user %s COMPLETE", user.id)
 
     # Retrieve Spotify player status
@@ -71,22 +70,25 @@ async def _update_user(user: User) -> None:
             user.spotifyAccessToken
         )
     except SpotifyApiError as err:
-        LOGGER.warning(
-            "Exiting update loop. Could not retrieve player data for user %s: "
-            "%s",
-            user.id,
-            err,
-        )
+        if err.retry_after is None:
+            LOGGER.warning(
+                "Exiting update loop. Could not retrieve player data for user %s: "
+                "%s",
+                user.id,
+                err,
+            )
+        else:
+            UPDATE_THRESHOLD = datetime.now(timezone.utc) + timedelta(
+                seconds=err.retry_after
+            )
+            LOGGER.warning(
+                "Exiting update loop. Spotify is throttling for %ss",
+                err.retry_after,
+            )
         return
     if player is not None and player.item is not None and player.is_playing:
-        if len(player.item.artists) == 0:
-            by_artists = ""
-        else:
-            by_artists = (
-                f' by {", ".join(a.name for a in player.item.artists)}'
-            )
         user_profile_args = UserProfileArgs(
-            status_text=f"{player.item.name}{by_artists}",
+            status_text=_calc_status_text(player.item),
             status_emoji=get_custom_emoji(user, player.item),
         )
         LOGGER.debug("Setting user status %s", user_profile_args)  # TODO rm
@@ -101,11 +103,36 @@ async def _update_user(user: User) -> None:
     await asyncio.sleep(5)
 
 
+async def _update_spotify_tokens(user: User) -> bool:
+    """
+    Update the user's Spotify tokens. Returns success status
+    """
+    try:
+        exchange_data: TokenExchangeData = await get_new_access_token(
+            user.spotifyRefreshToken, GrantType.REFRESH_TOKEN
+        )
+    except SpotifyApiError as err:
+        LOGGER.warning(
+            "Exiting update loop. Could not refresh Spotify token for "
+            "user %s: %s",
+            user.id,
+            err,
+        )
+        return False
+    await user.update(
+        spotifyExpiresAt=calc_spotify_expiry(exchange_data.expires_in),
+        spotifyAccessToken=exchange_data.access_token,
+        spotifyRefreshToken=exchange_data.refresh_token or "",
+        updatedAt=datetime.now(timezone.utc),
+    )
+    return True
+
+
 async def _set_user_status(
     user: User, user_profile_args: UserProfileArgs, status_set_last_time: bool
 ) -> bool:
     """
-    Set the user status & update their database entry
+    Set the user status & update their database entry. Returns success status
     """
     try:
         await set_status(user_profile_args, user.slackAccessToken)
@@ -121,6 +148,17 @@ async def _set_user_status(
         updatedAt=datetime.now(timezone.utc),
     )
     return True
+
+
+def _calc_status_text(track: TrackItem) -> str:
+    """
+    Calculate the status text based on a track
+    """
+    if len(track.artists) == 0:
+        by_artists = ""
+    else:
+        by_artists = f' by {", ".join(a.name for a in track.artists)}'
+    return f"{track.name}{by_artists}"
 
 
 async def _throttled_update_user(user, sem):
