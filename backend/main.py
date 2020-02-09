@@ -5,6 +5,7 @@ import asyncio
 import logging
 
 import uvicorn
+import uvloop
 from fastapi import FastAPI
 from starlette.middleware.sessions import SessionMiddleware
 
@@ -79,10 +80,11 @@ if __name__ == "__main__":
         host="0.0.0.0",
         port=SETTINGS.port,
         lifespan="on",
-        loop="asyncio",
+        loop="uvloop",
         log_level="info",
         use_colors=True,
     )
+    uvloop.install()
     CONFIG.setup_event_loop()
     LOOP = asyncio.get_event_loop()
     try:
