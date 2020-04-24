@@ -1,34 +1,28 @@
-version: '3.7'
+version: '3'
 services:
   backend:
     build:
-      context: .
-      dockerfile: Dockerfile_backend
-    depends_on:
-      - postgres
-    env_file:
-      - .env
+      context: ./
+      dockerfile: ./backend/Dockerfile
     volumes:
-      - .:/spotify-my-slack
+      - ./backend/src:/backend/src:cached
+    env_file: ./backend/.env
     networks:
       - main
     ports:
-      - 5000:5000
-    init: true
+      - 7000:7000
   frontend:
     build:
-      context: .
-      dockerfile: Dockerfile_frontend
+      context: ./
+      dockerfile: ./frontend/Dockerfile
     volumes:
-      - ./frontend:/frontend
-      - /frontend/node_modules/
-  postgres:
-    image: postgres:12.1
-    hostname: postgres
-    environment:
-      POSTGRES_DB: spotify_my_slack
+      - ./frontend/public:/frontend/public:cached
+      - ./frontend/src:/frontend/src:cached
+    env_file: ./frontend/.env
     networks:
       - main
-    restart: on-failure
+    ports:
+      - 7001:7001
+    stdin_open: true  # prevents dev server from closing
 networks:
   main:
