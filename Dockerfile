@@ -7,19 +7,26 @@ WORKDIR /temp/backend
 RUN npm install
 RUN npm run build
 
+RUN mkdir /backend
+RUN mv build /backend
+RUN mv node_modules /backend
+RUN mv package.json /backend
+
 # build frontend
 WORKDIR /temp/frontend
 RUN npm install
 RUN npm run build
 
-# only keep what we need
+RUN mkdir /frontend
+RUN mv build /frontend
+RUN mv package.json /frontend
+
+# include scripts
+WORKDIR /temp/scripts
+RUN mkdir /scripts
+RUN mv pingme.sh /scripts
+
 WORKDIR /
-RUN mkdir /backend
-RUN mv /temp/backend/build /backend
-RUN mv /temp/backend/node_modules /backend
-RUN mkdir frontend
-RUN mv /temp/frontend/build /frontend
 RUN rm -fr /temp
 
-WORKDIR /backend
-CMD npm run start:prod
+CMD cd backend && npm run start:prod
