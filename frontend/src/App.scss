@@ -1,28 +1,21 @@
-@import 'variables';
-
-@mixin item {
-  margin-top: 2rem;
-  margin-bottom: 2rem;
-  margin-left: 1rem;
-  margin-right: 1rem;
-  max-width: 40rem;
-}
-
 .App {
   display: grid;
-  align-items: flex-start;
   justify-items: center;
   min-height: 100vh;
 }
+.App > div {
+  max-width: 40rem;
+  margin-bottom: 2rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  &:not(:last-of-type) {
+    margin-top: 2rem;
+  }
+}
+
 .App__container {
-  @include item;
   align-self: flex-start;
 }
 .App__footer {
-  @include item;
   align-self: flex-end;
-  color: $pt-text-color-muted;
-  a {
-    color: $pt-text-color-muted !important;
-  }
 }

@@ -1,0 +1,11 @@
+@import 'variables';
+
+.Footer {
+  color: $pt-text-color-muted;
+  p {
+    margin-bottom: 0;
+  }
+  a {
+    color: $pt-text-color-muted !important;
+  }
+}
