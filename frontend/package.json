@@ -17,6 +17,7 @@
     "fibers": "^5.0.0",
     "node-sass": "^4.14.0",
     "npm-run-all": "^4.1.5",
+    "object-assign": "^4.1.1",
     "prettier": "^2.0.4",
     "react-scripts": "^3.4.1",
     "sass": "^1.26.5",
