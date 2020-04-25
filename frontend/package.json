@@ -2,6 +2,8 @@
   "name": "spotify-my-slack-frontend",
   "private": true,
   "dependencies": {
+    "@blueprintjs/core": "^3.26.0",
+    "@blueprintjs/icons": "^3.15.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
   },

@@ -1,0 +1,10 @@
+@import '~normalize.css';
+
+$icon-font-path: '~@blueprintjs/icons/resources/icons';
+
+@import '~@blueprintjs/core/src/blueprint.scss';
+@import '~@blueprintjs/icons/src/blueprint-icons.scss';
+
+body {
+  background-color: $pt-dark-app-background-color;
+}
