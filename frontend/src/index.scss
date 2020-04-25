@@ -1,6 +1,8 @@
 @import '~normalize.css';
 
 $icon-font-path: '~@blueprintjs/icons/resources/icons';
+$pt-dark-app-background-color: darken(#1db954, 10%);
+$dark-navbar-background-color: darken(#1db954, 20%);
 
 @import '~@blueprintjs/core/src/blueprint.scss';
 @import '~@blueprintjs/icons/src/blueprint-icons.scss';
