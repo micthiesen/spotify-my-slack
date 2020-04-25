@@ -1,4 +1,3 @@
-$spotify-green: #1db954;
+@import '~@blueprintjs/core/src/common/variables';
 
-$pt-dark-app-background-color: darken($spotify-green, 10%);
-$dark-navbar-background-color: darken($spotify-green, 20%);
+$spotify-green: #1db954;
