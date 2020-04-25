@@ -5,12 +5,6 @@ set -x
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-# the build process is destructive; only run on CI
-if [[ "$CI" != "true" ]]
-then
-  exit 1
-fi
-
 # build backend
 cd backend
 npm install
