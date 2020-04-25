@@ -1,7 +1,7 @@
-import React from 'react';
-import './App.scss';
-import AppCard from './AppCard';
-import Footer from './Footer';
+import React from "react";
+import "./App.scss";
+import AppCard from "./AppCard";
+import Footer from "./Footer";
 
 const App: React.FC = () => {
   return (

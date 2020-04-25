@@ -1,7 +1,7 @@
-import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service';
+import { Controller, Get } from "@nestjs/common";
+import { AppService } from "./app.service";
 
-@Controller('api/ping')
+@Controller("api/ping")
 export class AppController {
   constructor(private readonly appService: AppService) {}
 

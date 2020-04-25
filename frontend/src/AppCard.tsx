@@ -1,6 +1,6 @@
-import { Button, ButtonGroup, Card, H3 } from '@blueprintjs/core';
-import React from 'react';
-import './AppCard.scss';
+import { Button, ButtonGroup, Card, H3 } from "@blueprintjs/core";
+import React from "react";
+import "./AppCard.scss";
 
 const MainCard: React.FC = () => {
   return (
