@@ -7,6 +7,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      with:
+        node-version: 12.16.2
     - id: cache-node
       uses: actions/cache@v1
       with:
@@ -14,10 +17,6 @@ jobs:
         key: ${{ runner.os }}-node-${{ hashFiles('backend/package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-node-
-    - uses: actions/setup-node@v1
-      with:
-        node-version: 12.16.2
-
     - if: steps.cache-node.outputs.cache-hit != 'true'
       run: npm install
       working-directory: backend
@@ -32,6 +31,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      with:
+        node-version: 12.16.2
     - id: cache-node
       uses: actions/cache@v1
       with:
@@ -39,10 +41,6 @@ jobs:
         key: ${{ runner.os }}-node-${{ hashFiles('frontend/package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-node-
-    - uses: actions/setup-node@v1
-      with:
-        node-version: 12.16.2
-
     - if: steps.cache-node.outputs.cache-hit != 'true'
       run: npm install
       working-directory: frontend
