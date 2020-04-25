@@ -1,8 +1,8 @@
 # Spotify my Slack ![test](https://github.com/micthiesen/spotify-my-slack/workflows/test/badge.svg?branch=master)
 
 Note that this project is currently undergoing a significant refactor and _is not
-functional yet_. If you want to find a working version of SMS you'll have to dig through
-the Git history a bit.
+functional yet_. If you want to find a working version of SmS you'll have to dig through
+the Git history a bit (a lot, actually).
 
 ## Local Development
 
