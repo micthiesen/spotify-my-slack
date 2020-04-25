@@ -2,4 +2,4 @@
 
 set -e
 set -x
-ping -q -w1 -c1 "sms.thiesen.dev"
+curl -s https://sms.thiesen.dev/pingme 1> /dev/null
