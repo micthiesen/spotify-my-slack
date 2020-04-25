@@ -1,5 +1,9 @@
 # Spotify my Slack ![test](https://github.com/micthiesen/spotify-my-slack/workflows/test/badge.svg?branch=master)
 
+Note that this project is currently undergoing a significant refactor and _is not
+functional yet_. If you want to find a working version of SMS you'll have to dig through
+the Git history a bit.
+
 ## Local Development
 
 1. Make sure Docker and Docker Compose are installed (I use Docker for Mac)

@@ -5,7 +5,7 @@ import './AppCard.scss';
 const MainCard: React.FC = () => {
   return (
     <div className="MainCard">
-      <Card interactive>
+      <Card>
         <H3>Spotify my Slack</H3>
         <p>
           Show what's currently playing on Spotify as your Slack status. As an
