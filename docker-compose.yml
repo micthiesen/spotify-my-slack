@@ -6,6 +6,7 @@ services:
       dockerfile: ./backend/Dockerfile
     volumes:
       - ./backend/src:/backend/src:cached
+      - ./frontend/build:/frontend/build:cached
     env_file: ./backend/.env
     networks:
       - main
