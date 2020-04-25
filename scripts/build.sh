@@ -5,16 +5,16 @@ set -x
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-export PATH="${PATH}:${DIR}/backend/node_modules/.bin:${DIR}/frontend/node_modules/.bin"
-
 # build backend
 cd backend
-npm install
+npm install --only=dev
+npm install --only=prod
 NODE_PATH="${DIR}/backend/node_modules" npm run build
 
 # build frontend
 cd ../frontend
-npm install
+npm install --only=dev
+npm install --only=prod
 NODE_PATH="${DIR}/frontend/node_modules" npm run build
 
 # only keep what we need (for a small Heroku slug)
