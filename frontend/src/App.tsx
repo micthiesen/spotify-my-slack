@@ -1,5 +1,5 @@
-import React from 'react';
 import { Navbar, NavbarGroup, NavbarHeading } from '@blueprintjs/core';
+import React from 'react';
 import './App.scss';
 
 function App() {
