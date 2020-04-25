@@ -1,8 +1,8 @@
-# Spotify my Slack ![test](https://github.com/micthiesen/spotify-my-slack/workflows/test/badge.svg?branch=master)
+# Spotify my Slack [![test](https://github.com/micthiesen/spotify-my-slack/workflows/test/badge.svg?branch=master)](https://github.com/micthiesen/spotify-my-slack/actions?query=workflow%3Atest)
 
 Note that this project is currently undergoing a significant refactor and _is not
 functional yet_. If you want to find a working version of SmS you'll have to dig through
-the Git history a bit (a lot, actually).
+the Git history a bit (likely a lot, actually).
 
 ## Local Development
 
@@ -17,3 +17,7 @@ the Git history a bit (a lot, actually).
 1. Install dependencies for the frontend & backend:
    - In `frontend/`: `$ npm install`
    - In `backend/`: `$ npm install`
+
+## Deploying to Heroku
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
