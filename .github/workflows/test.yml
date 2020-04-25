@@ -10,15 +10,13 @@ jobs:
     - uses: actions/setup-node@v1
       with:
         node-version: 12.16.2
-    - id: cache-node
-      uses: actions/cache@v1
+    - uses: actions/cache@v1
       with:
         path: ~/.npm
         key: ${{ runner.os }}-node-${{ hashFiles('backend/package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-node-
-    - if: steps.cache-node.outputs.cache-hit != 'true'
-      run: npm install
+    - run: npm install
       working-directory: backend
 
     - run: npm run lint
@@ -34,15 +32,13 @@ jobs:
     - uses: actions/setup-node@v1
       with:
         node-version: 12.16.2
-    - id: cache-node
-      uses: actions/cache@v1
+    - uses: actions/cache@v1
       with:
         path: ~/.npm
         key: ${{ runner.os }}-node-${{ hashFiles('frontend/package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-node-
-    - if: steps.cache-node.outputs.cache-hit != 'true'
-      run: npm install
+    - run: npm install
       working-directory: frontend
 
     - run: npm run lint
