@@ -13,8 +13,8 @@ const MainCard: React.FC = () => {
           name. Sign in with your Spotify and Slack accounts to get started.
         </p>
         <ButtonGroup fill large>
-          <Button>Connect Spotify</Button>
-          <Button>Connect Slack</Button>
+          <Button intent="success">Connect Spotify</Button>
+          <Button intent="warning">Connect Slack</Button>
         </ButtonGroup>
       </Card>
     </div>

@@ -3,19 +3,18 @@
   justify-items: center;
   min-height: 100vh;
 }
-.App > div {
+.App__container {
   max-width: 40rem;
   margin-bottom: 2rem;
   margin-left: 1rem;
   margin-right: 1rem;
-  &:not(:last-of-type) {
+  &:not(:last-child) {
     margin-top: 2rem;
   }
 }
-
-.App__container {
+.App__container--app-card {
   align-self: flex-start;
 }
-.App__footer {
+.App__container--footer {
   align-self: flex-end;
 }
