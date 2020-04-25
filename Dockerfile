@@ -1,5 +1,8 @@
 FROM node:12.16.2-alpine
 
+# required for /scripts/pingme.sh
+RUN apk --no-cache add curl
+
 COPY . /temp
 
 # build backend
