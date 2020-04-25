@@ -17,7 +17,3 @@ the Git history a bit (likely a lot, actually).
 1. Install dependencies for the frontend & backend:
    - In `frontend/`: `$ npm install`
    - In `backend/`: `$ npm install`
-
-## Deploying to Heroku
-
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
