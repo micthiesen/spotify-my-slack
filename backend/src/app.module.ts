@@ -12,6 +12,11 @@ import { join } from 'path';
       serveStaticOptions: {
         immutable: true,
         maxAge: 31536000000, // 1 year in ms
+        setHeaders: (res, path) => {
+          if (path === '/frontend/build/index.html') {
+            res.setHeader('Cache-Control', 'public, max-age=0');
+          }
+        },
       },
     }),
   ],
