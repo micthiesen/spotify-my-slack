@@ -4,7 +4,7 @@ import './App.scss';
 
 function App() {
   return (
-    <div className="App bp3-dark">
+    <div className="App">
       <Navbar>
         <NavbarGroup>
           <NavbarHeading>Spotify my Slack</NavbarHeading>
