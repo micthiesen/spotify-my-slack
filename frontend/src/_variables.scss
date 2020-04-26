@@ -1,4 +1,4 @@
-@import '~@blueprintjs/core/src/common/variables';
+@import "~@blueprintjs/core/src/common/variables";
 
 $slack-aubergine: #4a154b;
 $slack-black: #1d1c1d;
@@ -14,7 +14,7 @@ $spotify-white: #ffffff;
 
 $pt-dark-app-background-color: $slack-aubergine;
 $pt-dark-text-color: $slack-white;
-$pt-dark-text-color-muted: darken($slack-white, 20%);
+$pt-dark-text-color-muted: lighten($slack-aubergine, 65%);
 $dark-card-background-color: lighten($slack-aubergine, 5%);
 
 $pt-intent-primary: $slack-blue;
@@ -30,22 +30,22 @@ $pt-intent-success-active: darken($pt-intent-success-hover, 5%);
 $pt-intent-warning-active: darken($pt-intent-warning-hover, 5%);
 $pt-intent-danger-active: darken($pt-intent-danger-hover, 5%);
 $button-intents: (
-  'primary': (
+  "primary": (
     $pt-intent-primary,
     $pt-intent-primary-hover,
     $pt-intent-primary-active,
   ),
-  'success': (
+  "success": (
     $pt-intent-success,
     $pt-intent-success-hover,
     $pt-intent-success-active,
   ),
-  'warning': (
+  "warning": (
     $pt-intent-warning,
     $pt-intent-warning-hover,
     $pt-intent-warning-active,
   ),
-  'danger': (
+  "danger": (
     $pt-intent-danger,
     $pt-intent-danger-hover,
     $pt-intent-danger-active,

@@ -1,20 +1,25 @@
+$app-container-max-width: 40rem;
+$app-container-spacing: 1rem;
+$app-v-spacing: 1rem;
+
 .App {
   display: grid;
+  align-items: flex-start;
   justify-items: center;
   min-height: 100vh;
+  padding-bottom: $app-v-spacing;
+  padding-top: $app-v-spacing;
 }
 .App__container {
-  max-width: 40rem;
-  margin-bottom: 2rem;
-  margin-left: 1rem;
-  margin-right: 1rem;
-  &:not(:last-child) {
-    margin-top: 2rem;
-  }
+  max-width: $app-container-max-width;
+  padding: $app-container-spacing;
 }
-.App__container--app-card {
-  align-self: flex-start;
-}
-.App__container--footer {
+.App__container.App__container--footer {
   align-self: flex-end;
+}
+
+@media (max-width: $app-container-max-width + $app-container-spacing * 2) {
+  .App {
+    padding-top: 0;
+  }
 }

@@ -6,7 +6,7 @@ import Footer from "./Footer";
 const App: React.FC = () => {
   return (
     <div className="App">
-      <div className="App__container App__container--app-card">
+      <div className="App__container">
         <AppCard />
       </div>
       <div className="App__container App__container--footer">
